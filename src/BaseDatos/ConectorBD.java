@@ -83,7 +83,6 @@ public class ConectorBD {
 		
 		try {
 
-			System.out.println(estructura);
 			st.executeUpdate("UPDATE "+tabla+" SET "+estructura+" WHERE Id="+Id);
 			
 		} catch (SQLException e) {
@@ -93,12 +92,12 @@ public class ConectorBD {
 
 	}
 	
-	public void  Delete(String tabla , String condicion)
+	public void  Delete(String tabla , String Id)
 	{
 		
 		try {
 
-			st.executeUpdate("DELETE FROM "+tabla+" WHERE "+condicion);
+			st.executeUpdate("DELETE FROM "+tabla+" WHERE Id="+Id);
 			
 		} catch (SQLException e) {
 			

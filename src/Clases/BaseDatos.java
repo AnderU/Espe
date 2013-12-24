@@ -1,5 +1,7 @@
 package Clases;
 
+import java.sql.ResultSet;
+
 
 
 public interface BaseDatos {
