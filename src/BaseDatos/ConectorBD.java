@@ -38,11 +38,11 @@ public class ConectorBD {
 		return estructura;
 	}
 	
-	public ResultSet Select(String tabla ,String consulta)
+	public ResultSet Select(String tabla ,String consulta , String condicion)
 	{
 		
 		try {
-			rs = st.executeQuery("Select "+consulta+" from "+tabla);
+			rs = st.executeQuery("Select "+consulta+" from "+tabla+" WHERE "+condicion);
 			return rs;
 		} catch (SQLException e) {
 			
@@ -93,12 +93,12 @@ public class ConectorBD {
 
 	}
 	
-	public void  Delete(String tabla , String Id)
+	public void  Delete(String tabla , String condicion)
 	{
 		
 		try {
 
-			st.executeUpdate("DELETE FROM "+tabla+" WHERE Id="+Id);
+			st.executeUpdate("DELETE FROM "+tabla+" WHERE "+condicion);
 			
 		} catch (SQLException e) {
 			
