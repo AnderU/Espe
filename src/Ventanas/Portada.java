@@ -17,9 +17,7 @@ import java.awt.event.ActionEvent;
 import BaseDatos.*;
 import Clases.GeneroC;
 
-//marica
-
-//feliz navidad
+//ultimo cambio
 
 public class Portada {
 
