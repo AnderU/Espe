@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import BaseDatos.*;
 import Clases.GeneroC;
 
-//ultimo cambio
+//ultimo cambio de ander
 
 public class Portada {
 
