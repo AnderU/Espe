@@ -120,6 +120,7 @@ public class Genero {
 						lblNewLabel.setVisible(true);
 						btnAceptar.setVisible(true);
 						btnCancelar.setVisible(true);
+						list.setEnabled(false);
 					}
 				});
 				btnNuevo.setBounds(10, 11, 80, 55);
@@ -144,6 +145,7 @@ public class Genero {
 						lblNewLabel.setVisible(false);
 						btnAceptar.setVisible(false);
 						btnCancelar.setVisible(false);
+						list.setEnabled(true);
 						if (!textField.getText().equals(""))
 						{
 							GeneroC aux= new GeneroC();
@@ -167,6 +169,7 @@ public class Genero {
 						btnAceptar.setVisible(false);
 						btnCancelar.setVisible(false);
 						textField.setText("");
+						list.setEnabled(true);
 					}
 				});
 				btnCancelar.setBounds(190, 11, 80, 55);
