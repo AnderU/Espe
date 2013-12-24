@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import BaseDatos.*;
 import Clases.GeneroC;
 
-//hola aitor
+//marica
 
 public class Portada {
 
