@@ -24,6 +24,8 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 
 public class Genero {
@@ -54,6 +56,7 @@ public class Genero {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(SystemColor.textHighlight);
 		frame.getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -63,7 +66,7 @@ public class Genero {
 				btnNuevo.setVisible(true);
 			}
 		});
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.getContentPane().setLayout(null);
 		
@@ -107,7 +110,10 @@ public class Genero {
 		        });
 				scrollPane.setViewportView(list);
 				
-				btnNuevo = new JButton("Nuevo");
+				btnNuevo = new JButton("");
+				btnNuevo.setHorizontalAlignment(SwingConstants.LEFT);
+				btnNuevo.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Add-icon.png")));
+				btnNuevo.setToolTipText("Nuevo");
 				btnNuevo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						textField.setVisible(true);
@@ -116,7 +122,7 @@ public class Genero {
 						btnCancelar.setVisible(true);
 					}
 				});
-				btnNuevo.setBounds(10, 11, 229, 38);
+				btnNuevo.setBounds(10, 11, 80, 55);
 				frame.getContentPane().add(btnNuevo);
 				
 				textField = new JTextField();
@@ -129,7 +135,9 @@ public class Genero {
 				lblNewLabel.setBounds(10, 69, 46, 14);
 				frame.getContentPane().add(lblNewLabel);
 				
-				btnAceptar = new JButton("Aceptar");
+				btnAceptar = new JButton("");
+				btnAceptar.setToolTipText("Aceptar");
+				btnAceptar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Accept-icon.png")));
 				btnAceptar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						textField.setVisible(false);
@@ -145,11 +153,13 @@ public class Genero {
 						}
 					}
 				});
-				btnAceptar.setBounds(249, 11, 229, 38);
+				btnAceptar.setBounds(100, 11, 80, 55);
 				btnAceptar.setVisible(false);
 				frame.getContentPane().add(btnAceptar);
 				
-				btnCancelar = new JButton("Cancelar");
+				btnCancelar = new JButton("");
+				btnCancelar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Cancel-icon.png")));
+				btnCancelar.setToolTipText("Cancelar");
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						textField.setVisible(false);
@@ -159,11 +169,12 @@ public class Genero {
 						textField.setText("");
 					}
 				});
-				btnCancelar.setBounds(488, 11, 229, 38);
+				btnCancelar.setBounds(190, 11, 80, 55);
 				btnCancelar.setVisible(false);
 				frame.getContentPane().add(btnCancelar);
 				
-				btnBorrar = new JButton("Borrar");
+				btnBorrar = new JButton("");
+				btnBorrar.setToolTipText("Borrar");
 				btnBorrar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Delete-icon.png")));
 				btnBorrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -175,10 +186,13 @@ public class Genero {
 						listModel.remove(list.getSelectedIndex());
 					}
 				});
-				btnBorrar.setBounds(249, 11, 229, 38);
+				btnBorrar.setBounds(100, 11, 80, 55);
 				frame.getContentPane().add(btnBorrar);
 				
-				btnEditar = new JButton("Editar");
+				btnEditar = new JButton("");
+				btnEditar.setToolTipText("Editar");
+				btnEditar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Pencil-icon.png")));
+				btnEditar.setHorizontalAlignment(SwingConstants.LEFT);
 				btnEditar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -194,13 +208,15 @@ public class Genero {
 						
 					}
 				});
-				btnEditar.setBounds(10, 11, 229, 38);
+				btnEditar.setBounds(10, 11, 80, 55);
 				frame.getContentPane().add(btnEditar);
 				
 				btnEditar.setVisible(false);
 				btnBorrar.setVisible(false);
 				
-				btnAceptar_1 = new JButton("Aceptar");
+				btnAceptar_1 = new JButton("");
+				btnAceptar_1.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Accept-icon.png")));
+				btnAceptar_1.setToolTipText("Aceptar");
 				btnAceptar_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						textField.setVisible(false);
@@ -219,10 +235,12 @@ public class Genero {
 						textField.setText("");
 					}
 				});
-				btnAceptar_1.setBounds(488, 11, 229, 38);
+				btnAceptar_1.setBounds(190, 11, 80, 55);
 				frame.getContentPane().add(btnAceptar_1);
 				
-				btnCancelar_1 = new JButton("Cancelar");
+				btnCancelar_1 = new JButton("");
+				btnCancelar_1.setToolTipText("Cancelar");
+				btnCancelar_1.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Cancel-icon.png")));
 				btnCancelar_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -233,7 +251,7 @@ public class Genero {
 						list.setEnabled(true);
 					}
 				});
-				btnCancelar_1.setBounds(727, 11, 229, 38);
+				btnCancelar_1.setBounds(280, 11, 80, 55);
 				frame.getContentPane().add(btnCancelar_1);
 				
 				btnAceptar_1.setVisible(false);
