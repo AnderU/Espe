@@ -19,6 +19,8 @@ import Clases.GeneroC;
 
 //marica
 
+//feliz navidad
+
 public class Portada {
 
 	private JFrame frame;
