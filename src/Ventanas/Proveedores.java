@@ -93,7 +93,7 @@ public class Proveedores {
 		
 		//listModel = new DefaultListModel<ProveedorC>();
 		
-		ResultSet rs=ConectorBD.bdMySQL.Select("proveedor", "*", "true");
+		ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
 		try {
 			while (rs.next())
 			{
