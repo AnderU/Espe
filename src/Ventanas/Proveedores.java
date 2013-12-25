@@ -44,8 +44,8 @@ public class Proveedores {
 	
 	private JPanel panel;
 	private JButton btnMostrar;
-	//private JButton btnAceptar;
-	//private JButton btnCancelar;
+	private JButton btnAceptar;
+	private JButton btnCancelar;
 	private DefaultListModel<ProveedorC> listModel;
 	private JButton btnBorrar;
 	private JButton btnEditar;
@@ -125,11 +125,11 @@ public class Proveedores {
 		btnMostrar = new JButton("");
 		btnMostrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Search-icon.png")));
 		btnMostrar.setToolTipText("Buscar");
-		btnMostrar.setBounds(634, 91, 80, 55);
+		btnMostrar.setBounds(676, 91, 80, 55);
 		frame.getContentPane().add(btnMostrar);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 91, 614, 55);
+		textField.setBounds(10, 91, 645, 55);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -207,6 +207,20 @@ public class Proveedores {
 		
 		list = new JList<ProveedorC>(listModel);
 		scrollPane.setViewportView(list);
+		
+		btnAceptar = new JButton("");
+		btnAceptar.setBounds(1161, 285, 80, 55);
+		frame.getContentPane().add(btnAceptar);
+		btnAceptar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Accept-icon.png")));
+		
+		btnCancelar = new JButton("");
+		btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
+		btnCancelar.setBounds(1251, 285, 80, 55);
+		frame.getContentPane().add(btnCancelar);
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnEditar.setVisible(true);
