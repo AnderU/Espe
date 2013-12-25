@@ -13,7 +13,6 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -22,8 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import BaseDatos.ConectorBD;
+import Clases.ConceptosC;
 import Clases.GrupoConcepto;
+import Clases.TablaConceptos;
+
 import Clases.TipoConcepto;
+
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,7 +41,7 @@ public class Conceptos {
 	private JTable table;
 	private JTextField Concepto;
 	private JTextField Patron;
-	private DefaultTableModel model;
+	private TablaConceptos model;
 	private JScrollPane scrollPane;
 	private JButton btnNuevo;
 	private JButton btnEditar;
@@ -47,8 +50,8 @@ public class Conceptos {
 	private JButton btnAceptar_1;
 	private JButton btnCancelar;
 	private JButton btnCancelar_1;
-	private JComboBox cmbGrupo;
-	private JComboBox<TipoConcepto> cmbTipo;
+	private JComboBox<GrupoConcepto> cmbGrupo;
+	private JComboBox cmbTipo;
 	private DefaultComboBoxModel<TipoConcepto> cmbModel;
 	private DefaultComboBoxModel<GrupoConcepto> cmbModel1;
 	
@@ -75,50 +78,58 @@ public class Conceptos {
 		frame.getContentPane().setLayout(null);
 		
 		// Cargamos la tabla
-		
-		Vector <String> columnNames = new  Vector <String>(); //= {"Concepto", "Grupo","Patrón","Tipo"};
+		Vector <String> columnNames = new  Vector <String>(); 
 		columnNames.add("Id");
 		columnNames.add("Concepto");
 		columnNames.add("Patrón");
 		columnNames.add("Grupo");		
 		columnNames.add("Tipo");
-		Vector<Vector <String>> vectorTabla= new Vector<Vector <String>>();
+		Vector<ConceptosC> vectorTabla= new Vector<ConceptosC>();
         ResultSet rs=ConectorBD.bdMySQL.Select("conceptos", "*", "true");
         ResultSet rs1;
 		
         try {
 			while (rs.next())
 			{
-				Vector <String> vectorfila= new	Vector <String>();
-				vectorfila.add(rs.getObject(1).toString());
-				vectorfila.add(rs.getObject(2).toString());
-				vectorfila.add(rs.getObject(3).toString());
+				ConceptosC fila= new ConceptosC();
+				fila.setId(Integer.parseInt(rs.getObject(1).toString()));
+				fila.setConcepto(rs.getObject(2).toString());
+				fila.setPatron(rs.getObject(3).toString());
+				fila.setIdTipo(Integer.parseInt(rs.getObject(4).toString()));
+				fila.setIdGrupo(Integer.parseInt(rs.getObject(5).toString()));
 				rs1=ConectorBD.bdMySQL.SelectAux("gruposconcepto", "Grupos", "Id="+rs.getObject(4).toString());
 				rs1.next();
-				vectorfila.add(rs1.getObject(1).toString());
+				fila.setGrupo(rs1.getObject(1).toString());
 				rs1=ConectorBD.bdMySQL.SelectAux("tiposconcepto", "Tipo", "Id="+rs.getObject(5).toString());
 				rs1.next();
-				vectorfila.add(rs1.getObject(1).toString());
-				vectorTabla.add(vectorfila);
+				fila.setTipo(rs1.getObject(1).toString());
+				vectorTabla.add(fila);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
-        model = new DefaultTableModel(vectorTabla,columnNames);
+        model = new TablaConceptos(vectorTabla);
         
 		table = new JTable(model);		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {				
-				Concepto.setText(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
-				Patron.setText(table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-				table.getModel().getValueAt(table.getSelectedRow(), 3);
-				table.getModel().getValueAt(table.getSelectedRow(), 4);
+			public void mouseClicked(MouseEvent e) {	
+				Concepto.setVisible(true);
+				Patron.setVisible(true);
+				cmbTipo.setVisible(true);
+				cmbGrupo.setVisible(true);
+				Concepto.setText(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+				Patron.setText(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+				btnEditar.setVisible(true);
+				btnBorrar.setVisible(true);
+				btnNuevo.setVisible(false);
+				cmbTipo.setSelectedIndex((Integer) table.getModel().getValueAt(table.getSelectedRow(), 4));
+				cmbGrupo.setSelectedIndex((Integer) table.getModel().getValueAt(table.getSelectedRow(), 5));
 			}
 		});
-        
+		
         //------------------------------
 		
 		btnNuevo = new JButton("");
@@ -126,6 +137,10 @@ public class Conceptos {
 			public void actionPerformed(ActionEvent e) {
 				btnAceptar.setVisible(true);
 				btnCancelar.setVisible(true);
+				cmbTipo.setVisible(true);
+				cmbGrupo.setVisible(true);
+				Patron.setVisible(true);
+				Concepto.setVisible(true);
 			}
 		});
 		btnNuevo.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Add-icon.png")));
@@ -145,6 +160,10 @@ public class Conceptos {
 			public void actionPerformed(ActionEvent e) {
 				btnAceptar.setVisible(false);
 				btnCancelar.setVisible(false);
+				cmbTipo.setVisible(false);
+				cmbGrupo.setVisible(false);
+				Patron.setVisible(false);
+				Concepto.setVisible(false);
 			}
 		});
 		btnAceptar.setToolTipText("Aceptar");
@@ -158,6 +177,12 @@ public class Conceptos {
 			public void actionPerformed(ActionEvent e) {
 				btnAceptar.setVisible(false);
 				btnCancelar.setVisible(false);
+				cmbTipo.setVisible(false);
+				cmbGrupo.setVisible(false);
+				Patron.setVisible(false);
+				Concepto.setVisible(false);
+				Patron.setText("");
+				Concepto.setText("");
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Cancel-icon.png")));
@@ -167,6 +192,11 @@ public class Conceptos {
 		frame.getContentPane().add(btnCancelar);
 		
 		btnAceptar_1 = new JButton("");
+		btnAceptar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnAceptar_1.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Accept-icon.png")));
 		btnAceptar_1.setToolTipText("Aceptar");
 		btnAceptar_1.setBounds(100, 11, 80, 55);
@@ -188,96 +218,67 @@ public class Conceptos {
 		frame.getContentPane().add(btnBorrar);
 		
 		Concepto = new JTextField();
-		Concepto.setBounds(293, 90, 260, 20);
+		Concepto.setBounds(10, 90, 260, 20);
+		Concepto.setVisible(false);
 		frame.getContentPane().add(Concepto);
 		Concepto.setColumns(10);
 		
 		Patron = new JTextField();
 		Patron.setColumns(10);
-		Patron.setBounds(10, 90, 260, 20);
+		Patron.setBounds(280, 90, 260, 20);
+		Patron.setVisible(false);
 		frame.getContentPane().add(Patron);
 		// cargamos el combobox grupo
-		cmbModel1 =new DefaultComboBoxModel<GrupoConcepto>();
 		GrupoConcepto aux1= new GrupoConcepto(); 
 		rs=ConectorBD.bdMySQL.Select("gruposconcepto", "*", "true");
-		cmbModel1.addElement(aux1);
+		Vector<GrupoConcepto> elementos1= new Vector<GrupoConcepto>(); 
+		elementos1.addElement(aux1);
 		try {
 			while (rs.next())
 			{
-				aux1.setId(Integer.parseInt(rs.getObject(1).toString()));
-				aux1.setGrupo(rs.getObject(2).toString());
-				cmbModel1.addElement(aux1);
+				GrupoConcepto a=new GrupoConcepto();
+				a.setId(Integer.parseInt(rs.getObject(1).toString()));
+				a.setGrupo(rs.getObject(2).toString());
+				elementos1.addElement(a);
+				
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		cmbGrupo = new JComboBox<GrupoConcepto>(cmbModel1);
+		cmbGrupo = new JComboBox<GrupoConcepto>(elementos1);
 		cmbGrupo.setBounds(588, 90, 170, 20);
-		
-		
-		cmbGrupo.setRenderer(new DefaultListCellRenderer() {
-		    @Override
-		    public Component getListCellRendererComponent(JList<?> list,
-		                                               Object value,
-		                                               int index,
-		                                               boolean isSelected,
-		                                               boolean cellHasFocus) {
-		    	GrupoConcepto employee = (GrupoConcepto)value;
-		        value = employee.getGrupo();
-		        return super.getListCellRendererComponent(list, value,
-		                index, isSelected, false);
-		    }
-		});
-		
-		
+		cmbGrupo.setVisible(false);
 		frame.getContentPane().add(cmbGrupo);
 		
 		//------------------
 		// cargamos combobox tipo
-		cmbModel =new DefaultComboBoxModel<TipoConcepto>();
 		TipoConcepto aux= new TipoConcepto(); 
 		rs=ConectorBD.bdMySQL.Select("tiposconcepto", "*", "true");
-		cmbModel.addElement(aux);
+		Vector<TipoConcepto> elementos= new Vector<TipoConcepto>();
+		elementos.addElement(aux);
 		try {
 			while (rs.next())
 			{
-				aux.setId(Integer.parseInt(rs.getObject(1).toString()));
-				aux.setTipo(rs.getObject(2).toString());
-				cmbModel.addElement(aux);
+				TipoConcepto a= new TipoConcepto(); 
+				a.setId(Integer.parseInt(rs.getObject(1).toString()));
+				a.setTipo(rs.getObject(2).toString());
+				elementos.addElement(a);
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		cmbTipo = new JComboBox<TipoConcepto>(cmbModel);
+		cmbTipo = new JComboBox<TipoConcepto>(elementos);
 		cmbTipo.setBounds(779, 90, 170, 20);
-		
-		cmbTipo.setRenderer(new DefaultListCellRenderer() {
-		    @Override
-		    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		    	TipoConcepto employee = (TipoConcepto)value;
-		        value = employee.getTipo();
-		        return super.getListCellRendererComponent(list, value,
-		                index, isSelected, false);
-		        
-		        
-		        
-		        
-		    }
-		});
-		
+		cmbTipo.setVisible(false);
 		frame.getContentPane().add(cmbTipo);
 		
 		//-----------------------
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 120, Toolkit.getDefaultToolkit().getScreenSize().width-20, Toolkit.getDefaultToolkit().getScreenSize().height-195);
 		frame.getContentPane().add(scrollPane);
-		
-		
-
 		scrollPane.setViewportView(table);
 		frame.setVisible(true);
 	}

@@ -91,7 +91,7 @@ public class Proveedores {
 			}
 		});
 		
-		//listModel = new DefaultListModel<ProveedorC>();
+		listModel = new DefaultListModel<ProveedorC>();
 		
 		ResultSet rs=ConectorBD.bdMySQL.Select("proveedor", "*", "true");
 		try {

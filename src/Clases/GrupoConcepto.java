@@ -23,4 +23,9 @@ public class GrupoConcepto {
 		this.grupo = grupo;
 	}
 
+	@Override
+	public String toString()
+	{
+		return this.grupo;
+	}
 }
