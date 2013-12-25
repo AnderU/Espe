@@ -9,6 +9,7 @@ public class ConectorBD {
 	
 	private Connection conexion;
 	private Statement st;
+	private Statement st1;
 	private ResultSet rs;
 	private DatabaseMetaData meta;
 	private ResultSet columns;
@@ -43,6 +44,19 @@ public class ConectorBD {
 		
 		try {
 			rs = st.executeQuery("Select "+consulta+" from "+tabla+" WHERE "+condicion);
+			return rs;
+		} catch (SQLException e) {
+			
+		}
+		return null;
+
+	}
+	
+	public ResultSet SelectAux(String tabla ,String consulta , String condicion)
+	{
+		
+		try {
+			rs = st1.executeQuery("Select "+consulta+" from "+tabla+" WHERE "+condicion);
 			return rs;
 		} catch (SQLException e) {
 			
@@ -114,6 +128,7 @@ public class ConectorBD {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion = DriverManager.getConnection("jdbc:mysql://localhost/"+db,"root","espe");
 			st= conexion.createStatement();
+			st1= conexion.createStatement();
 			meta=conexion.getMetaData();
 		}
 		catch(Exception e)
@@ -130,6 +145,7 @@ public class ConectorBD {
 			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
 			conexion = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};"  + "DBQ=C:/espedb.accdb","","");
 			st= conexion.createStatement();
+			st1= conexion.createStatement();
 			meta=conexion.getMetaData();
 		}
 		catch(Exception e)
