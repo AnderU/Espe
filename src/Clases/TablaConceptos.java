@@ -9,13 +9,26 @@ import javax.swing.table.AbstractTableModel;
 public class TablaConceptos extends AbstractTableModel {
 
     private Vector<ConceptosC> conceptos;
+    private Vector<String> nombresColumnas;
 
-    public TablaConceptos(Vector<ConceptosC> conceptos) {
+    public TablaConceptos(Vector<ConceptosC> conceptos,Vector<String> nombresColumnas) {
 
     	this.conceptos = new Vector<ConceptosC>(conceptos);
-        
+        this.nombresColumnas= new Vector<String> (nombresColumnas);
+        fireTableStructureChanged();
     }
 
+    public void insertRow(ConceptosC rowData) {
+    	conceptos.addElement(rowData);
+        fireTableRowsInserted(conceptos.size(),conceptos.size());
+    }
+    
+    public void removeRow(int row) {
+    	conceptos.removeElementAt(row);
+        fireTableRowsDeleted(row, row);
+    }
+    
+    
     @Override
     public int getRowCount() {
         return conceptos.size();

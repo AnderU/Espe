@@ -79,7 +79,11 @@ public class ConceptosC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		
+		String valores="'"+this.concepto+"' , ";
+		valores+="'"+this.patron+"' , ";
+		valores+=Integer.toString(this.IdTipo)+" , ";
+		valores+=Integer.toString(this.IdGrupo);
+		ConectorBD.bdMySQL.Insert("conceptos", valores);
 	}
 
 	@Override
@@ -95,7 +99,7 @@ public class ConceptosC implements BaseDatos{
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		
+		ConectorBD.bdMySQL.Delete("conceptos", Integer.toString(this.Id));
 	}
 	
 

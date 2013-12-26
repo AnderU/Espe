@@ -13,6 +13,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -76,10 +77,22 @@ public class Conceptos {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				table.clearSelection();
-				btnNuevo.setVisible(true);
+				table.setEnabled(true);
 				btnEditar.setVisible(false);
 				btnBorrar.setVisible(false);
-				table.setEnabled(true);
+				btnNuevo.setVisible(true);
+				btnAceptar_1.setVisible(false);
+				btnCancelar_1.setVisible(false);
+				Patron.setText("");
+				Concepto.setText("");
+				Patron.setVisible(false);
+				Concepto.setVisible(false);
+				cmbTipo.setSelectedIndex(0);
+				cmbGrupo.setSelectedIndex(0);
+				cmbTipo.setVisible(false);
+				cmbGrupo.setVisible(false);
+				btnAceptar.setVisible(false);
+				btnCancelar.setVisible(false);
 			}
 		});
 		frame.getContentPane().setBackground(SystemColor.textHighlight);
@@ -120,7 +133,7 @@ public class Conceptos {
 			e.printStackTrace();
 		}
         
-        model = new TablaConceptos(vectorTabla);
+        model = new TablaConceptos(vectorTabla, columnNames);
         
 		table = new JTable(model);		
 		table.addMouseListener(new MouseAdapter() {
@@ -180,12 +193,25 @@ public class Conceptos {
 		btnAceptar = new JButton("");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				btnAceptar.setVisible(false);
 				btnCancelar.setVisible(false);
 				cmbTipo.setVisible(false);
 				cmbGrupo.setVisible(false);
 				Patron.setVisible(false);
 				Concepto.setVisible(false);
+				ConceptosC a= new ConceptosC();
+							
+				a.setConcepto(Concepto.getText());
+				a.setPatron(Patron.getText());
+				a.setIdGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getId());
+				a.setIdTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getId());
+				a.setGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getGrupo());
+				a.setTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getTipo());
+				model.insertRow(a);
+				a.Insert();
+				
 			}
 		});
 		btnAceptar.setToolTipText("Aceptar");
@@ -270,6 +296,21 @@ public class Conceptos {
 		frame.getContentPane().add(btnCancelar_1);
 		
 		btnBorrar = new JButton("");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int result = JOptionPane.showConfirmDialog(frame, "¿Quiere borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+				if (result==JOptionPane.OK_OPTION)
+				{
+					
+					ConceptosC a= new ConceptosC();
+					a.setId((Integer)table.getModel().getValueAt(table.getSelectedRow(), 6));
+					a.Delete();
+					model.removeRow(table.getSelectedRow());
+				}
+				
+			}
+		});
 		btnBorrar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Delete-icon.png")));
 		btnBorrar.setToolTipText("Borrar");
 		btnBorrar.setBounds(100, 11, 80, 55);
