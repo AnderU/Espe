@@ -76,6 +76,10 @@ public class Conceptos {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				table.clearSelection();
+				btnNuevo.setVisible(true);
+				btnEditar.setVisible(false);
+				btnBorrar.setVisible(false);
+				table.setEnabled(true);
 			}
 		});
 		frame.getContentPane().setBackground(SystemColor.textHighlight);
@@ -164,6 +168,7 @@ public class Conceptos {
 				btnBorrar.setVisible(false);
 				btnAceptar_1.setVisible(true);
 				btnCancelar_1.setVisible(true);
+				table.setEnabled(false);
 			}
 		});
 		btnEditar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Pencil-icon.png")));
@@ -302,7 +307,7 @@ public class Conceptos {
 		}
 		
 		cmbGrupo = new JComboBox<GrupoConcepto>(elementos1);
-		cmbGrupo.setBounds(588, 90, 170, 20);
+		cmbGrupo.setBounds(1017, 90, 170, 20);
 		cmbGrupo.setVisible(false);
 		frame.getContentPane().add(cmbGrupo);
 		
@@ -325,7 +330,7 @@ public class Conceptos {
 			e1.printStackTrace();
 		}
 		cmbTipo = new JComboBox<TipoConcepto>(elementos);
-		cmbTipo.setBounds(779, 90, 170, 20);
+		cmbTipo.setBounds(682, 90, 170, 20);
 		cmbTipo.setVisible(false);
 		frame.getContentPane().add(cmbTipo);
 		

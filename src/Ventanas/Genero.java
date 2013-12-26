@@ -9,6 +9,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import BaseDatos.ConectorBD;
@@ -64,6 +65,15 @@ public class Genero {
 				btnEditar.setVisible(false);
 				btnBorrar.setVisible(false);
 				btnNuevo.setVisible(true);
+				btnAceptar_1.setVisible(false);
+				btnCancelar_1.setVisible(false);
+				textField.setText("");
+				textField.setVisible(false);
+				list.setEnabled(true);
+				lblNewLabel.setVisible(false);
+				btnAceptar.setVisible(false);
+				btnCancelar.setVisible(false);
+				
 			}
 		});
 		frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
@@ -182,11 +192,15 @@ public class Genero {
 				btnBorrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						GeneroC aux= new GeneroC();
-						aux.setGenero(list.getSelectedValue().getGenero());
-						aux.setId(list.getSelectedValue().getId());
-						aux.Delete();
-						listModel.remove(list.getSelectedIndex());
+						int result = JOptionPane.showConfirmDialog(frame, "¿Quiere borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+						if (result==JOptionPane.OK_OPTION)
+						{
+							GeneroC aux= new GeneroC();
+							aux.setGenero(list.getSelectedValue().getGenero());
+							aux.setId(list.getSelectedValue().getId());
+							aux.Delete();
+							listModel.remove(list.getSelectedIndex());
+						}
 					}
 				});
 				btnBorrar.setBounds(100, 11, 80, 55);
@@ -207,6 +221,7 @@ public class Genero {
 							btnCancelar_1.setVisible(true);
 							textField.setText(list.getSelectedValue().getGenero());
 							list.setEnabled(false);
+							btnBorrar.setVisible(false);
 						}
 						
 					}
@@ -234,11 +249,12 @@ public class Genero {
 							aux.Update();
 							listModel.remove(list.getSelectedIndex());
 							listModel.addElement(aux);
+							list.setSelectedIndex(list.getLastVisibleIndex());
 						}
 						textField.setText("");
 					}
 				});
-				btnAceptar_1.setBounds(190, 11, 80, 55);
+				btnAceptar_1.setBounds(100, 11, 80, 55);
 				frame.getContentPane().add(btnAceptar_1);
 				
 				btnCancelar_1 = new JButton("");
@@ -252,9 +268,10 @@ public class Genero {
 						btnCancelar_1.setVisible(false);
 						textField.setText("");
 						list.setEnabled(true);
+						btnBorrar.setVisible(true);
 					}
 				});
-				btnCancelar_1.setBounds(280, 11, 80, 55);
+				btnCancelar_1.setBounds(190, 11, 80, 55);
 				frame.getContentPane().add(btnCancelar_1);
 				
 				btnAceptar_1.setVisible(false);
