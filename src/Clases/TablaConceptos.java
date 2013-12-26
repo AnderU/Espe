@@ -32,9 +32,7 @@ public class TablaConceptos extends AbstractTableModel {
         Object value = "??";
         ConceptosC conceptos = this.conceptos.get(rowIndex);
         switch (columnIndex) {
-            /*case 0:
-                value = conceptos.getId();
-                break;*/
+
             case 0:
                 value = conceptos.getConcepto();
                 break;
@@ -53,6 +51,9 @@ public class TablaConceptos extends AbstractTableModel {
             case 5:
             	value = conceptos.getIdGrupo();
             	break;
+            case 6:
+                value = conceptos.getId();
+                break;
             	
         }
 
@@ -64,13 +65,31 @@ public class TablaConceptos extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         return // Return the class that best represents the column...
     }
-
-    /* Override this if you want the values to be editable...
+    */
+    //Override this if you want the values to be editable...
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        //....
+    	ConceptosC rowVector = (ConceptosC) this.conceptos.elementAt(rowIndex);
+    	 switch (columnIndex) {
+
+         case 0:
+        	 rowVector.setConcepto((String) aValue);
+             break;
+         case 1:
+        	 rowVector.setPatron((String) aValue);
+             break;
+         case 2:
+        	 rowVector.setTipo((String) aValue);
+             break;
+         case 3:
+        	 rowVector.setGrupo((String) aValue);
+             break;
+         	
+     }
+        
+        fireTableCellUpdated(rowIndex, columnIndex);
     }
-    */
+
 
     /**
      * This will return the user at the specified row...

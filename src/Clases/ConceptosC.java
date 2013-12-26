@@ -1,5 +1,7 @@
 package Clases;
 
+import BaseDatos.ConectorBD;
+
 
 
 public class ConceptosC implements BaseDatos{
@@ -83,7 +85,11 @@ public class ConceptosC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		
+		String valores="'"+this.concepto+"' , ";
+		valores+="'"+this.patron+"' , ";
+		valores+=Integer.toString(this.IdTipo)+" , ";
+		valores+=Integer.toString(this.IdGrupo);
+		ConectorBD.bdMySQL.Update("conceptos", valores, Integer.toString(this.Id));
 	}
 
 	@Override
