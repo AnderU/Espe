@@ -118,6 +118,8 @@ public class Proveedores {
 		btnNuevo.setBounds(10, 11, 80, 55);
 		frmProvdor.getContentPane().add(btnNuevo);
 		btnNuevo.setVisible(true);
+
+	
 		
 	
 //****************** MOSTRAR ************************************
@@ -144,6 +146,7 @@ public class Proveedores {
 		frmProvdor.getContentPane().add(textField_mostrar);
 		textField_mostrar.setColumns(10);
 		textField_mostrar.setEditable(true);
+		
 	
 		
 		panel = new JPanel();
@@ -213,16 +216,22 @@ public class Proveedores {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				btnAceptar.setVisible(true);
-				btnCancelar.setVisible(true);
-				list.setEnabled(false);
-				btnEditar.setVisible(false);
-				btnBorrar.setVisible(false);
-				btnMostrar.setEnabled(false);
-				textField_mostrar.setEditable(false);
-				textField_nombre.setEditable(true);
-				comboBoxPoblacion.setEditable(true);
-				list.setEnabled(false);
+				
+				if (!list.isSelectionEmpty())
+				{
+					btnAceptar.setVisible(true);
+					btnCancelar.setVisible(true);
+					list.setEnabled(false);
+					btnEditar.setVisible(false);
+					btnBorrar.setVisible(false);
+					btnMostrar.setEnabled(false);
+					textField_mostrar.setEditable(false);
+					textField_nombre.setEditable(true);
+					comboBoxPoblacion.setEditable(true);
+					list.setEnabled(false);
+					textField_nombre.setText(list.getSelectedValue().getProveedor());	
+				}
+				
 			}
 		});
 
@@ -257,7 +266,34 @@ public class Proveedores {
 		btnAceptar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Accept-icon.png")));
 		btnAceptar.setVisible(false);
 		
-
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				if (!textField_nombre.getText().equals(""))
+				{
+					ProveedorC aux= new ProveedorC();
+					aux.setProveedor(textField_nombre.getText());
+					aux.Insert();
+					listModel.addElement(aux);
+				}
+				/*if (!textField_nombre.getText().equals(""))
+				{
+					ProveedorC aux= new ProveedorC();
+					aux.setProveedor(textField_nombre.getText());
+					aux.setId(list.getSelectedValue().getId());
+					aux.Update();
+					listModel.remove(list.getSelectedIndex());
+					listModel.addElement(aux);
+					list.setSelectedIndex(list.getLastVisibleIndex());
+				}
+				textField_nombre.setText("");
+				*/
+				
+				textField_mostrar.setEditable(true);
+				
+			}
+		});
+		
 		
 //****************** CANCELAR ************************************	
 		btnCancelar = new JButton("");
@@ -321,7 +357,15 @@ public class Proveedores {
 	//frmProvdor.getContentPane().add(list);
 	//list.setEnabled(true);
 	scrollPane.setEnabled(true);
-		
 	
+	
+//------------------------------------------
+	
+	
+
+	
+	
+	
+//-------------------------------------------	
 	}
 }
