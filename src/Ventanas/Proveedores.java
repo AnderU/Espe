@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -36,9 +37,9 @@ import java.awt.SystemColor;
 
 public class Proveedores {
 
-	private JFrame frame;
+	private JFrame frmProvdor;
 	private JList<ProveedorC> list;
-	private JTextField textField;
+	private JTextField textField_mostrar;
 	private JTextField textField_nombre;
 	private JTextField textField_codigo;
 	
@@ -71,16 +72,16 @@ public class Proveedores {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(SystemColor.textHighlight);
-		frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.getContentPane().setLayout(null);
+		frmProvdor = new JFrame();
+		frmProvdor.getContentPane().setBackground(SystemColor.textHighlight);
+		frmProvdor.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		frmProvdor.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frmProvdor.getContentPane().setLayout(null);
 		
 		
 		
 		
-		frame.getContentPane().addMouseListener(new MouseAdapter()
+		/*frame.getContentPane().addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)
 			{
@@ -90,6 +91,7 @@ public class Proveedores {
 				btnNuevo.setVisible(true);
 			}
 		});
+		*/
 		
 		listModel = new DefaultListModel<ProveedorC>();
 		
@@ -108,45 +110,71 @@ public class Proveedores {
 			e.printStackTrace();
 		}
 		
+		
 	
 		
 //****************** NUEVO ************************************		
 		btnNuevo = new JButton("");
 		btnNuevo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) 
+			{
+				btnAceptar.setVisible(true);
+				btnCancelar.setVisible(true);
+				list.setEnabled(false);
+				btnEditar.setVisible(false);
+				btnBorrar.setVisible(false);
+				btnMostrar.setEnabled(false);
+				textField_mostrar.setEditable(false);
 			}
 		});
 		btnNuevo.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Add-icon.png")));
 		btnNuevo.setToolTipText("Nuevo");
 		btnNuevo.setBounds(10, 11, 80, 55);
-		frame.getContentPane().add(btnNuevo);
+		frmProvdor.getContentPane().add(btnNuevo);
+		btnNuevo.setVisible(true);
+		
+	
+
 		
 //****************** MOSTRAR ************************************
 		btnMostrar = new JButton("");
 		btnMostrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Search-icon.png")));
 		btnMostrar.setToolTipText("Buscar");
 		btnMostrar.setBounds(676, 91, 80, 55);
-		frame.getContentPane().add(btnMostrar);
+		frmProvdor.getContentPane().add(btnMostrar);
+		btnMostrar.setVisible(true);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 91, 645, 55);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		btnMostrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				btnEditar.setVisible(true);
+				btnBorrar.setVisible(true);
+				//list.setEnabled(false);
+				btnAceptar.setVisible(false);
+				btnCancelar.setVisible(false);
+				
+			}
+		});
+		
+		textField_mostrar = new JTextField();
+		textField_mostrar.setBounds(10, 91, 645, 55);
+		frmProvdor.getContentPane().add(textField_mostrar);
+		textField_mostrar.setColumns(10);
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(10, 351, 1330, 344);
-		frame.getContentPane().add(panel);
+		frmProvdor.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 //****************** CODIGO ************************************
 		lblCodigo = new JLabel("C\u00F3digo");
-		lblCodigo.setBounds(10, 10, 33, 14);
+		lblCodigo.setBounds(10, 10, 46, 14);
 		lblCodigo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		panel.add(lblCodigo);
 		
 		textField_codigo = new JTextField();
-		textField_codigo.setBounds(53, 7, 46, 20);
+		textField_codigo.setBounds(70, 7, 46, 20);
 		textField_codigo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textField_codigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		panel.add(textField_codigo);
@@ -154,12 +182,12 @@ public class Proveedores {
 		
 //****************** NOMBRE ************************************		
 		lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(109, 10, 37, 14);
+		lblNombre.setBounds(139, 10, 57, 14);
 		lblNombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		panel.add(lblNombre);
 		
 		textField_nombre = new JTextField();
-		textField_nombre.setBounds(156, 7, 406, 20);
+		textField_nombre.setBounds(206, 7, 406, 20);
 		textField_nombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textField_nombre.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.add(textField_nombre);
@@ -167,24 +195,24 @@ public class Proveedores {
 		
 //****************** POBLACION ************************************
 		lblPoblacion = new JLabel("Poblaci\u00F3n");
-		lblPoblacion.setBounds(572, 10, 45, 14);
+		lblPoblacion.setBounds(639, 10, 89, 14);
 		panel.add(lblPoblacion);
 		
 		//String[] poblaciones={"Donostia-San Sebastián","Pasajes San Pedro","Ondarroa","Hondarribia","Pasajes San Juan"};
 		
 
 		comboBox = new JComboBox<String>();
-		comboBox.setBounds(627, 7, 139, 20);
+		comboBox.setBounds(738, 7, 184, 20);
 		comboBox.setAutoscrolls(true);
 		comboBox.setEditable(true);
 		comboBox.setMaximumRowCount(5);
 		comboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.add(comboBox);
-		//comboBox.addItem("Donostia-San Sebastián");
-		//comboBox.addItem("Pasajes San Pedro");
-		//comboBox.addItem("Hondarribia");
-		//comboBox.addItem("Ondarroa");
-		//comboBox.addItem("Hendaya");
+		comboBox.addItem("Donostia-San Sebastián");
+		comboBox.addItem("Pasajes San Pedro");
+		comboBox.addItem("Hondarribia");
+		comboBox.addItem("Ondarroa");
+		comboBox.addItem("Hendaya");
 		
 //****************** EDITAR ************************************	
 		btnEditar = new JButton("");
@@ -192,6 +220,19 @@ public class Proveedores {
 		btnEditar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Pencil-icon.png")));
 		btnEditar.setBounds(1150, 6, 80, 55);
 		panel.add(btnEditar);
+		btnEditar.setVisible(false);
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				btnAceptar.setVisible(true);
+				btnCancelar.setVisible(true);
+				list.setEnabled(false);
+				btnEditar.setVisible(false);
+				btnBorrar.setVisible(false);
+				btnMostrar.setEnabled(false);
+				textField_mostrar.setEditable(false);
+			}
+		});
 
 //****************** BORRAR ************************************	
 		btnBorrar = new JButton("");
@@ -199,24 +240,48 @@ public class Proveedores {
 		btnBorrar.setToolTipText("Borrar");
 		btnBorrar.setBounds(1240, 6, 80, 55);
 		panel.add(btnBorrar);
+		btnBorrar.setVisible(false);
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				btnAceptar.setEnabled(false);
+				btnCancelar.setEnabled(false);
+				list.setEnabled(false);
+				btnEditar.setEnabled(false);
+				btnBorrar.setEnabled(false);
+				btnMostrar.setEnabled(false);
+				textField_mostrar.setEditable(false);
+				btnNuevo.setEnabled(false);
+				JOptionPane.showMessageDialog(btnAceptar, "El proveedor seleccionado se borrará de la base de datos. ¿Estás segur@?"); 
+			}
+		});
 		
 //****************** LISTA ************************************	
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 164, 746, 174);
-		frame.getContentPane().add(scrollPane);
+		frmProvdor.getContentPane().add(scrollPane);
 		
 		list = new JList<ProveedorC>(listModel);
 		scrollPane.setViewportView(list);
+		list.setEnabled(true);
 		
+//****************** ACEPTAR ************************************			
 		btnAceptar = new JButton("");
 		btnAceptar.setBounds(1161, 285, 80, 55);
-		frame.getContentPane().add(btnAceptar);
+		frmProvdor.getContentPane().add(btnAceptar);
 		btnAceptar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Accept-icon.png")));
+		btnAceptar.setVisible(false);
 		
+
+		
+//****************** CANCELAR ************************************	
 		btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
 		btnCancelar.setBounds(1251, 285, 80, 55);
-		frame.getContentPane().add(btnCancelar);
+		frmProvdor.getContentPane().add(btnCancelar);
+		btnCancelar.setVisible(false);
+		
+		
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -229,7 +294,8 @@ public class Proveedores {
 			}
 		});
 		
-		frame.setVisible(true);
+		frmProvdor.setVisible(true);
+		frmProvdor.setTitle("Proveedores");
 		
 	
 	}
