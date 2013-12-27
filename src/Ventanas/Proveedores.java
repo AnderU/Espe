@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -55,7 +56,7 @@ public class Proveedores {
 	private JLabel lblCodigo;
 	private JLabel lblNombre;
 	private JLabel lblPoblacion;
-	private JComboBox<String> comboBox;
+	private JComboBox<String> comboBoxPoblacion;
 	
 	/**
 	 * Launch the application.
@@ -77,11 +78,12 @@ public class Proveedores {
 		frmProvdor.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 		frmProvdor.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frmProvdor.getContentPane().setLayout(null);
+		frmProvdor.setVisible(true);
+		frmProvdor.setTitle("Proveedores");
 		
 		
 		
-		
-		/*frame.getContentPane().addMouseListener(new MouseAdapter()
+		frmProvdor.getContentPane().addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)
 			{
@@ -90,27 +92,7 @@ public class Proveedores {
 				btnBorrar.setVisible(false);
 				btnNuevo.setVisible(true);
 			}
-		});
-		*/
-		
-		listModel = new DefaultListModel<ProveedorC>();
-		
-		ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
-		try {
-			while (rs.next())
-			{
-					ProveedorC aux= new ProveedorC();
-					aux.setProveedor(rs.getObject(2).toString());
-					aux.setId(Integer.parseInt(rs.getObject(1).toString()));
-					aux.setPoblacion(rs.getObject(3).toString());
-					listModel.addElement(aux);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		});	
 	
 		
 //****************** NUEVO ************************************		
@@ -125,6 +107,10 @@ public class Proveedores {
 				btnBorrar.setVisible(false);
 				btnMostrar.setEnabled(false);
 				textField_mostrar.setEditable(false);
+				list.setEnabled(false);
+				textField_nombre.setEditable(true);
+				comboBoxPoblacion.setEditable(true);
+				textField_codigo.setEditable(false);
 			}
 		});
 		btnNuevo.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Add-icon.png")));
@@ -134,8 +120,6 @@ public class Proveedores {
 		btnNuevo.setVisible(true);
 		
 	
-
-		
 //****************** MOSTRAR ************************************
 		btnMostrar = new JButton("");
 		btnMostrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Search-icon.png")));
@@ -147,12 +131,11 @@ public class Proveedores {
 		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				btnEditar.setVisible(true);
-				btnBorrar.setVisible(true);
-				//list.setEnabled(false);
+				btnEditar.setVisible(false);
+				btnBorrar.setVisible(false);
 				btnAceptar.setVisible(false);
 				btnCancelar.setVisible(false);
-				
+				list.setEnabled(true);
 			}
 		});
 		
@@ -160,6 +143,8 @@ public class Proveedores {
 		textField_mostrar.setBounds(10, 91, 645, 55);
 		frmProvdor.getContentPane().add(textField_mostrar);
 		textField_mostrar.setColumns(10);
+		textField_mostrar.setEditable(true);
+	
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -179,6 +164,7 @@ public class Proveedores {
 		textField_codigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		panel.add(textField_codigo);
 		textField_codigo.setColumns(5);
+		textField_codigo.setEditable(false);
 		
 //****************** NOMBRE ************************************		
 		lblNombre = new JLabel("Nombre");
@@ -192,6 +178,7 @@ public class Proveedores {
 		textField_nombre.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.add(textField_nombre);
 		textField_nombre.setColumns(50);
+		textField_nombre.setEditable(false);
 		
 //****************** POBLACION ************************************
 		lblPoblacion = new JLabel("Poblaci\u00F3n");
@@ -201,18 +188,20 @@ public class Proveedores {
 		//String[] poblaciones={"Donostia-San Sebastián","Pasajes San Pedro","Ondarroa","Hondarribia","Pasajes San Juan"};
 		
 
-		comboBox = new JComboBox<String>();
-		comboBox.setBounds(738, 7, 184, 20);
-		comboBox.setAutoscrolls(true);
-		comboBox.setEditable(true);
-		comboBox.setMaximumRowCount(5);
-		comboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(comboBox);
-		comboBox.addItem("Donostia-San Sebastián");
-		comboBox.addItem("Pasajes San Pedro");
-		comboBox.addItem("Hondarribia");
-		comboBox.addItem("Ondarroa");
-		comboBox.addItem("Hendaya");
+		comboBoxPoblacion = new JComboBox<String>();
+		comboBoxPoblacion.setBounds(738, 7, 184, 20);
+		comboBoxPoblacion.setAutoscrolls(true);
+		comboBoxPoblacion.setEditable(true);
+		comboBoxPoblacion.setMaximumRowCount(5);
+		comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.add(comboBoxPoblacion);
+		comboBoxPoblacion.addItem("Donostia-San Sebastián");
+		comboBoxPoblacion.addItem("Pasajes San Pedro");
+		comboBoxPoblacion.addItem("Hondarribia");
+		comboBoxPoblacion.addItem("Ondarroa");
+		comboBoxPoblacion.addItem("Hendaya");
+		comboBoxPoblacion.setEditable(false);
+	
 		
 //****************** EDITAR ************************************	
 		btnEditar = new JButton("");
@@ -231,6 +220,9 @@ public class Proveedores {
 				btnBorrar.setVisible(false);
 				btnMostrar.setEnabled(false);
 				textField_mostrar.setEditable(false);
+				textField_nombre.setEditable(true);
+				comboBoxPoblacion.setEditable(true);
+				list.setEnabled(false);
 			}
 		});
 
@@ -252,19 +244,12 @@ public class Proveedores {
 				btnMostrar.setEnabled(false);
 				textField_mostrar.setEditable(false);
 				btnNuevo.setEnabled(false);
+				list.setEnabled(false);
 				JOptionPane.showMessageDialog(btnAceptar, "El proveedor seleccionado se borrará de la base de datos. ¿Estás segur@?"); 
 			}
 		});
 		
-//****************** LISTA ************************************	
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 164, 746, 174);
-		frmProvdor.getContentPane().add(scrollPane);
-		
-		list = new JList<ProveedorC>(listModel);
-		scrollPane.setViewportView(list);
-		list.setEnabled(true);
-		
+	
 //****************** ACEPTAR ************************************			
 		btnAceptar = new JButton("");
 		btnAceptar.setBounds(1161, 285, 80, 55);
@@ -282,20 +267,60 @@ public class Proveedores {
 		btnCancelar.setVisible(false);
 		
 		
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				btnEditar.setVisible(true);
-				btnBorrar.setVisible(true);
-				btnNuevo.setVisible(false);
-			}
-		});
 		
-		frmProvdor.setVisible(true);
-		frmProvdor.setTitle("Proveedores");
+//****************** LISTA ************************************	
+			listModel = new DefaultListModel<ProveedorC>();
+			
+			ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
+			try {
+				while (rs.next())
+					{
+						ProveedorC aux= new ProveedorC();
+						aux.setProveedor(rs.getObject(2).toString());
+						aux.setId(Integer.parseInt(rs.getObject(1).toString()));
+						aux.setPoblacion(rs.getObject(3).toString());
+						listModel.addElement(aux);
+					}
+				}
+			catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 157,746,183);
+			frmProvdor.getContentPane().add(scrollPane);	
+	
+	
+	list = new JList<ProveedorC>(listModel);
+	list.addListSelectionListener(new ListSelectionListener() {
+		public void valueChanged(ListSelectionEvent e) {
+			btnEditar.setVisible(true);
+			btnBorrar.setVisible(true);
+			btnNuevo.setEnabled(false);
+			btnAceptar.setVisible(false);
+			btnCancelar.setVisible(false);
+		}
+	});		
+	
+	list.setCellRenderer(new DefaultListCellRenderer()
+	{
+	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+		{
+		Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        if (renderer instanceof JLabel && value instanceof ProveedorC)
+        	{
+        		((JLabel) renderer).setText(((ProveedorC) value).getProveedor());
+        	}
+        return renderer;
+        }
+    });
+	scrollPane.setViewportView(list);
+	//frmProvdor.getContentPane().add(list);
+	//list.setEnabled(true);
+	scrollPane.setEnabled(true);
 		
 	
 	}
