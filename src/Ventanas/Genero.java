@@ -31,7 +31,7 @@ import java.awt.SystemColor;
 
 public class Genero {
 
-	private JFrame frame;
+	private JFrame frmGnero;
 	private JList<GeneroC> list;
 	private JTextField textField;
 	private JLabel lblNewLabel;
@@ -56,9 +56,10 @@ public class Genero {
 	 */
 	@SuppressWarnings("serial")
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(SystemColor.textHighlight);
-		frame.getContentPane().addMouseListener(new MouseAdapter() {
+		frmGnero = new JFrame();
+		frmGnero.setTitle("G\u00E9nero");
+		frmGnero.getContentPane().setBackground(SystemColor.textHighlight);
+		frmGnero.getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				list.clearSelection();
@@ -76,9 +77,9 @@ public class Genero {
 				
 			}
 		});
-		frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.getContentPane().setLayout(null);
+		frmGnero.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		frmGnero.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frmGnero.getContentPane().setLayout(null);
 		
 		 listModel = new DefaultListModel<GeneroC>();
 				
@@ -98,7 +99,7 @@ public class Genero {
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 125, Toolkit.getDefaultToolkit().getScreenSize().width-20, Toolkit.getDefaultToolkit().getScreenSize().height-200);
-		frame.getContentPane().add(scrollPane);
+		frmGnero.getContentPane().add(scrollPane);
 		
 	
 				list= new JList<GeneroC>(listModel);
@@ -134,17 +135,17 @@ public class Genero {
 					}
 				});
 				btnNuevo.setBounds(10, 11, 80, 55);
-				frame.getContentPane().add(btnNuevo);
+				frmGnero.getContentPane().add(btnNuevo);
 				
 				textField = new JTextField();
 				textField.setBounds(10, 94, Toolkit.getDefaultToolkit().getScreenSize().width-20, 20);
-				frame.getContentPane().add(textField);
+				frmGnero.getContentPane().add(textField);
 				textField.setColumns(10);
 				textField.setVisible(false);
 				
 				lblNewLabel = new JLabel("Nuevo:");
 				lblNewLabel.setBounds(10, 69, 46, 14);
-				frame.getContentPane().add(lblNewLabel);
+				frmGnero.getContentPane().add(lblNewLabel);
 				
 				btnAceptar = new JButton("");
 				btnAceptar.setToolTipText("Aceptar");
@@ -167,7 +168,7 @@ public class Genero {
 				});
 				btnAceptar.setBounds(100, 11, 80, 55);
 				btnAceptar.setVisible(false);
-				frame.getContentPane().add(btnAceptar);
+				frmGnero.getContentPane().add(btnAceptar);
 				
 				btnCancelar = new JButton("");
 				btnCancelar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Cancel-icon.png")));
@@ -184,7 +185,7 @@ public class Genero {
 				});
 				btnCancelar.setBounds(190, 11, 80, 55);
 				btnCancelar.setVisible(false);
-				frame.getContentPane().add(btnCancelar);
+				frmGnero.getContentPane().add(btnCancelar);
 				
 				btnBorrar = new JButton("");
 				btnBorrar.setToolTipText("Borrar");
@@ -192,7 +193,7 @@ public class Genero {
 				btnBorrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						int result = JOptionPane.showConfirmDialog(frame, "¿Quiere borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+						int result = JOptionPane.showConfirmDialog(frmGnero, "¿Quiere borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
 						if (result==JOptionPane.OK_OPTION)
 						{
 							GeneroC aux= new GeneroC();
@@ -204,7 +205,7 @@ public class Genero {
 					}
 				});
 				btnBorrar.setBounds(100, 11, 80, 55);
-				frame.getContentPane().add(btnBorrar);
+				frmGnero.getContentPane().add(btnBorrar);
 				
 				btnEditar = new JButton("");
 				btnEditar.setToolTipText("Editar");
@@ -227,7 +228,7 @@ public class Genero {
 					}
 				});
 				btnEditar.setBounds(10, 11, 80, 55);
-				frame.getContentPane().add(btnEditar);
+				frmGnero.getContentPane().add(btnEditar);
 				
 				btnEditar.setVisible(false);
 				btnBorrar.setVisible(false);
@@ -255,7 +256,7 @@ public class Genero {
 					}
 				});
 				btnAceptar_1.setBounds(100, 11, 80, 55);
-				frame.getContentPane().add(btnAceptar_1);
+				frmGnero.getContentPane().add(btnAceptar_1);
 				
 				btnCancelar_1 = new JButton("");
 				btnCancelar_1.setToolTipText("Cancelar");
@@ -272,7 +273,7 @@ public class Genero {
 					}
 				});
 				btnCancelar_1.setBounds(190, 11, 80, 55);
-				frame.getContentPane().add(btnCancelar_1);
+				frmGnero.getContentPane().add(btnCancelar_1);
 				
 				btnAceptar_1.setVisible(false);
 				btnCancelar_1.setVisible(false);
@@ -281,7 +282,7 @@ public class Genero {
 				lblNewLabel.setVisible(false);
 		
 	
-		frame.setVisible(true);
+		frmGnero.setVisible(true);
 	
 		
 	}

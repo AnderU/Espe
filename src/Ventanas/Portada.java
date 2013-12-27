@@ -20,7 +20,7 @@ import Clases.GeneroC;
 
 public class Portada {
 
-	private JFrame frame;
+	private JFrame frmPortada;
 	private JButton btnGenero;
 	private JButton btnConcepto;	
 	private int anchoP, nBotones;
@@ -60,7 +60,7 @@ public class Portada {
 			public void run() {
 				try {
 					Portada window = new Portada();
-					window.frame.setVisible(true);
+					window.frmPortada.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -90,12 +90,13 @@ public class Portada {
 		this.nBotones=11;
 
 		
-		frame = new JFrame();
-		frame.getContentPane().setBackground(SystemColor.textHighlight);
-		frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmPortada = new JFrame();
+		frmPortada.setTitle("Portada");
+		frmPortada.getContentPane().setBackground(SystemColor.textHighlight);
+		frmPortada.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		frmPortada.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frmPortada.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPortada.getContentPane().setLayout(null);
 		
 		btnGenero = new JButton("G\u00E9nero");
 		btnGenero.addActionListener(new ActionListener() {
@@ -104,7 +105,7 @@ public class Portada {
 			}
 		});
 		btnGenero.setBounds(10, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnGenero);
+		frmPortada.getContentPane().add(btnGenero);
 		
 		btnConcepto = new JButton("Conceptos");
 		btnConcepto.addActionListener(new ActionListener() {
@@ -113,7 +114,7 @@ public class Portada {
 			}
 		});
 		btnConcepto.setBounds(144, 11,anchoP/nBotones , 23);
-		frame.getContentPane().add(btnConcepto);
+		frmPortada.getContentPane().add(btnConcepto);
 		
 		btnProveedores = new JButton("Proveedores");
 		btnProveedores.addActionListener(new ActionListener() {
@@ -122,7 +123,7 @@ public class Portada {
 			}
 		});
 		btnProveedores.setBounds(278, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnProveedores);
+		frmPortada.getContentPane().add(btnProveedores);
 		
 		btnClientes = new JButton("Clientes");
 		btnClientes.addActionListener(new ActionListener() {
@@ -131,7 +132,7 @@ public class Portada {
 			}
 		});
 		btnClientes.setBounds(412, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnClientes);
+		frmPortada.getContentPane().add(btnClientes);
 		
 		btnCompras = new JButton("Compras");
 		btnCompras.addActionListener(new ActionListener() {
@@ -140,7 +141,7 @@ public class Portada {
 			}
 		});
 		btnCompras.setBounds(546, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnCompras);
+		frmPortada.getContentPane().add(btnCompras);
 		
 		btnFacturasDeProveedores = new JButton("Facturas de Proveedores");
 		btnFacturasDeProveedores.addActionListener(new ActionListener() {
@@ -150,7 +151,7 @@ public class Portada {
 		});
 		btnFacturasDeProveedores.setToolTipText("Facturas de Proveedores");
 		btnFacturasDeProveedores.setBounds(680, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnFacturasDeProveedores);
+		frmPortada.getContentPane().add(btnFacturasDeProveedores);
 		
 		btnFacturasAClientes = new JButton("Facturas a Clientes");
 		btnFacturasAClientes.addActionListener(new ActionListener() {
@@ -160,7 +161,7 @@ public class Portada {
 		});
 		btnFacturasAClientes.setToolTipText("Facturas a Clientes");
 		btnFacturasAClientes.setBounds(814, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnFacturasAClientes);
+		frmPortada.getContentPane().add(btnFacturasAClientes);
 		
 		btnConfiguracion = new JButton("Configuracion");
 		btnConfiguracion.addActionListener(new ActionListener() {
@@ -170,7 +171,7 @@ public class Portada {
 		});
 		btnConfiguracion.setToolTipText("Configuracion");
 		btnConfiguracion.setBounds(1216, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnConfiguracion);
+		frmPortada.getContentPane().add(btnConfiguracion);
 		
 		btnMovimientos = new JButton("Movimientos");
 		btnMovimientos.addActionListener(new ActionListener() {
@@ -180,7 +181,7 @@ public class Portada {
 		});
 		btnMovimientos.setToolTipText("Movimientos");
 		btnMovimientos.setBounds(948, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnMovimientos);
+		frmPortada.getContentPane().add(btnMovimientos);
 		
 		btnBalances = new JButton("Balances");
 		btnBalances.addActionListener(new ActionListener() {
@@ -190,7 +191,7 @@ public class Portada {
 		});
 		btnBalances.setToolTipText("Balances");
 		btnBalances.setBounds(1082, 11, anchoP/nBotones, 23);
-		frame.getContentPane().add(btnBalances);
+		frmPortada.getContentPane().add(btnBalances);
 		
 		JLabel lblTitulo1 = new JLabel("PESCADER\u00CDA");
 		lblTitulo1.setForeground(Color.WHITE);
@@ -198,8 +199,8 @@ public class Portada {
 		lblTitulo1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 45));
 		lblTitulo1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo1.setBounds(0, 0, 400, 200);
-		lblTitulo1.setLocation((frame.getSize().width/2)-(lblTitulo1.getSize().width/2), 100);
-		frame.getContentPane().add(lblTitulo1);
+		lblTitulo1.setLocation((frmPortada.getSize().width/2)-(lblTitulo1.getSize().width/2), 100);
+		frmPortada.getContentPane().add(lblTitulo1);
 		
 		JLabel lblTitulo2 = new JLabel("ESPE");
 		lblTitulo2.setForeground(Color.WHITE);
@@ -207,8 +208,8 @@ public class Portada {
 		lblTitulo2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 80));
 		lblTitulo2.setAlignmentX(0.5f);
 		lblTitulo2.setBounds(0, 200, 400, 200);
-		lblTitulo2.setLocation((frame.getSize().width/2)-(lblTitulo2.getSize().width/2), lblTitulo1.getLocation().y+100);
-		frame.getContentPane().add(lblTitulo2);
+		lblTitulo2.setLocation((frmPortada.getSize().width/2)-(lblTitulo2.getSize().width/2), lblTitulo1.getLocation().y+100);
+		frmPortada.getContentPane().add(lblTitulo2);
 		
 		JLabel lblTitulo3 = new JLabel("ARRAINDEGIA");
 		lblTitulo3.setForeground(Color.WHITE);
@@ -216,7 +217,7 @@ public class Portada {
 		lblTitulo3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 45));
 		lblTitulo3.setAlignmentX(0.5f);
 		lblTitulo3.setBounds(0, 400, 400, 200);
-		lblTitulo3.setLocation((frame.getSize().width/2)-(lblTitulo3.getSize().width/2), lblTitulo1.getLocation().y+200);
-		frame.getContentPane().add(lblTitulo3);
+		lblTitulo3.setLocation((frmPortada.getSize().width/2)-(lblTitulo3.getSize().width/2), lblTitulo1.getLocation().y+200);
+		frmPortada.getContentPane().add(lblTitulo3);
 	}
 }
