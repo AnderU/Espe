@@ -37,13 +37,13 @@ public class ProveedorC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor+"'";
+		String valores="'"+proveedor.toUpperCase()+"'";
 		ConectorBD.bdMySQL.Insert("proveedor",valores);
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor+"'";
+		String valores="'"+proveedor.toUpperCase()+"'";
 		ConectorBD.bdMySQL.Update("proveedor", valores, Integer.toString(this.Id));
 	}
 	@Override

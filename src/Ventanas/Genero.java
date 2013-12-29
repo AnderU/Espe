@@ -161,7 +161,7 @@ public class Genero {
 						if (!textField.getText().equals(""))
 						{
 							GeneroC aux= new GeneroC();
-							aux.setGenero(textField.getText());
+							aux.setGenero(textField.getText().toUpperCase());
 							aux.Insert();
 							listModel.addElement(aux);
 						}
@@ -246,7 +246,7 @@ public class Genero {
 						if (!textField.getText().equals(""))
 						{
 							GeneroC aux= new GeneroC();
-							aux.setGenero(textField.getText());
+							aux.setGenero(textField.getText().toUpperCase());
 							aux.setId(list.getSelectedValue().getId());
 							aux.Update();
 							listModel.remove(list.getSelectedIndex());

@@ -7,6 +7,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -126,7 +127,7 @@ public class Proveedores {
 		btnMostrar = new JButton("");
 		btnMostrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Search-icon.png")));
 		btnMostrar.setToolTipText("Buscar");
-		btnMostrar.setBounds(676, 91, 80, 55);
+		btnMostrar.setBounds(766, 11, 80, 55);
 		frmProvdor.getContentPane().add(btnMostrar);
 		btnMostrar.setVisible(true);
 		
@@ -138,11 +139,28 @@ public class Proveedores {
 				btnAceptar.setVisible(false);
 				btnCancelar.setVisible(false);
 				list.setEnabled(true);
+				listModel.removeAllElements();
+				ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "Proveedor LIKE '%"+textField_mostrar.getText()+"%'");
+				try {
+					while (rs.next())
+						{
+							ProveedorC aux= new ProveedorC();
+							aux.setProveedor(rs.getObject(2).toString());
+							aux.setId(Integer.parseInt(rs.getObject(1).toString()));
+							aux.setPoblacion(rs.getObject(3).toString());
+							listModel.addElement(aux);
+						}
+					}
+				catch (SQLException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 			}
 		});
 		
 		textField_mostrar = new JTextField();
-		textField_mostrar.setBounds(10, 91, 645, 55);
+		textField_mostrar.setBounds(100, 24, 656, 20);
 		frmProvdor.getContentPane().add(textField_mostrar);
 		textField_mostrar.setColumns(10);
 		textField_mostrar.setEditable(true);
@@ -151,7 +169,7 @@ public class Proveedores {
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(10, 351, 1330, 344);
+		panel.setBounds(10, 310, 1330, 385);
 		frmProvdor.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -261,7 +279,7 @@ public class Proveedores {
 	
 //****************** ACEPTAR ************************************			
 		btnAceptar = new JButton("");
-		btnAceptar.setBounds(1161, 285, 80, 55);
+		btnAceptar.setBounds(1161, 244, 80, 55);
 		frmProvdor.getContentPane().add(btnAceptar);
 		btnAceptar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Accept-icon.png")));
 		btnAceptar.setVisible(false);
@@ -298,7 +316,7 @@ public class Proveedores {
 //****************** CANCELAR ************************************	
 		btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
-		btnCancelar.setBounds(1251, 285, 80, 55);
+		btnCancelar.setBounds(1251, 244, 80, 55);
 		frmProvdor.getContentPane().add(btnCancelar);
 		btnCancelar.setVisible(false);
 		
@@ -326,11 +344,15 @@ public class Proveedores {
 			
 			
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 157,746,183);
+			scrollPane.setBounds(10, 77,836,222);
 			frmProvdor.getContentPane().add(scrollPane);	
+	//frmProvdor.getContentPane().add(list);
+	//list.setEnabled(true);
+	scrollPane.setEnabled(true);
 	
 	
 	list = new JList<ProveedorC>(listModel);
+	scrollPane.setViewportView(list);
 	list.addListSelectionListener(new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 			btnEditar.setVisible(true);
@@ -353,10 +375,6 @@ public class Proveedores {
         return renderer;
         }
     });
-	scrollPane.setViewportView(list);
-	//frmProvdor.getContentPane().add(list);
-	//list.setEnabled(true);
-	scrollPane.setEnabled(true);
 	
 	
 //------------------------------------------

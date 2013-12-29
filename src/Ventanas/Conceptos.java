@@ -208,8 +208,8 @@ public class Conceptos {
 				Concepto.setVisible(false);
 				ConceptosC a= new ConceptosC();
 							
-				a.setConcepto(Concepto.getText());
-				a.setPatron(Patron.getText());
+				a.setConcepto(Concepto.getText().toUpperCase());
+				a.setPatron(Patron.getText().toUpperCase());
 				a.setIdGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getId());
 				a.setIdTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getId());
 				a.setGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getGrupo());
@@ -266,8 +266,8 @@ public class Conceptos {
 				ConceptosC a= new ConceptosC();
 				
 				a.setId((Integer)table.getModel().getValueAt(table.getSelectedRow(), 6));
-				a.setConcepto(Concepto.getText());
-				a.setPatron(Patron.getText());
+				a.setConcepto(Concepto.getText().toUpperCase());
+				a.setPatron(Patron.getText().toUpperCase());
 				a.setIdGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getId());
 				a.setIdTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getId());
 				a.setGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getGrupo());

@@ -79,8 +79,8 @@ public class ConceptosC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+this.concepto+"' , ";
-		valores+="'"+this.patron+"' , ";
+		String valores="'"+this.concepto.toUpperCase()+"' , ";
+		valores+="'"+this.patron.toUpperCase()+"' , ";
 		valores+=Integer.toString(this.IdTipo)+" , ";
 		valores+=Integer.toString(this.IdGrupo);
 		ConectorBD.bdMySQL.Insert("conceptos", valores);
@@ -89,8 +89,8 @@ public class ConceptosC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+this.concepto+"' , ";
-		valores+="'"+this.patron+"' , ";
+		String valores="'"+this.concepto.toUpperCase()+"' , ";
+		valores+="'"+this.patron.toUpperCase()+"' , ";
 		valores+=Integer.toString(this.IdTipo)+" , ";
 		valores+=Integer.toString(this.IdGrupo);
 		ConectorBD.bdMySQL.Update("conceptos", valores, Integer.toString(this.Id));

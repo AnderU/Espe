@@ -31,14 +31,14 @@ public class GeneroC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+genero+"'";
+		String valores="'"+genero.toUpperCase()+"'";
 		ConectorBD.bdMySQL.Insert("genero",valores);
 		
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+genero+"'";
+		String valores="'"+genero.toUpperCase()+"'";
 		ConectorBD.bdMySQL.Update("genero", valores, Integer.toString(this.Id));
 	}
 	@Override
