@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import BaseDatos.ConectorBD;
+import Clases.Poblacion;
 import Clases.ProveedorC;
 
 import javax.swing.JButton;
@@ -57,7 +58,7 @@ public class Proveedores {
 	private JLabel lblCodigo;
 	private JLabel lblNombre;
 	private JLabel lblPoblacion;
-	private JComboBox<String> comboBoxPoblacion;
+	private JComboBox<Poblacion> comboBoxPoblacion;
 	
 	/**
 	 * Launch the application.
@@ -205,25 +206,31 @@ public class Proveedores {
 		lblPoblacion = new JLabel("Poblaci\u00F3n");
 		lblPoblacion.setBounds(639, 10, 89, 14);
 		panel.add(lblPoblacion);
-		
-		//String[] poblaciones={"Donostia-San Sebastián","Pasajes San Pedro","Ondarroa","Hondarribia","Pasajes San Juan"};
-		
-
-		comboBoxPoblacion = new JComboBox<String>();
-		comboBoxPoblacion.setBounds(738, 7, 184, 20);
+	
+		Poblacion aux= new Poblacion(); 
+		ResultSet rs=ConectorBD.bdMySQL.Select("poblaciones", "*", "true");
+		Vector<Poblacion> elementos= new Vector<Poblacion>();
+		elementos.addElement(aux);
+		try {
+			while (rs.next())
+			{
+				Poblacion a= new Poblacion(); 
+				a.setId(rs.getObject(1).toString());
+				a.setPoblacion(rs.getObject(2).toString());
+				elementos.addElement(a);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBoxPoblacion = new JComboBox<Poblacion>(elementos);
+		comboBoxPoblacion.setBounds(696, 7, 170, 20);
+		comboBoxPoblacion.setVisible(true);
 		comboBoxPoblacion.setAutoscrolls(true);
-		comboBoxPoblacion.setEditable(true);
 		comboBoxPoblacion.setMaximumRowCount(5);
 		comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(comboBoxPoblacion);
-		comboBoxPoblacion.addItem("Donostia-San Sebastián");
-		comboBoxPoblacion.addItem("Pasajes San Pedro");
-		comboBoxPoblacion.addItem("Hondarribia");
-		comboBoxPoblacion.addItem("Ondarroa");
-		comboBoxPoblacion.addItem("Hendaya");
-		comboBoxPoblacion.setEditable(false);
-	
-		
+		panel.add(comboBoxPoblacion);	
+
 //****************** EDITAR ************************************	
 		btnEditar = new JButton("");
 		btnEditar.setToolTipText("Editar");
@@ -325,15 +332,15 @@ public class Proveedores {
 //****************** LISTA ************************************	
 			listModel = new DefaultListModel<ProveedorC>();
 			
-			ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
+			ResultSet rs1=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
 			try {
-				while (rs.next())
+				while (rs1.next())
 					{
-						ProveedorC aux= new ProveedorC();
-						aux.setProveedor(rs.getObject(2).toString());
-						aux.setId(Integer.parseInt(rs.getObject(1).toString()));
-						aux.setPoblacion(rs.getObject(3).toString());
-						listModel.addElement(aux);
+						ProveedorC aux1= new ProveedorC();
+						aux1.setProveedor(rs1.getObject(2).toString());
+						aux1.setId(Integer.parseInt(rs1.getObject(1).toString()));
+						aux1.setPoblacion(rs1.getObject(3).toString());
+						listModel.addElement(aux1);
 					}
 				}
 			catch (SQLException e)

@@ -35,6 +35,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTabbedPane;
 
 
 public class Conceptos {
@@ -138,19 +139,6 @@ public class Conceptos {
 		}
         
         model = new TablaConceptos(vectorTabla, columnNames);
-        
-		table = new JTable(model);		
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {	
-				
-
-				btnEditar.setVisible(true);
-				btnBorrar.setVisible(true);
-				btnNuevo.setVisible(false);
-
-			}
-		});
 		
         //------------------------------
 		
@@ -401,7 +389,23 @@ public class Conceptos {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 120, Toolkit.getDefaultToolkit().getScreenSize().width-20, Toolkit.getDefaultToolkit().getScreenSize().height-195);
 		frmConceptos.getContentPane().add(scrollPane);
+		
+		table = new JTable(model);
 		scrollPane.setViewportView(table);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		scrollPane.setColumnHeaderView(tabbedPane);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {	
+				
+
+				btnEditar.setVisible(true);
+				btnBorrar.setVisible(true);
+				btnNuevo.setVisible(false);
+
+			}
+		});
 		frmConceptos.setVisible(true);
 	}
 }
