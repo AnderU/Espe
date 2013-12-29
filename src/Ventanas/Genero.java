@@ -57,6 +57,7 @@ public class Genero {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmGnero = new JFrame();
+		frmGnero.setIconImage(Toolkit.getDefaultToolkit().getImage(Genero.class.getResource("/Imagenes/Animals-Fish-icon.png")));
 		frmGnero.setTitle("G\u00E9nero");
 		frmGnero.getContentPane().setBackground(SystemColor.textHighlight);
 		frmGnero.getContentPane().addMouseListener(new MouseAdapter() {

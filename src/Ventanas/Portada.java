@@ -91,6 +91,7 @@ public class Portada {
 
 		
 		frmPortada = new JFrame();
+		frmPortada.setIconImage(Toolkit.getDefaultToolkit().getImage(Portada.class.getResource("/Imagenes/Animals-Fish-icon.png")));
 		frmPortada.setTitle("Portada");
 		frmPortada.getContentPane().setBackground(SystemColor.textHighlight);
 		frmPortada.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);

@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
 import BaseDatos.ConectorBD;
@@ -73,6 +74,7 @@ public class Conceptos {
 	@SuppressWarnings("unchecked")
 	private void initialize() {
 		frmConceptos = new JFrame();
+		frmConceptos.setIconImage(Toolkit.getDefaultToolkit().getImage(Conceptos.class.getResource("/Imagenes/Animals-Fish-icon.png")));
 		frmConceptos.setTitle("Conceptos");
 		frmConceptos.getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
@@ -101,6 +103,7 @@ public class Conceptos {
 		frmConceptos.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frmConceptos.getContentPane().setLayout(null);
 		
+	
 		// Cargamos la tabla
 		Vector <String> columnNames = new  Vector <String>(); 
 		columnNames.add("Id");
