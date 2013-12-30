@@ -89,10 +89,13 @@ public class Proveedores {
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				list.clearSelection();
-				btnEditar.setVisible(false);
-				btnBorrar.setVisible(false);
-				btnNuevo.setVisible(true);
+				if (!btnAceptar.isVisible())
+				{
+					list.clearSelection();
+					btnEditar.setVisible(false);
+					btnBorrar.setVisible(false);
+					btnNuevo.setEnabled(true);
+				}
 			}
 		});	
 	
@@ -148,7 +151,7 @@ public class Proveedores {
 							ProveedorC aux= new ProveedorC();
 							aux.setProveedor(rs.getObject(2).toString());
 							aux.setId(Integer.parseInt(rs.getObject(1).toString()));
-							aux.setPoblacion(rs.getObject(3).toString());
+							aux.setIdPoblacion(rs.getObject(3).toString());
 							listModel.addElement(aux);
 						}
 					}
@@ -229,6 +232,7 @@ public class Proveedores {
 		comboBoxPoblacion.setAutoscrolls(true);
 		comboBoxPoblacion.setMaximumRowCount(5);
 		comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
+		comboBoxPoblacion.setEnabled(false);
 		panel.add(comboBoxPoblacion);	
 
 //****************** EDITAR ************************************	
@@ -251,8 +255,9 @@ public class Proveedores {
 					btnBorrar.setVisible(false);
 					btnMostrar.setEnabled(false);
 					textField_mostrar.setEditable(false);
+					textField_nombre.setEnabled(true);
 					textField_nombre.setEditable(true);
-					comboBoxPoblacion.setEditable(true);
+					comboBoxPoblacion.setEnabled(true);					
 					list.setEnabled(false);
 					textField_nombre.setText(list.getSelectedValue().getProveedor());	
 				}
@@ -298,22 +303,11 @@ public class Proveedores {
 				{
 					ProveedorC aux= new ProveedorC();
 					aux.setProveedor(textField_nombre.getText());
+					if (comboBoxPoblacion.getSelectedIndex()!=0)
+						aux.setIdPoblacion(Integer.toString(comboBoxPoblacion.getSelectedIndex()));
 					aux.Insert();
 					listModel.addElement(aux);
-				}
-				/*if (!textField_nombre.getText().equals(""))
-				{
-					ProveedorC aux= new ProveedorC();
-					aux.setProveedor(textField_nombre.getText());
-					aux.setId(list.getSelectedValue().getId());
-					aux.Update();
-					listModel.remove(list.getSelectedIndex());
-					listModel.addElement(aux);
-					list.setSelectedIndex(list.getLastVisibleIndex());
-				}
-				textField_nombre.setText("");
-				*/
-				
+				}				
 				textField_mostrar.setEditable(true);
 				
 			}
@@ -339,7 +333,7 @@ public class Proveedores {
 						ProveedorC aux1= new ProveedorC();
 						aux1.setProveedor(rs1.getObject(2).toString());
 						aux1.setId(Integer.parseInt(rs1.getObject(1).toString()));
-						aux1.setPoblacion(rs1.getObject(3).toString());
+						aux1.setIdPoblacion(rs1.getObject(3).toString());
 						listModel.addElement(aux1);
 					}
 				}
@@ -366,7 +360,9 @@ public class Proveedores {
 			btnBorrar.setVisible(true);
 			btnNuevo.setEnabled(false);
 			btnAceptar.setVisible(false);
-			btnCancelar.setVisible(false);
+			textField_codigo.setText(Integer.toString(list.getSelectedValue().getId()));
+			textField_nombre.setText(list.getSelectedValue().getProveedor());
+			comboBoxPoblacion.setSelectedIndex(Integer.parseInt(list.getSelectedValue().getIdPoblacion()));
 		}
 	});		
 	

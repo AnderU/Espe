@@ -4,22 +4,28 @@ import BaseDatos.ConectorBD;
 
 public class ProveedorC implements BaseDatos{
 	private int Id;
-	private String proveedor, poblacion;
+	private String proveedor, IdPoblacion;
 	
 	public ProveedorC()
 	{
 		Id=0;
 		proveedor="";
-		poblacion="";
+		IdPoblacion=null;
 	}
 	
-	public String getPoblacion() {
-		return poblacion;
+
+
+	public String getIdPoblacion() {
+		return IdPoblacion;
 	}
 
-	public void setPoblacion(String poblacion) {
-		this.poblacion = poblacion;
+
+
+	public void setIdPoblacion(String idPoblacion) {
+		IdPoblacion = idPoblacion;
 	}
+
+
 
 	public int getId() {
 		return Id;
@@ -37,13 +43,15 @@ public class ProveedorC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor.toUpperCase()+"'";
+		String valores="'"+proveedor.toUpperCase()+"' , ";
+		valores+=this.IdPoblacion;
 		ConectorBD.bdMySQL.Insert("proveedor",valores);
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor.toUpperCase()+"'";
+		String valores="'"+proveedor.toUpperCase()+"' , ";
+		valores+=this.IdPoblacion;
 		ConectorBD.bdMySQL.Update("proveedor", valores, Integer.toString(this.Id));
 	}
 	@Override

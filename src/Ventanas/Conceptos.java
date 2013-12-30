@@ -151,6 +151,7 @@ public class Conceptos {
 				cmbGrupo.setVisible(true);
 				Patron.setVisible(true);
 				Concepto.setVisible(true);
+				table.setEnabled(false);
 			}
 		});
 		btnNuevo.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Add-icon.png")));
@@ -392,17 +393,16 @@ public class Conceptos {
 		
 		table = new JTable(model);
 		scrollPane.setViewportView(table);
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		scrollPane.setColumnHeaderView(tabbedPane);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {	
-				
-
-				btnEditar.setVisible(true);
-				btnBorrar.setVisible(true);
-				btnNuevo.setVisible(false);
+				if (table.isEnabled())
+				{
+					btnEditar.setVisible(true);
+					btnBorrar.setVisible(true);
+					btnNuevo.setVisible(false);
+				}
+	
 
 			}
 		});
