@@ -1,10 +1,13 @@
 package Ventanas;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 
 
 public class Clientes {
 
-	private JFrame frame;
+	private JFrame frmClnt;
 
 	/**
 	 * Launch the application.
@@ -22,9 +25,14 @@ public class Clientes {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setVisible(true);
+		frmClnt = new JFrame();
+		frmClnt.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		frmClnt.setVisible(true);
+		frmClnt.getContentPane().setBackground(SystemColor.textHighlight);
+	
+		frmClnt.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frmClnt.getContentPane().setLayout(null);
+		frmClnt.setTitle("Clientes");
 	}
 
 }
