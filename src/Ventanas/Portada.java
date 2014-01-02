@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 
 import BaseDatos.*;
 import Clases.GeneroC;
+import java.awt.Window.Type;
 
 
 public class Portada {
@@ -92,7 +93,7 @@ public class Portada {
 		
 		frmPortada = new JFrame();
 		frmPortada.setIconImage(Toolkit.getDefaultToolkit().getImage(Portada.class.getResource("/Imagenes/Animals-Fish-icon.png")));
-		frmPortada.setTitle("Portada");
+		frmPortada.setTitle("Pescader\u00EDa ESPE Arraindegia");
 		frmPortada.getContentPane().setBackground(SystemColor.textHighlight);
 		frmPortada.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 		frmPortada.setExtendedState(JFrame.MAXIMIZED_BOTH);
