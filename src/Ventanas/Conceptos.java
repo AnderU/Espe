@@ -36,6 +36,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
+import javax.swing.JLabel;
 
 
 public class Conceptos {
@@ -50,13 +51,17 @@ public class Conceptos {
 	private JButton btnEditar;
 	private JButton btnBorrar;
 	private JButton btnAceptar;
-	private JButton btnAceptar_1;
+	private JButton btnAceptar_edit;
 	private JButton btnCancelar;
-	private JButton btnCancelar_1;
+	private JButton btnCancelar_edit;
 	private JComboBox<GrupoConcepto> cmbGrupo;
-	private JComboBox cmbTipo;
-	private DefaultComboBoxModel<TipoConcepto> cmbModel;
-	private DefaultComboBoxModel<GrupoConcepto> cmbModel1;
+	private JComboBox<TipoConcepto> cmbTipo;
+	private JLabel lblConcepto;
+	private JLabel lblGrupo;
+	private JLabel lblTipo;
+	private JLabel lblPatron;
+	//private DefaultComboBoxModel<TipoConcepto> cmbModel;
+	//private DefaultComboBoxModel<GrupoConcepto> cmbModel1;
 	
 	/**
 	 * Launch the application.
@@ -67,8 +72,30 @@ public class Conceptos {
 	 */
 	public Conceptos() {
 		initialize();
+		setEstadoInicial();
 	}
 
+	public void setEstadoInicial(){
+		table.setEnabled(true);
+		btnAceptar.setVisible(false);
+		btnCancelar.setVisible(false);
+		cmbGrupo.setVisible(false);
+		cmbTipo.setVisible(false);
+		Patron.setVisible(false);
+		Concepto.setVisible(false);
+		btnAceptar_edit.setVisible(false);
+		btnCancelar_edit.setVisible(false);
+		table.clearSelection();
+		lblConcepto.setVisible(false);
+		lblGrupo.setVisible(false);
+		lblTipo.setVisible(false);
+		lblPatron.setVisible(false);
+		btnNuevo.setEnabled(true);
+		btnEditar.setVisible(true);
+		btnBorrar.setVisible(true);
+		btnEditar.setEnabled(false);
+		btnBorrar.setEnabled(false);
+	} 
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -77,32 +104,12 @@ public class Conceptos {
 		frmConceptos = new JFrame();
 		frmConceptos.setIconImage(Toolkit.getDefaultToolkit().getImage(Conceptos.class.getResource("/Imagenes/Animals-Fish-icon.png")));
 		frmConceptos.setTitle("Conceptos");
-		frmConceptos.getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				table.clearSelection();
-				table.setEnabled(true);
-				btnEditar.setVisible(false);
-				btnBorrar.setVisible(false);
-				btnNuevo.setVisible(true);
-				btnAceptar_1.setVisible(false);
-				btnCancelar_1.setVisible(false);
-				Patron.setText("");
-				Concepto.setText("");
-				Patron.setVisible(false);
-				Concepto.setVisible(false);
-				cmbTipo.setSelectedIndex(0);
-				cmbGrupo.setSelectedIndex(0);
-				cmbTipo.setVisible(false);
-				cmbGrupo.setVisible(false);
-				btnAceptar.setVisible(false);
-				btnCancelar.setVisible(false);
-			}
-		});
+		
 		frmConceptos.getContentPane().setBackground(SystemColor.textHighlight);
 		frmConceptos.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 		frmConceptos.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frmConceptos.getContentPane().setLayout(null);
+		
 		
 	
 		// Cargamos la tabla
@@ -140,18 +147,30 @@ public class Conceptos {
         
         model = new TablaConceptos(vectorTabla, columnNames);
 		
-        //------------------------------
+//------------------------------NUEVO------------------------------
 		
 		btnNuevo = new JButton("");
 		btnNuevo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNuevo.setEnabled(false);
 				btnAceptar.setVisible(true);
 				btnCancelar.setVisible(true);
 				cmbTipo.setVisible(true);
+				cmbTipo.setSelectedIndex(0);
 				cmbGrupo.setVisible(true);
+				cmbGrupo.setSelectedIndex(0);
 				Patron.setVisible(true);
+				Patron.setText("");
 				Concepto.setVisible(true);
+				Concepto.setText("");
 				table.setEnabled(false);
+				btnEditar.setEnabled(false);
+				btnBorrar.setEnabled(false);
+				lblConcepto.setVisible(true);
+				lblGrupo.setVisible(true);
+				lblTipo.setVisible(true);
+				lblPatron.setVisible(true);
+				
 			}
 		});
 		btnNuevo.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Add-icon.png")));
@@ -159,10 +178,10 @@ public class Conceptos {
 		btnNuevo.setBounds(10, 11, 80, 55);
 		frmConceptos.getContentPane().add(btnNuevo);
 		
+//------------------------------EDITAR------------------------------		
 		btnEditar = new JButton("");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				cmbTipo.setSelectedIndex((Integer) table.getModel().getValueAt(table.getSelectedRow(), 4));
 				cmbGrupo.setSelectedIndex((Integer) table.getModel().getValueAt(table.getSelectedRow(), 5));
 				Concepto.setText(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
@@ -171,30 +190,31 @@ public class Conceptos {
 				Patron.setVisible(true);
 				cmbTipo.setVisible(true);
 				cmbGrupo.setVisible(true);
-				btnBorrar.setVisible(false);
-				btnAceptar_1.setVisible(true);
-				btnCancelar_1.setVisible(true);
+				btnBorrar.setEnabled(false);
+				btnEditar.setEnabled(false);
+				btnNuevo.setEnabled(false);
+				btnAceptar_edit.setVisible(true);
+				btnCancelar_edit.setVisible(true);
 				table.setEnabled(false);
+				lblConcepto.setVisible(true);
+				lblGrupo.setVisible(true);
+				lblTipo.setVisible(true);
+				lblPatron.setVisible(true);
 			}
 		});
 		btnEditar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Pencil-icon.png")));
 		btnEditar.setToolTipText("Editar");
-		btnEditar.setBounds(10, 11, 80, 55);
+		btnEditar.setBounds(112, 11, 80, 55);
 		btnEditar.setVisible(false);
 		frmConceptos.getContentPane().add(btnEditar);
 		
+//------------------------------ACEPTAR------------------------------
 		btnAceptar = new JButton("");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (cmbTipo.getSelectedIndex()!=0 && cmbGrupo.getSelectedIndex()!=0)
 				{
-				btnAceptar.setVisible(false);
-				btnCancelar.setVisible(false);
-				cmbTipo.setVisible(false);
-				cmbGrupo.setVisible(false);
-				Patron.setVisible(false);
-				Concepto.setVisible(false);
 				ConceptosC a= new ConceptosC();
 							
 				a.setConcepto(Concepto.getText().toUpperCase());
@@ -205,53 +225,42 @@ public class Conceptos {
 				a.setTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getTipo());
 				model.insertRow(a);
 				a.Insert();
+				setEstadoInicial();
 				}
 				else
 				{
-					JOptionPane.showConfirmDialog(frmConceptos, "Datos necesarios no completados", "¡Atención!", JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE);
-					
+					JOptionPane.showMessageDialog(frmConceptos, "Datos necesarios no completados");
 				}
 				
 			}
+			
 		});
 		btnAceptar.setToolTipText("Aceptar");
 		btnAceptar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Accept-icon.png")));
-		btnAceptar.setBounds(100, 11, 80, 55);
+		btnAceptar.setBounds(355, 11, 80, 55);
 		btnAceptar.setVisible(false);
 		frmConceptos.getContentPane().add(btnAceptar);
 		
+//------------------------------CANCELAR------------------------------	
 		btnCancelar = new JButton("");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnAceptar.setVisible(false);
-				btnCancelar.setVisible(false);
-				cmbTipo.setVisible(false);
-				cmbGrupo.setVisible(false);
-				Patron.setVisible(false);
-				Concepto.setVisible(false);
-				Patron.setText("");
-				Concepto.setText("");
+				setEstadoInicial();
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Cancel-icon.png")));
 		btnCancelar.setToolTipText("Cancelar");
-		btnCancelar.setBounds(190, 11, 80, 55);
+		btnCancelar.setBounds(460, 11, 80, 55);
 		btnCancelar.setVisible(false);
 		frmConceptos.getContentPane().add(btnCancelar);
 		
-		btnAceptar_1 = new JButton("");
-		btnAceptar_1.addActionListener(new ActionListener() {
+//------------------------------ACEPTAR EDIT------------------------------
+		btnAceptar_edit = new JButton("");
+		btnAceptar_edit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (cmbTipo.getSelectedIndex()!=0 && cmbGrupo.getSelectedIndex()!=0)
 				{
-				btnAceptar_1.setVisible(false);
-				btnCancelar_1.setVisible(false);
-				btnBorrar.setVisible(true);
-				cmbTipo.setVisible(false);
-				cmbGrupo.setVisible(false);
-				Patron.setVisible(false);
-				Concepto.setVisible(false);
 				ConceptosC a= new ConceptosC();
 				
 				a.setId((Integer)table.getModel().getValueAt(table.getSelectedRow(), 6));
@@ -269,43 +278,36 @@ public class Conceptos {
 				Patron.setText("");
 				Concepto.setText("");
 				table.setEnabled(true);
+				setEstadoInicial();
 				}
 				else
 				{
-					JOptionPane.showConfirmDialog(frmConceptos, "Datos necesarios no completados", "¡Atención!", JOptionPane.ERROR_MESSAGE,JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(frmConceptos, "Datos necesarios no completados");
 					
 				}
-			}
-		});
-		btnAceptar_1.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Accept-icon.png")));
-		btnAceptar_1.setToolTipText("Aceptar");
-		btnAceptar_1.setBounds(100, 11, 80, 55);
-		btnAceptar_1.setVisible(false);
-		frmConceptos.getContentPane().add(btnAceptar_1);
-		
-		btnCancelar_1 = new JButton("");
-		btnCancelar_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 				
-				btnAceptar_1.setVisible(false);
-				btnCancelar_1.setVisible(false);
-				btnBorrar.setVisible(true);
-				cmbTipo.setVisible(false);
-				cmbGrupo.setVisible(false);
-				Patron.setVisible(false);
-				Concepto.setVisible(false);
-				Patron.setText("");
-				Concepto.setText("");
-				table.setEnabled(true);
-
 			}
 		});
-		btnCancelar_1.setToolTipText("Cancelar");
-		btnCancelar_1.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Cancel-icon.png")));
-		btnCancelar_1.setBounds(190, 11, 80, 55);
-		btnCancelar_1.setVisible(false);
-		frmConceptos.getContentPane().add(btnCancelar_1);
+		btnAceptar_edit.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Accept-icon.png")));
+		btnAceptar_edit.setToolTipText("Aceptar");
+		btnAceptar_edit.setBounds(355, 11, 80, 55);
+		btnAceptar_edit.setVisible(false);
+		frmConceptos.getContentPane().add(btnAceptar_edit);
 		
+//------------------------------CANCELAR EDIT------------------------------
+		btnCancelar_edit = new JButton("");
+		btnCancelar_edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setEstadoInicial();
+			}
+		});
+		btnCancelar_edit.setToolTipText("Cancelar");
+		btnCancelar_edit.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Cancel-icon.png")));
+		btnCancelar_edit.setBounds(460, 11, 80, 55);
+		btnCancelar_edit.setVisible(false);
+		frmConceptos.getContentPane().add(btnCancelar_edit);
+		
+//------------------------------BORRAR------------------------------		
 		btnBorrar = new JButton("");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -317,29 +319,33 @@ public class Conceptos {
 					ConceptosC a= new ConceptosC();
 					a.setId((Integer)table.getModel().getValueAt(table.getSelectedRow(), 6));
 					a.Delete();
-					model.removeRow(table.getSelectedRow());
+					model.removeRow(table.getSelectedRow());					
 				}
-				
+				setEstadoInicial();
 			}
 		});
-		btnBorrar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Delete-icon.png")));
+		btnBorrar.setIcon(new ImageIcon(Conceptos.class.getResource("/Imagenes/Trash-icon.png")));
 		btnBorrar.setToolTipText("Borrar");
-		btnBorrar.setBounds(100, 11, 80, 55);
+		btnBorrar.setBounds(214, 11, 80, 55);
 		btnBorrar.setVisible(false);
 		frmConceptos.getContentPane().add(btnBorrar);
-		
+
+//------------------------------CONCEPTO------------------------------
 		Concepto = new JTextField();
-		Concepto.setBounds(10, 90, 260, 20);
+		Concepto.setBounds(79, 90, 378, 20);
 		Concepto.setVisible(false);
 		frmConceptos.getContentPane().add(Concepto);
 		Concepto.setColumns(10);
 		
+//------------------------------PATRON------------------------------		
 		Patron = new JTextField();
 		Patron.setColumns(10);
-		Patron.setBounds(280, 90, 260, 20);
+		Patron.setBounds(536, 90, 260, 20);
 		Patron.setVisible(false);
 		frmConceptos.getContentPane().add(Patron);
-		// cargamos el combobox grupo
+		
+//------------------------------COMBOBOX------------------------------
+// cargamos el combobox grupo
 		GrupoConcepto aux1= new GrupoConcepto(); 
 		rs=ConectorBD.bdMySQL.Select("gruposconcepto", "*", "true");
 		Vector<GrupoConcepto> elementos1= new Vector<GrupoConcepto>(); 
@@ -359,12 +365,11 @@ public class Conceptos {
 		}
 		
 		cmbGrupo = new JComboBox<GrupoConcepto>(elementos1);
-		cmbGrupo.setBounds(1017, 90, 170, 20);
+		cmbGrupo.setBounds(1128, 90, 206, 20);
 		cmbGrupo.setVisible(false);
 		frmConceptos.getContentPane().add(cmbGrupo);
-		
-		//------------------
-		// cargamos combobox tipo
+
+// cargamos combobox tipo
 		TipoConcepto aux= new TipoConcepto(); 
 		rs=ConectorBD.bdMySQL.Select("tiposconcepto", "*", "true");
 		Vector<TipoConcepto> elementos= new Vector<TipoConcepto>();
@@ -382,25 +387,56 @@ public class Conceptos {
 			e1.printStackTrace();
 		}
 		cmbTipo = new JComboBox<TipoConcepto>(elementos);
-		cmbTipo.setBounds(682, 90, 170, 20);
+		cmbTipo.setBounds(858, 90, 206, 20);
 		cmbTipo.setVisible(false);
 		frmConceptos.getContentPane().add(cmbTipo);
 		
-		//-----------------------
+//------------------------------TABLA------------------------------
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 120, Toolkit.getDefaultToolkit().getScreenSize().width-20, Toolkit.getDefaultToolkit().getScreenSize().height-195);
 		frmConceptos.getContentPane().add(scrollPane);
 		
 		table = new JTable(model);
 		scrollPane.setViewportView(table);
+		
+		lblConcepto = new JLabel("Concepto");
+		lblConcepto.setBounds(21, 93, 57, 14);
+		frmConceptos.getContentPane().add(lblConcepto);
+		
+		lblPatron = new JLabel("Patr\u00F3n");
+		lblPatron.setBounds(487, 93, 39, 14);
+		frmConceptos.getContentPane().add(lblPatron);
+		
+		lblGrupo = new JLabel("Grupo");
+		lblGrupo.setBounds(1084, 93, 46, 14);
+		frmConceptos.getContentPane().add(lblGrupo);
+		
+		lblTipo = new JLabel("Tipo");
+		lblTipo.setBounds(822, 93, 32, 14);
+		frmConceptos.getContentPane().add(lblTipo);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {	
 				if (table.isEnabled())
 				{
 					btnEditar.setVisible(true);
+					btnEditar.setEnabled(true);
+					btnBorrar.setEnabled(true);
 					btnBorrar.setVisible(true);
-					btnNuevo.setVisible(false);
+					btnNuevo.setEnabled(true);
+					btnAceptar.setVisible(false);
+					btnCancelar.setVisible(false);
+					table.setEnabled(true);
+					cmbGrupo.setVisible(false);
+					cmbTipo.setVisible(false);
+					Patron.setVisible(false);
+					Concepto.setVisible(false);
+					btnAceptar_edit.setVisible(false);
+					btnCancelar_edit.setVisible(false);
+					lblTipo.setVisible(false);
+					lblGrupo.setVisible(false);
+					lblPatron.setVisible(false);
+					lblConcepto.setVisible(false);
 				}
 	
 
