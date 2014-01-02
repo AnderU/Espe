@@ -67,19 +67,29 @@ public class ProveedorC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor+"'";
-		ConectorBD.bdMySQL.Insert("proveedor",valores);
+		String valores="'"+proveedor+"' , ";
+		valores+="'"+this.IdPoblacion+"' , ";
+		valores+="'"+this.direccion+"' , ";
+		valores+="'"+this.telefono1+"' , ";
+		valores+="'"+this.telefono2+"' , ";
+		valores+="'"+this.correo+"'";
+		ConectorBD.bdMySQL.Insert("proveedores",valores);
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor+"'";
-		ConectorBD.bdMySQL.Update("proveedor", valores, Integer.toString(this.Id));
+		String valores="'"+proveedor.toUpperCase()+"' , ";
+		valores+="'"+this.IdPoblacion+"' , ";
+		valores+="'"+this.direccion.toUpperCase()+"' , ";
+		valores+="'"+this.telefono1+"' , ";
+		valores+="'"+this.telefono2+"' , ";
+		valores+="'"+this.correo+"'";
+		ConectorBD.bdMySQL.Update("proveedores", valores, Integer.toString(this.Id));
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("proveedor", Integer.toString(this.Id));
+		ConectorBD.bdMySQL.Delete("proveedores", Integer.toString(this.Id));
 	}
 
 	public String getIdPoblacion() {
