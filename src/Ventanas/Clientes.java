@@ -24,6 +24,10 @@ public class Clientes {
 	private JTextField textField_mostrar;
 	private JTextField textField_nombre;
 	private JTextField textField_codigo;
+	private JTextField textField_correo;
+	private JTextField textField_telefono2;
+	private JTextField textField_telefono1;
+	private JTextField textField_direccion;
 	
 	private JPanel panel;
 	private JButton btnMostrar;
@@ -36,6 +40,10 @@ public class Clientes {
 	private JButton btnNuevo ;
 	private JLabel lblCodigo;
 	private JLabel lblNombre;
+	private JLabel lblCorreo;
+	private JLabel lblDireccion;
+	private JLabel lblTelefono1;
+	private JLabel lblTelefono2;
 	private JLabel lblPoblacion;
 	private JComboBox<Poblacion> comboBoxPoblacion;
 	
@@ -148,51 +156,106 @@ public class Clientes {
 				textField_codigo.setColumns(5);
 				textField_codigo.setEditable(false);
 				
-		//****************** NOMBRE ************************************		
-				lblNombre = new JLabel("Nombre");
-				lblNombre.setBounds(139, 10, 57, 14);
-				lblNombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				panel.add(lblNombre);
-				
-				textField_nombre = new JTextField();
-				textField_nombre.setBounds(206, 7, 406, 20);
-				textField_nombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				textField_nombre.setAlignmentX(Component.LEFT_ALIGNMENT);
-				panel.add(textField_nombre);
-				textField_nombre.setColumns(50);
-				textField_nombre.setEditable(false);
-				
-		//****************** POBLACION ************************************
-				lblPoblacion = new JLabel("Poblaci\u00F3n");
-				lblPoblacion.setBounds(639, 10, 89, 14);
-				panel.add(lblPoblacion);
+//****************** NOMBRE ************************************		
+			lblNombre = new JLabel("Nombre");
+			lblNombre.setBounds(139, 10, 57, 14);
+			lblNombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			panel.add(lblNombre);
 			
-				Poblacion aux= new Poblacion(); 
-				ResultSet rs=ConectorBD.bdMySQL.Select("poblaciones", "*", "true");
-				Vector<Poblacion> elementos= new Vector<Poblacion>();
-				elementos.addElement(aux);
-				try {
-					while (rs.next())
-					{
-						Poblacion a= new Poblacion(); 
-						a.setId(rs.getObject(1).toString());
-						a.setPoblacion(rs.getObject(2).toString());
-						elementos.addElement(a);
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				comboBoxPoblacion = new JComboBox<Poblacion>(elementos);
-				comboBoxPoblacion.setBounds(696, 7, 170, 20);
-				comboBoxPoblacion.setVisible(true);
-				comboBoxPoblacion.setAutoscrolls(true);
-				comboBoxPoblacion.setMaximumRowCount(5);
-				comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
-				comboBoxPoblacion.setEnabled(false);
-				panel.add(comboBoxPoblacion);	
+			textField_nombre = new JTextField();
+			textField_nombre.setBounds(206, 7, 406, 20);
+			textField_nombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			textField_nombre.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(textField_nombre);
+			textField_nombre.setColumns(50);
+			textField_nombre.setEditable(false);
+//****************** CORREO ************************************		
+			lblCorreo = new JLabel("Correo");
+			lblCorreo.setBounds(574, 86, 57, 14);
+			lblCorreo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			panel.add(lblCorreo);
+			
+			textField_correo = new JTextField();
+			textField_correo.setBounds(620, 83, 246, 20);
+			textField_correo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			textField_correo.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(textField_correo);
+			textField_correo.setColumns(50);
+			textField_correo.setEditable(false);
 
-		//****************** EDITAR ************************************	
+//****************** DIRECCION ************************************		
+			lblDireccion = new JLabel("Direccion");
+			lblDireccion.setBounds(10, 49, 57, 14);
+			lblDireccion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			panel.add(lblDireccion);
+			
+			textField_direccion = new JTextField();
+			textField_direccion.setBounds(70, 47, 542, 20);
+			textField_direccion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			textField_direccion.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(textField_direccion);
+			textField_direccion.setColumns(50);
+			textField_direccion.setEditable(false);
+			
+//****************** TELEFONOS ************************************		
+			lblTelefono1 = new JLabel("Telefono1");
+			lblTelefono1.setBounds(10, 86, 57, 14);
+			lblTelefono1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			panel.add(lblTelefono1);
+			
+			textField_telefono1 = new JTextField();
+			textField_telefono1.setBounds(70, 83, 187, 20);
+			textField_telefono1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			textField_telefono1.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(textField_telefono1);
+			textField_telefono1.setColumns(50);
+			textField_telefono1.setEditable(false);
+
+			lblTelefono2 = new JLabel("Telefono2");
+			lblTelefono2.setBounds(290, 86, 57, 14);
+			lblTelefono2.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			panel.add(lblTelefono2);
+			
+			textField_telefono2 = new JTextField();
+			textField_telefono2.setBounds(357, 83, 187, 20);
+			textField_telefono2.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			textField_telefono2.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(textField_telefono2);
+			textField_telefono2.setColumns(50);
+			textField_telefono2.setEditable(false);
+				
+				
+//****************** POBLACION ************************************
+			lblPoblacion = new JLabel("Poblaci\u00F3n");
+			lblPoblacion.setBounds(638, 10, 57, 14);
+			panel.add(lblPoblacion);
+		
+			Poblacion aux= new Poblacion(); 
+			ResultSet rs=ConectorBD.bdMySQL.Select("poblaciones", "*", "true");
+			Vector<Poblacion> elementos= new Vector<Poblacion>();
+			elementos.addElement(aux);
+			try {
+				while (rs.next())
+				{
+					Poblacion a= new Poblacion(); 
+					a.setId(rs.getObject(1).toString());
+					a.setPoblacion(rs.getObject(2).toString());
+					elementos.addElement(a);
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			comboBoxPoblacion = new JComboBox<Poblacion>(elementos);
+			comboBoxPoblacion.setBounds(696, 7, 170, 20);
+			comboBoxPoblacion.setVisible(true);
+			comboBoxPoblacion.setAutoscrolls(true);
+			comboBoxPoblacion.setMaximumRowCount(5);
+			comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
+			comboBoxPoblacion.setEnabled(false);
+			panel.add(comboBoxPoblacion);	
+
+//****************** EDITAR ************************************	
 				btnEditar = new JButton("");
 				btnEditar.setToolTipText("Editar");
 				btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/Imagenes/Pencil-icon.png")));
@@ -308,6 +371,7 @@ public class Clientes {
 			//frmClnt.getContentPane().add(list);
 			//list.setEnabled(true);
 			scrollPane.setEnabled(true);
+			
 			
 			
 			list = new JList<ClienteC>(listModel);

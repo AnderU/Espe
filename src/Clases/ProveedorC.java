@@ -4,13 +4,49 @@ import BaseDatos.ConectorBD;
 
 public class ProveedorC implements BaseDatos{
 	private int Id, IdPoblacion;
-	private String proveedor;
+	private String proveedor,direccion, telefono1, telefono2, correo;
 	
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getTelefono1() {
+		return telefono1;
+	}
+
+	public void setTelefono1(String telefono1) {
+		this.telefono1 = telefono1;
+	}
+
+	public String getTelefono2() {
+		return telefono2;
+	}
+
+	public void setTelefono2(String telefono2) {
+		this.telefono2 = telefono2;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
 	public ProveedorC()
 	{
 		Id=0;
 		proveedor="";
 		IdPoblacion=0;
+		correo="";
+		direccion="";
+		telefono1="";
+		telefono2="";
 	}
 	
 	public int getIdPoblacion() {
