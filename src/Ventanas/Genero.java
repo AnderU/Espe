@@ -33,15 +33,15 @@ public class Genero {
 
 	private JFrame frmGnero;
 	private JList<GeneroC> list;
-	private JTextField textField;
-	private JLabel lblNewLabel;
+	private JTextField Genero;
+	private JLabel lblNuevo;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 	private DefaultListModel<GeneroC> listModel;
 	private JButton btnBorrar;
 	private JButton btnEditar;
-	private JButton btnAceptar_1;
-	private JButton btnCancelar_1;
+	private JButton btnAceptar_edit;
+	private JButton btnCancelar_edit;
 	private JScrollPane scrollPane;
 	private JButton btnNuevo ;
 	/**
@@ -49,8 +49,23 @@ public class Genero {
 	 */
 	public Genero() {
 		initialize();
+		setEstadoInicial();
 	}
-
+	public void setEstadoInicial(){
+		list.setEnabled(true);
+		btnAceptar.setVisible(false);
+		btnCancelar.setVisible(false);
+		Genero.setVisible(false);
+		btnAceptar_edit.setVisible(false);
+		btnCancelar_edit.setVisible(false);
+		list.clearSelection();
+		lblNuevo.setVisible(false);
+		btnNuevo.setEnabled(true);
+		btnEditar.setVisible(true);
+		btnBorrar.setVisible(true);
+		btnEditar.setEnabled(false);
+		btnBorrar.setEnabled(false);
+	} 
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -60,24 +75,7 @@ public class Genero {
 		frmGnero.setIconImage(Toolkit.getDefaultToolkit().getImage(Genero.class.getResource("/Imagenes/Animals-Fish-icon.png")));
 		frmGnero.setTitle("G\u00E9nero");
 		frmGnero.getContentPane().setBackground(SystemColor.textHighlight);
-		frmGnero.getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				list.clearSelection();
-				btnEditar.setVisible(false);
-				btnBorrar.setVisible(false);
-				btnNuevo.setVisible(true);
-				btnAceptar_1.setVisible(false);
-				btnCancelar_1.setVisible(false);
-				textField.setText("");
-				textField.setVisible(false);
-				list.setEnabled(true);
-				lblNewLabel.setVisible(false);
-				btnAceptar.setVisible(false);
-				btnCancelar.setVisible(false);
-				
-			}
-		});
+		
 		frmGnero.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 		frmGnero.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frmGnero.getContentPane().setLayout(null);
@@ -107,8 +105,17 @@ public class Genero {
 				list.addListSelectionListener(new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
 						btnEditar.setVisible(true);
+						btnEditar.setEnabled(true);
+						btnBorrar.setEnabled(true);
 						btnBorrar.setVisible(true);
-						btnNuevo.setVisible(false);
+						btnNuevo.setEnabled(true);
+						btnAceptar.setVisible(false);
+						btnCancelar.setVisible(false);
+						list.setEnabled(true);
+						Genero.setVisible(false);
+						btnAceptar_edit.setVisible(false);
+						btnCancelar_edit.setVisible(false);
+						lblNuevo.setVisible(false);
 					}
 				});
 				list.setCellRenderer(new DefaultListCellRenderer() {
@@ -121,166 +128,164 @@ public class Genero {
 		            }
 		        });
 				scrollPane.setViewportView(list);
-				
-				btnNuevo = new JButton("");
-				btnNuevo.setHorizontalAlignment(SwingConstants.LEFT);
-				btnNuevo.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Add-icon.png")));
-				btnNuevo.setToolTipText("Nuevo");
-				btnNuevo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						textField.setVisible(true);
-						lblNewLabel.setVisible(true);
-						btnAceptar.setVisible(true);
-						btnCancelar.setVisible(true);
-						list.setEnabled(false);
-					}
-				});
-				btnNuevo.setBounds(10, 11, 80, 55);
-				frmGnero.getContentPane().add(btnNuevo);
-				
-				textField = new JTextField();
-				textField.setBounds(10, 94, Toolkit.getDefaultToolkit().getScreenSize().width-20, 20);
-				frmGnero.getContentPane().add(textField);
-				textField.setColumns(10);
-				textField.setVisible(false);
-				
-				lblNewLabel = new JLabel("Nuevo:");
-				lblNewLabel.setBounds(10, 69, 46, 14);
-				frmGnero.getContentPane().add(lblNewLabel);
-				
-				btnAceptar = new JButton("");
-				btnAceptar.setToolTipText("Aceptar");
-				btnAceptar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Accept-icon.png")));
-				btnAceptar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						textField.setVisible(false);
-						lblNewLabel.setVisible(false);
-						btnAceptar.setVisible(false);
-						btnCancelar.setVisible(false);
-						list.setEnabled(true);
-						if (!textField.getText().equals(""))
-						{
-							GeneroC aux= new GeneroC();
-							aux.setGenero(textField.getText().toUpperCase());
-							aux.Insert();
-							listModel.addElement(aux);
-						}
-					}
-				});
-				btnAceptar.setBounds(100, 11, 80, 55);
+//------------------------------NUEVO------------------------------
+		btnNuevo = new JButton("");
+		btnNuevo.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNuevo.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Add-icon.png")));
+		btnNuevo.setToolTipText("Nuevo");
+		btnNuevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnNuevo.setEnabled(false);
+				btnAceptar.setVisible(true);
+				btnCancelar.setVisible(true);
+				Genero.setVisible(true);
+				Genero.setText("");
+				list.setEnabled(false);
+				btnEditar.setEnabled(false);
+				btnBorrar.setEnabled(false);
+				lblNuevo.setVisible(true);
+			}
+		});
+		btnNuevo.setBounds(10, 11, 80, 55);
+		frmGnero.getContentPane().add(btnNuevo);
+			
+//------------------------------GENERO------------------------------		
+		Genero = new JTextField();
+		Genero.setBounds(79, 90, 461, 20);
+		frmGnero.getContentPane().add(Genero);
+		Genero.setColumns(10);
+		Genero.setVisible(false);
+		
+		lblNuevo = new JLabel("Nuevo");
+		lblNuevo.setBounds(21, 93, 46, 14);
+		frmGnero.getContentPane().add(lblNuevo);
+		
+//------------------------------ACEPTAR------------------------------
+		btnAceptar = new JButton("");
+		btnAceptar.setToolTipText("Aceptar");
+		btnAceptar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Accept-icon.png")));
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Genero.setVisible(false);
+				lblNuevo.setVisible(false);
 				btnAceptar.setVisible(false);
-				frmGnero.getContentPane().add(btnAceptar);
-				
-				btnCancelar = new JButton("");
-				btnCancelar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Cancel-icon.png")));
-				btnCancelar.setToolTipText("Cancelar");
-				btnCancelar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						textField.setVisible(false);
-						lblNewLabel.setVisible(false);
-						btnAceptar.setVisible(false);
-						btnCancelar.setVisible(false);
-						textField.setText("");
-						list.setEnabled(true);
-					}
-				});
-				btnCancelar.setBounds(190, 11, 80, 55);
 				btnCancelar.setVisible(false);
-				frmGnero.getContentPane().add(btnCancelar);
+				list.setEnabled(true);
+				if (!Genero.getText().equals(""))
+				{
+					GeneroC aux= new GeneroC();
+					aux.setGenero(Genero.getText().toUpperCase());
+					aux.Insert();
+					listModel.addElement(aux);
+				}
+				setEstadoInicial();
+			}
+		});
+		btnAceptar.setBounds(355, 11, 80, 55);
+		btnAceptar.setVisible(false);
+		frmGnero.getContentPane().add(btnAceptar);
 				
-				btnBorrar = new JButton("");
-				btnBorrar.setToolTipText("Borrar");
-				btnBorrar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Delete-icon.png")));
-				btnBorrar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						int result = JOptionPane.showConfirmDialog(frmGnero, "¿Quiere borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
-						if (result==JOptionPane.OK_OPTION)
-						{
-							GeneroC aux= new GeneroC();
-							aux.setGenero(list.getSelectedValue().getGenero());
-							aux.setId(list.getSelectedValue().getId());
-							aux.Delete();
-							listModel.remove(list.getSelectedIndex());
-						}
-					}
-				});
-				btnBorrar.setBounds(100, 11, 80, 55);
-				frmGnero.getContentPane().add(btnBorrar);
+//------------------------------CANCELAR------------------------------
+		btnCancelar = new JButton("");
+		btnCancelar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Delete-icon.png")));
+		btnCancelar.setToolTipText("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setEstadoInicial();
+			}
+		});
+		btnCancelar.setBounds(460, 11, 80, 55);
+		btnCancelar.setVisible(false);
+		frmGnero.getContentPane().add(btnCancelar);
+		
+//------------------------------BORRAR------------------------------		
+		btnBorrar = new JButton("");
+		btnBorrar.setToolTipText("Borrar");
+		btnBorrar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Trash-icon.png")));
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
-				btnEditar = new JButton("");
-				btnEditar.setToolTipText("Editar");
-				btnEditar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Pencil-icon.png")));
-				btnEditar.setHorizontalAlignment(SwingConstants.LEFT);
-				btnEditar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						if (!list.isSelectionEmpty())
-						{
-						
-							textField.setVisible(true);
-							btnAceptar_1.setVisible(true);
-							btnCancelar_1.setVisible(true);
-							textField.setText(list.getSelectedValue().getGenero());
-							list.setEnabled(false);
-							btnBorrar.setVisible(false);
-						}
-						
-					}
-				});
-				btnEditar.setBounds(10, 11, 80, 55);
-				frmGnero.getContentPane().add(btnEditar);
+				int result = JOptionPane.showConfirmDialog(frmGnero, "¿Quiere borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+				if (result==JOptionPane.OK_OPTION)
+				{
+					GeneroC aux= new GeneroC();
+					aux.setGenero(list.getSelectedValue().getGenero());
+					aux.setId(list.getSelectedValue().getId());
+					aux.Delete();
+					listModel.remove(list.getSelectedIndex());
+				}
+				setEstadoInicial();
+			}
+		});
+		btnBorrar.setBounds(214, 11, 80, 55);
+		frmGnero.getContentPane().add(btnBorrar);
+		
+//------------------------------EDITAR------------------------------		
+		btnEditar = new JButton("");
+		btnEditar.setToolTipText("Editar");
+		btnEditar.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Pencil-icon.png")));
+		btnEditar.setHorizontalAlignment(SwingConstants.LEFT);
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
-				btnEditar.setVisible(false);
-				btnBorrar.setVisible(false);
+				if (!list.isSelectionEmpty())
+				{
+					Genero.setText(list.getSelectedValue().getGenero());
+					Genero.setVisible(true);
+					btnBorrar.setEnabled(false);
+					btnEditar.setEnabled(false);
+					btnNuevo.setEnabled(false);
+					btnAceptar_edit.setVisible(true);
+					btnCancelar_edit.setVisible(true);
+					list.setEnabled(false);
+					lblNuevo.setVisible(true);
+				}
 				
-				btnAceptar_1 = new JButton("");
-				btnAceptar_1.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Accept-icon.png")));
-				btnAceptar_1.setToolTipText("Aceptar");
-				btnAceptar_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						textField.setVisible(false);
-						btnAceptar_1.setVisible(false);
-						btnCancelar_1.setVisible(false);
-						list.setEnabled(true);
-						if (!textField.getText().equals(""))
-						{
-							GeneroC aux= new GeneroC();
-							aux.setGenero(textField.getText().toUpperCase());
-							aux.setId(list.getSelectedValue().getId());
-							aux.Update();
-							listModel.remove(list.getSelectedIndex());
-							listModel.addElement(aux);
-							list.setSelectedIndex(list.getLastVisibleIndex());
-						}
-						textField.setText("");
-					}
-				});
-				btnAceptar_1.setBounds(100, 11, 80, 55);
-				frmGnero.getContentPane().add(btnAceptar_1);
+			}
+		});
+		btnEditar.setBounds(112, 11, 80, 55);
+		frmGnero.getContentPane().add(btnEditar);
+		
+		btnEditar.setVisible(false);
+		btnBorrar.setVisible(false);
 				
-				btnCancelar_1 = new JButton("");
-				btnCancelar_1.setToolTipText("Cancelar");
-				btnCancelar_1.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Cancel-icon.png")));
-				btnCancelar_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						textField.setVisible(false);
-						btnAceptar_1.setVisible(false);
-						btnCancelar_1.setVisible(false);
-						textField.setText("");
-						list.setEnabled(true);
-						btnBorrar.setVisible(true);
-					}
-				});
-				btnCancelar_1.setBounds(190, 11, 80, 55);
-				frmGnero.getContentPane().add(btnCancelar_1);
+//------------------------------ACEPTAR EDIT------------------------------
+		btnAceptar_edit = new JButton("");
+		btnAceptar_edit.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Accept-icon.png")));
+		btnAceptar_edit.setToolTipText("Aceptar");
+		btnAceptar_edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!Genero.getText().equals(""))
+				{
+					GeneroC aux= new GeneroC();
+					aux.setGenero(Genero.getText().toUpperCase());
+					aux.setId(list.getSelectedValue().getId());
+					aux.Update();
+					listModel.remove(list.getSelectedIndex());
+					listModel.addElement(aux);
+					list.setSelectedIndex(list.getLastVisibleIndex());
+				}
+				setEstadoInicial();
+			}
+		});
+		btnAceptar_edit.setBounds(355, 11, 80, 55);
+		frmGnero.getContentPane().add(btnAceptar_edit);
 				
-				btnAceptar_1.setVisible(false);
-				btnCancelar_1.setVisible(false);
+//------------------------------CANCELAR EDIT------------------------------
+		btnCancelar_edit = new JButton("");
+		btnCancelar_edit.setToolTipText("Cancelar");
+		btnCancelar_edit.setIcon(new ImageIcon(Genero.class.getResource("/Imagenes/Delete-icon.png")));
+		btnCancelar_edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
+				setEstadoInicial();
+			}
+		});
+		btnCancelar_edit.setBounds(460, 11, 80, 55);
+		frmGnero.getContentPane().add(btnCancelar_edit);
 				
-				lblNewLabel.setVisible(false);
+			
 		
 	
 		frmGnero.setVisible(true);
