@@ -3,8 +3,8 @@ package Clases;
 import BaseDatos.ConectorBD;
 
 public class ProveedorC implements BaseDatos{
-	private int Id, IdPoblacion;
-	private String proveedor,direccion, telefono1, telefono2, correo;
+	private int Id;
+	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo;
 	
 	public String getDireccion() {
 		return direccion;
@@ -42,20 +42,14 @@ public class ProveedorC implements BaseDatos{
 	{
 		Id=0;
 		proveedor="";
-		IdPoblacion=0;
+		setIdPoblacion("");
 		correo="";
 		direccion="";
 		telefono1="";
 		telefono2="";
 	}
 	
-	public int getIdPoblacion() {
-		return IdPoblacion;
-	}
 
-	public void setIdPoblacion(int IdPoblacion) {
-		this.IdPoblacion = IdPoblacion;
-	}
 
 	public int getId() {
 		return Id;
@@ -86,6 +80,14 @@ public class ProveedorC implements BaseDatos{
 	public void Delete() {
 		// TODO Auto-generated method stub
 		ConectorBD.bdMySQL.Delete("proveedor", Integer.toString(this.Id));
+	}
+
+	public String getIdPoblacion() {
+		return IdPoblacion;
+	}
+
+	public void setIdPoblacion(String idPoblacion) {
+		IdPoblacion = idPoblacion;
 	}
 
 }

@@ -160,7 +160,7 @@ public class Proveedores {
 							ProveedorC aux= new ProveedorC();
 							aux.setProveedor(rs.getObject(2).toString());
 							aux.setId(Integer.parseInt(rs.getObject(1).toString()));
-							aux.setIdPoblacion(Integer.parseInt(rs.getObject(3).toString()));
+							aux.setIdPoblacion(rs.getObject(3).toString());
 							listModel.addElement(aux);
 						}
 					}
@@ -369,7 +369,7 @@ public class Proveedores {
 					aux.setProveedor(textField_nombre.getText());
 					if (comboBoxPoblacion.getSelectedIndex()!=0)
 						//aux.setIdPoblacion(Integer.toString(comboBoxPoblacion.getSelectedIndex()));
-						aux.setIdPoblacion(comboBoxPoblacion.getSelectedIndex());
+						aux.setIdPoblacion(Integer.toString(comboBoxPoblacion.getSelectedIndex()));
 					aux.Insert();
 					listModel.addElement(aux);
 				}				
@@ -406,7 +406,7 @@ public class Proveedores {
 						ProveedorC aux1= new ProveedorC();
 						aux1.setProveedor(rs1.getObject(2).toString());
 						aux1.setId(Integer.parseInt(rs1.getObject(1).toString()));
-						aux1.setIdPoblacion(Integer.parseInt(rs1.getObject(3).toString()));
+						aux1.setIdPoblacion(rs1.getObject(3).toString());
 						listModel.addElement(aux1);
 					}
 				}
@@ -435,7 +435,7 @@ public class Proveedores {
 			btnAceptar.setVisible(false);
 			textField_codigo.setText(Integer.toString(list.getSelectedValue().getId()));
 			textField_nombre.setText(list.getSelectedValue().getProveedor());
-			comboBoxPoblacion.setSelectedItem(Integer.toString(list.getSelectedValue().getIdPoblacion()));
+			comboBoxPoblacion.setSelectedItem(list.getSelectedValue().getIdPoblacion());
 		}
 	});		
 	
