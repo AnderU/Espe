@@ -2,9 +2,9 @@ package Clases;
 
 import BaseDatos.ConectorBD;
 
-public class ProveedorC implements BaseDatos{
+public class ClienteC implements BaseDatos{
 	private int Id, IdPoblacion;
-	private String proveedor,direccion, telefono1, telefono2, correo;
+	private String cliente, direccion, telefono1, telefono2, correo;
 	
 	public String getDireccion() {
 		return direccion;
@@ -38,15 +38,16 @@ public class ProveedorC implements BaseDatos{
 		this.correo = correo;
 	}
 
-	public ProveedorC()
+	public ClienteC()
 	{
 		Id=0;
-		proveedor="";
+		cliente="";
 		IdPoblacion=0;
 		correo="";
 		direccion="";
 		telefono1="";
 		telefono2="";
+		
 	}
 	
 	public int getIdPoblacion() {
@@ -63,29 +64,29 @@ public class ProveedorC implements BaseDatos{
 	public void setId(int id) {
 		Id = id;
 	}
-	public String getProveedor() {
-		return proveedor;
+	public String getCliente() {
+		return cliente;
 	}
-	public void setProveedor(String proveedor) {
-		this.proveedor = proveedor;
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
 	}
 	
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor+"'";
-		ConectorBD.bdMySQL.Insert("proveedor",valores);
+		String valores="'"+cliente+"'";
+		ConectorBD.bdMySQL.Insert("cliente",valores);
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor+"'";
-		ConectorBD.bdMySQL.Update("proveedor", valores, Integer.toString(this.Id));
+		String valores="'"+cliente+"'";
+		ConectorBD.bdMySQL.Update("cliente", valores, Integer.toString(this.Id));
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("proveedor", Integer.toString(this.Id));
+		ConectorBD.bdMySQL.Delete("cliente", Integer.toString(this.Id));
 	}
 
 }
