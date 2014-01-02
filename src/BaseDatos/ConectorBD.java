@@ -126,7 +126,9 @@ public class ConectorBD {
 		try {
 			  
 			Class.forName("com.mysql.jdbc.Driver");
-			conexion = DriverManager.getConnection("jdbc:mysql://localhost/"+db,"root","espe");
+			//conexion = DriverManager.getConnection("jdbc:mysql://localhost/"+db,"root","espe");
+			conexion = DriverManager.getConnection("jdbc:mysql://db4free.net:3306/"+db,"anderyaitor","010190291290");
+			
 			st= conexion.createStatement();
 			st1= conexion.createStatement();
 			meta=conexion.getMetaData();
@@ -134,6 +136,7 @@ public class ConectorBD {
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			System.out.print("dfhkdfbhkjbdjsk");
 		}
 		
 	}

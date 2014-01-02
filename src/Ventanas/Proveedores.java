@@ -59,6 +59,8 @@ public class Proveedores {
 	private JLabel lblNombre;
 	private JLabel lblPoblacion;
 	private JComboBox<Poblacion> comboBoxPoblacion;
+	private JButton btnCancelar_1;
+	private JButton btnAceptar_1;
 	
 	/**
 	 * Launch the application.
@@ -248,8 +250,8 @@ public class Proveedores {
 				
 				if (!list.isSelectionEmpty())
 				{
-					btnAceptar.setVisible(true);
-					btnCancelar.setVisible(true);
+					btnAceptar_1.setVisible(true);
+					btnCancelar_1.setVisible(true);
 					list.setEnabled(false);
 					btnEditar.setVisible(false);
 					btnBorrar.setVisible(false);
@@ -309,6 +311,8 @@ public class Proveedores {
 					listModel.addElement(aux);
 				}				
 				textField_mostrar.setEditable(true);
+				btnAceptar.setVisible(false);
+				btnCancelar.setVisible(false);
 				
 			}
 		});
@@ -316,6 +320,12 @@ public class Proveedores {
 		
 //****************** CANCELAR ************************************	
 		btnCancelar = new JButton("");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAceptar.setVisible(false);
+				btnCancelar.setVisible(false);
+			}
+		});
 		btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
 		btnCancelar.setBounds(1251, 244, 80, 55);
 		frmProvdor.getContentPane().add(btnCancelar);
@@ -378,6 +388,51 @@ public class Proveedores {
         return renderer;
         }
     });
+	
+	btnAceptar_1 = new JButton("");
+	btnAceptar_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			
+			if (!textField_nombre.getText().equals(""))
+			{				
+				ProveedorC aux= new ProveedorC();
+				aux.setProveedor(textField_nombre.getText());
+				if (comboBoxPoblacion.getSelectedIndex()!=0)
+					aux.setIdPoblacion(Integer.toString(comboBoxPoblacion.getSelectedIndex()));
+				aux.Update();
+				listModel.remove(list.getSelectedIndex());
+				listModel.addElement(aux);
+			}				
+			textField_mostrar.setEditable(true);
+			btnAceptar_1.setVisible(false);
+			btnCancelar_1.setVisible(false);
+			
+		}
+	});
+	btnAceptar_1.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Accept-icon.png")));
+	btnAceptar_1.setToolTipText("Aceptar");
+	btnAceptar_1.setBounds(1161, 244, 80, 55);
+	btnAceptar_1.setVisible(false);
+	frmProvdor.getContentPane().add(btnAceptar_1);
+	
+	btnCancelar_1 = new JButton("");
+	btnCancelar_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			btnAceptar_1.setVisible(false);
+			btnCancelar_1.setVisible(false);
+			btnEditar.setVisible(true);
+			btnBorrar.setVisible(true);
+			textField_nombre.setEnabled(false);
+			comboBoxPoblacion.setEnabled(false);
+			
+			
+		}
+	});
+	btnCancelar_1.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
+	btnCancelar_1.setToolTipText("Cancelar");
+	btnCancelar_1.setVisible(false);
+	btnCancelar_1.setBounds(1251, 244, 80, 55);
+	frmProvdor.getContentPane().add(btnCancelar_1);
 	
 	
 //------------------------------------------
