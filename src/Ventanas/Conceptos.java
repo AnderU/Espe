@@ -25,7 +25,6 @@ import javax.swing.table.DefaultTableModel;
 import BaseDatos.ConectorBD;
 import Clases.ConceptosC;
 import Clases.GrupoConcepto;
-import Clases.TablaConceptos;
 
 import Clases.TipoConcepto;
 
@@ -37,6 +36,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+
+import Tablas.TablaConceptos;
 
 
 public class Conceptos {

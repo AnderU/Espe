@@ -1,24 +1,26 @@
-package Clases;
+package Tablas;
 
 import java.util.Vector;
 
 
 import javax.swing.table.AbstractTableModel;
 
+import Clases.ConfiguracionC;
 
-public class TablaConceptos extends AbstractTableModel {
 
-    private Vector<ConceptosC> conceptos;
+public class TablaConfiguracion extends AbstractTableModel {
+
+    private Vector<ConfiguracionC> conceptos;
     private Vector<String> nombresColumnas;
 
-    public TablaConceptos(Vector<ConceptosC> conceptos,Vector<String> nombresColumnas) {
+    public TablaConfiguracion(Vector<ConfiguracionC> conceptos,Vector<String> nombresColumnas) {
 
-    	this.conceptos = new Vector<ConceptosC>(conceptos);
+    	this.conceptos = new Vector<ConfiguracionC>(conceptos);
         this.nombresColumnas= new Vector<String> (nombresColumnas);
         fireTableStructureChanged();
     }
 
-    public void insertRow(ConceptosC rowData) {
+    public void insertRow(ConfiguracionC rowData) {
     	conceptos.addElement(rowData);
         fireTableRowsInserted(conceptos.size(),conceptos.size());
     }
@@ -36,38 +38,25 @@ public class TablaConceptos extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 2;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         Object value = "??";
-        ConceptosC conceptos = this.conceptos.get(rowIndex);
+        ConfiguracionC conceptos = this.conceptos.get(rowIndex);
         switch (columnIndex) {
 
             case 0:
-                value = conceptos.getConcepto();
+                value = conceptos.getNombre();
                 break;
             case 1:
-                value = conceptos.getPatron();
+                value = conceptos.getValor();
                 break;
             case 2:
-                value = conceptos.getTipo();
-                break;
-            case 3:
-                value = conceptos.getGrupo();
-                break;
-            case 4:
-            	value = conceptos.getIdTipo();
-            	break;
-            case 5:
-            	value = conceptos.getIdGrupo();
-            	break;
-            case 6:
                 value = conceptos.getId();
                 break;
-            	
         }
 
         return value;
@@ -82,22 +71,18 @@ public class TablaConceptos extends AbstractTableModel {
     //Override this if you want the values to be editable...
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-    	ConceptosC rowVector = (ConceptosC) this.conceptos.elementAt(rowIndex);
+    	ConfiguracionC rowVector = (ConfiguracionC) this.conceptos.elementAt(rowIndex);
     	 switch (columnIndex) {
 
          case 0:
-        	 rowVector.setConcepto((String) aValue);
+        	 rowVector.setNombre((String) aValue);
              break;
          case 1:
-        	 rowVector.setPatron((String) aValue);
+        	 rowVector.setValor((String) aValue);
              break;
          case 2:
-        	 rowVector.setTipo((String) aValue);
+        	 rowVector.setId((String) aValue);
              break;
-         case 3:
-        	 rowVector.setGrupo((String) aValue);
-             break;
-         	
      }
         
         fireTableCellUpdated(rowIndex, columnIndex);
@@ -109,9 +94,13 @@ public class TablaConceptos extends AbstractTableModel {
      * @param row
      * @return 
      */
-    public ConceptosC getUserAt(int row) {
+    public ConfiguracionC getUserAt(int row) {
 
         return conceptos.get(row);
+    }
+    
+    public boolean isCellEditable(int row, int column) {
+        return true;
     }
 
 }

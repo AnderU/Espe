@@ -14,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import BaseDatos.ConectorBD;
 import Clases.ConfiguracionC;
 import Clases.ConfiguracionConexion;
-import Clases.TablaConfiguracion;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,6 +31,8 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JFormattedTextField;
+
+import Tablas.TablaConfiguracion;
 
 
 public class Configuracion {
