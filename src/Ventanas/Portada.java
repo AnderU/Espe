@@ -18,6 +18,7 @@ import BaseDatos.*;
 import Clases.GeneroC;
 import java.awt.Window.Type;
 import javax.swing.ImageIcon;
+import java.awt.Insets;
 
 
 public class Portada {
@@ -101,69 +102,83 @@ public class Portada {
 		frmPortada.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPortada.getContentPane().setLayout(null);
 		
-		btnGenero = new JButton("G\u00E9nero");
+		btnGenero = new JButton("");
+		btnGenero.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Animals-Fish-icon48.png")));
+		btnGenero.setToolTipText("G\u00E9nero");
 		btnGenero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				vGenero=new Genero();
 			}
 		});
-		btnGenero.setBounds(10, 11, anchoP/nBotones, 23);
+		btnGenero.setBounds(10, 11, 80, 55);
 		frmPortada.getContentPane().add(btnGenero);
 		
-		btnConcepto = new JButton("Conceptos");
+		btnConcepto = new JButton("");
+		btnConcepto.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Kitchen-List-ingredients-icon.png")));
+		btnConcepto.setToolTipText("Conceptos");
 		btnConcepto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vConceptos=new Conceptos();
 			}
 		});
-		btnConcepto.setBounds(144, 11,anchoP/nBotones , 23);
+		btnConcepto.setBounds(100, 11,80 , 55);
 		frmPortada.getContentPane().add(btnConcepto);
 		
-		btnProveedores = new JButton("Proveedores");
+		btnProveedores = new JButton("");
+		btnProveedores.setMargin(new Insets(0, 14, 2, 14));
+		btnProveedores.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Transport-Cargo-ship-icon.png")));
+		btnProveedores.setToolTipText("Proveedores");
 		btnProveedores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				vProveedores=new Proveedores();
 			}
 		});
-		btnProveedores.setBounds(278, 11, anchoP/nBotones, 23);
+		btnProveedores.setBounds(190, 11, 80, 55);
 		frmPortada.getContentPane().add(btnProveedores);
 		
-		btnClientes = new JButton("Clientes");
+		btnClientes = new JButton("");
+		btnClientes.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Users-icon.png")));
+		btnClientes.setToolTipText("Clientes");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vClientes= new Clientes();
 			}
 		});
-		btnClientes.setBounds(412, 11, anchoP/nBotones, 23);
+		btnClientes.setBounds(280, 11, 80, 55);
 		frmPortada.getContentPane().add(btnClientes);
 		
-		btnCompras = new JButton("Compras");
+		btnCompras = new JButton("");
+		btnCompras.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Ecommerce-Buy-icon.png")));
+		btnCompras.setToolTipText("Compras");
 		btnCompras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vCompras= new Compras();
 			}
 		});
-		btnCompras.setBounds(546, 11, anchoP/nBotones, 23);
+		btnCompras.setBounds(370, 11, 80, 55);
 		frmPortada.getContentPane().add(btnCompras);
 		
-		btnFacturasDeProveedores = new JButton("Facturas de Proveedores");
+		btnFacturasDeProveedores = new JButton("");
+		btnFacturasDeProveedores.setMargin(new Insets(0, 14, 4, 14));
+		btnFacturasDeProveedores.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/fp.png")));
 		btnFacturasDeProveedores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vFacturasProveedores=new FacturasProveedores();
 			}
 		});
 		btnFacturasDeProveedores.setToolTipText("Facturas de Proveedores");
-		btnFacturasDeProveedores.setBounds(680, 11, anchoP/nBotones, 23);
+		btnFacturasDeProveedores.setBounds(460, 11, 80, 55);
 		frmPortada.getContentPane().add(btnFacturasDeProveedores);
 		
-		btnFacturasAClientes = new JButton("Facturas a Clientes");
+		btnFacturasAClientes = new JButton("");
+		btnFacturasAClientes.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/fc.png")));
 		btnFacturasAClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vFacturasClientes = new FacturasClientes();
 			}
 		});
 		btnFacturasAClientes.setToolTipText("Facturas a Clientes");
-		btnFacturasAClientes.setBounds(814, 11, anchoP/nBotones, 23);
+		btnFacturasAClientes.setBounds(550, 11, 80, 55);
 		frmPortada.getContentPane().add(btnFacturasAClientes);
 		
 		btnConfiguracion = new JButton("");
@@ -174,27 +189,27 @@ public class Portada {
 			}
 		});
 		btnConfiguracion.setToolTipText("Configuracion");
-		btnConfiguracion.setBounds(1216, 11, 80, 55);
+		btnConfiguracion.setBounds(820, 11, 80, 55);
 		frmPortada.getContentPane().add(btnConfiguracion);
 		
-		btnMovimientos = new JButton("Movimientos");
+		btnMovimientos = new JButton("");
 		btnMovimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vMovimientos=new Movimientos();
 			}
 		});
 		btnMovimientos.setToolTipText("Movimientos");
-		btnMovimientos.setBounds(948, 11, anchoP/nBotones, 23);
+		btnMovimientos.setBounds(640, 11, 80, 55);
 		frmPortada.getContentPane().add(btnMovimientos);
 		
-		btnBalances = new JButton("Balances");
+		btnBalances = new JButton("");
 		btnBalances.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vBalances= new Balances();
 			}
 		});
 		btnBalances.setToolTipText("Balances");
-		btnBalances.setBounds(1082, 11, anchoP/nBotones, 23);
+		btnBalances.setBounds(730, 11, 80, 55);
 		frmPortada.getContentPane().add(btnBalances);
 		
 		JLabel lblTitulo1 = new JLabel("PESCADER\u00CDA");
