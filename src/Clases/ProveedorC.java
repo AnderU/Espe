@@ -4,7 +4,7 @@ import BaseDatos.ConectorBD;
 
 public class ProveedorC implements BaseDatos{
 	private int Id;
-	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo , fax , web, cp , provincia  , nif, cuentaCorriente, banco , observaciones;
+	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo , fax , web, cp , IdProvincia  , nif, cuentaCorriente, banco , observaciones;
 	
 	public String getFax() {
 		return fax;
@@ -28,14 +28,6 @@ public class ProveedorC implements BaseDatos{
 
 	public void setCp(String cp) {
 		this.cp = cp;
-	}
-
-	public String getProvincia() {
-		return provincia;
-	}
-
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
 	}
 
 	public String getNif() {
@@ -141,7 +133,7 @@ public class ProveedorC implements BaseDatos{
 		valores+="'"+this.fax+"' , ";
 		valores+="'"+this.web+"' , ";
 		valores+="'"+this.cp+"' ,  ";
-		valores+="'"+this.provincia+"' , ";
+		valores+="'"+this.IdProvincia+"' , ";
 		valores+="'"+this.nif+"' , ";
 		valores+="'"+this.cuentaCorriente+"' , ";
 		valores+="'"+this.banco+"' ,";
@@ -160,7 +152,7 @@ public class ProveedorC implements BaseDatos{
 		valores+="'"+this.fax+"' , ";
 		valores+="'"+this.web+"' , ";
 		valores+="'"+this.cp+"' ,  ";
-		valores+="'"+this.provincia+"' , ";
+		valores+="'"+this.IdProvincia+"' , ";
 		valores+="'"+this.nif+"' , ";
 		valores+="'"+this.cuentaCorriente+"' , ";
 		valores+="'"+this.banco+"' ,";
@@ -179,6 +171,14 @@ public class ProveedorC implements BaseDatos{
 
 	public void setIdPoblacion(String idPoblacion) {
 		IdPoblacion = idPoblacion;
+	}
+
+	public String getIdProvincia() {
+		return IdProvincia;
+	}
+
+	public void setIdProvincia(String idProvincia) {
+		IdProvincia = idProvincia;
 	}
 
 }
