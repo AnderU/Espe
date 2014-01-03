@@ -1,6 +1,14 @@
 package BaseDatos;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.*;
+
+import javax.swing.JOptionPane;
+
+import Clases.ConfiguracionConexion;
 
 public class ConectorBD {
 	
@@ -124,10 +132,34 @@ public class ConectorBD {
 	public void ConectarMysql(String db)
 	{
 		try {
-			  
+			
+			ConfiguracionConexion aux = null;
+			try
+			{
+				FileInputStream fic= new FileInputStream("cbd.conf");
+				ObjectInputStream lector= new ObjectInputStream(fic);
+				
+				aux=(ConfiguracionConexion) lector.readObject();
+
+				
+			}
+			catch(FileNotFoundException e)
+			{
+				
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String puerto="";
+			if (!aux.getPuerto().equals(""))
+			{
+				puerto=":"+aux.getPuerto();
+			}
 			Class.forName("com.mysql.jdbc.Driver");
-			//conexion = DriverManager.getConnection("jdbc:mysql://localhost/"+db,"root","espe");
-			conexion = DriverManager.getConnection("jdbc:mysql://db4free.net:3306/"+db,"anderyaitor","010190291290");
+			conexion = DriverManager.getConnection("jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName(),aux.getUser(),aux.getPassword());
 			st= conexion.createStatement();
 			st1= conexion.createStatement();
 			meta=conexion.getMetaData();
@@ -135,7 +167,7 @@ public class ConectorBD {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.print("dfhkdfbhkjbdjsk");
+			JOptionPane.showMessageDialog(null, "Por favor configure la conexión a la base de datos, en el apartado configuración de la herramienta");
 		}
 		
 	}

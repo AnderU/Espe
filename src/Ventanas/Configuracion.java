@@ -29,6 +29,9 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JFormattedTextField;
 
 
 public class Configuracion {
@@ -45,6 +48,9 @@ public class Configuracion {
 	private JTextField textField_Nombre;
 	private JTextField textField_User;
 	private JTextField textField_Password;
+	private JRadioButton rdbtnLocal;
+	private JRadioButton rdbtnRemota;
+	private JButton btnConectar;
 
 	/**
 	 * Launch the application.
@@ -81,13 +87,38 @@ public class Configuracion {
 		Pestanas.addTab("Conexión", null, Conexion, null);
 		Conexion.setLayout(null);
 		
-		JRadioButton rdbtnLocal = new JRadioButton("Local");
+		rdbtnLocal = new JRadioButton("Local");
+		rdbtnLocal.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if (rdbtnLocal.isSelected())
+				{
+					textField_Nombre.setEditable(false);
+					textField_Password.setEditable(false);
+					textField_Puerto.setEditable(false);
+					textField_Servidor.setEditable(false);
+					textField_User.setEditable(false);
+					
+					textField_Nombre.setText("espedb");
+					textField_Password.setText("espe");
+					textField_Puerto.setText("");
+					textField_Servidor.setText("localhost");
+					textField_User.setText("root");
+				}
+				else
+				{
+					textField_Nombre.setEditable(true);
+					textField_Password.setEditable(true);
+					textField_Puerto.setEditable(true);
+					textField_Servidor.setEditable(true);
+					textField_User.setEditable(true);
+				}
+			}
+		});
 		Local_Remota.add(rdbtnLocal);
 		rdbtnLocal.setBounds(6, 7, 109, 23);
 		Conexion.add(rdbtnLocal);
 		
-		JRadioButton rdbtnRemota = new JRadioButton("Remota");
-		rdbtnRemota.setSelected(true);
+		rdbtnRemota = new JRadioButton("Remota");
 		Local_Remota.add(rdbtnRemota);
 		rdbtnRemota.setBounds(117, 7, 109, 23);
 		Conexion.add(rdbtnRemota);
@@ -169,20 +200,34 @@ public class Configuracion {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				frame.dispose();
 				
 			}
 		});
 		btnAceptar_1.setBounds(431, 398, 89, 23);
 		Conexion.add(btnAceptar_1);
 		
+		btnConectar = new JButton("Conectar");
+		btnConectar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ConectorBD.bdMySQL=null;
+				ConectorBD.bdMySQL.ConectarMysql("espedb");
+			}
+		});
+		btnConectar.setBounds(117, 204, 216, 23);
+		Conexion.add(btnConectar);
+		
+	
 				
 		Vector <String> columnNames = new  Vector <String>(); 
 		columnNames.add("Parámetro");
 		columnNames.add("Valor");
 		Vector<ConfiguracionC> vectorTabla= new Vector<ConfiguracionC>();
-        ResultSet rs=ConectorBD.bdMySQL.Select("configuracion", "*", "true");
+        
 		
         try {
+        	ResultSet rs=ConectorBD.bdMySQL.Select("configuracion", "*", "true");
 			while (rs.next())
 			{
 				ConfiguracionC fila= new ConfiguracionC();
@@ -195,6 +240,10 @@ public class Configuracion {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        catch (Throwable e)
+        {
+        	
+        }
         
         model = new TablaConfiguracion(vectorTabla, columnNames);
 		Parametros.setLayout(null);
@@ -236,10 +285,8 @@ public class Configuracion {
 			FileInputStream fic= new FileInputStream("cbd.conf");
 			ObjectInputStream lector= new ObjectInputStream(fic);
 			
-			while (true)
-			{
-				aux=(ConfiguracionConexion) lector.readObject();
-			}
+			aux=(ConfiguracionConexion) lector.readObject();
+
 			
 		}
 		catch(FileNotFoundException e)
@@ -255,26 +302,29 @@ public class Configuracion {
 		
 		if (aux!=null)
 		{
+			if (aux.getServer().equals("localhost"))
+			{
+				this.rdbtnLocal.setSelected(true);
+			}
+			else
+			{
+				this.rdbtnRemota.setSelected(true);
+				
+			}
 			textField_Nombre.setText(aux.getDbName());
 			textField_Password.setText(aux.getPassword());
 			textField_Puerto.setText(aux.getPuerto());
 			textField_Servidor.setText(aux.getServer());
 			textField_User.setText(aux.getUser());
-			
 		}
 		else
 		{
-			textField_Nombre.setText("espedbaaa");
+			textField_Nombre.setText("espedb");
 			textField_Password.setText("010190291290");
 			textField_Puerto.setText(":3306");
 			textField_Servidor.setText("db4free.net");
 			textField_User.setText("anderyaitor");
 		}
-
-
-		
-		
-		
 		frame.setVisible(true);
 	}
 }
