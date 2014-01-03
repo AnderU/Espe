@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import BaseDatos.*;
 import Clases.GeneroC;
 import java.awt.Window.Type;
+import javax.swing.ImageIcon;
 
 
 public class Portada {
@@ -165,14 +166,15 @@ public class Portada {
 		btnFacturasAClientes.setBounds(814, 11, anchoP/nBotones, 23);
 		frmPortada.getContentPane().add(btnFacturasAClientes);
 		
-		btnConfiguracion = new JButton("Configuracion");
+		btnConfiguracion = new JButton("");
+		btnConfiguracion.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Settings-icon.png")));
 		btnConfiguracion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vConfiguracion=new Configuracion();
 			}
 		});
 		btnConfiguracion.setToolTipText("Configuracion");
-		btnConfiguracion.setBounds(1216, 11, anchoP/nBotones, 23);
+		btnConfiguracion.setBounds(1216, 11, 80, 55);
 		frmPortada.getContentPane().add(btnConfiguracion);
 		
 		btnMovimientos = new JButton("Movimientos");

@@ -188,6 +188,7 @@ public class Proveedores {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		frmProvdor = new JFrame();
+		frmProvdor.setIconImage(Toolkit.getDefaultToolkit().getImage(Proveedores.class.getResource("/Imagenes/Animals-Fish-icon.png")));
 		frmProvdor.getContentPane().setBackground(SystemColor.textHighlight);
 		frmProvdor.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 		frmProvdor.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -351,7 +352,7 @@ public class Proveedores {
 	
 	//****************** BORRAR ************************************	
 		btnBorrar = new JButton("");
-		btnBorrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Delete-icon.png")));
+		btnBorrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Trash-icon.png")));
 		btnBorrar.setToolTipText("Borrar");
 		btnBorrar.setBounds(1240, 6, 80, 55);
 		panel.add(btnBorrar);
@@ -377,6 +378,7 @@ public class Proveedores {
 				aux.setCorreo(textField_correo.getText());
 				aux.setTelefono1(textField_telefono1.getText());
 				aux.setTelefono2(textField_telefono2.getText());
+				aux.setId(list.getSelectedValue().getId());
 				if (comboBoxPoblacion.getSelectedIndex()!=0)
 					aux.setIdPoblacion(Integer.toString(comboBoxPoblacion.getSelectedIndex()));
 				aux.Update();
