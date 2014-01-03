@@ -153,6 +153,7 @@ public class Portada {
 		btnCompras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vCompras= new Compras();
+				
 			}
 		});
 		btnCompras.setBounds(370, 11, 80, 55);
