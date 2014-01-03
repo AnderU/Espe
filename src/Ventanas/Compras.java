@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import org.freixas.jcalendar.*;
 
@@ -28,6 +29,8 @@ public class Compras
 {
 
 	private JFrame frmCompras;
+	
+	public static Date fecha;
 /**
  * Create various instances of a JCalendar.
  */
@@ -51,8 +54,9 @@ Compras()
     calendar2.setSize(375, 200);
     calendar2.addDateListener(listener);
 
+   
     //++++++++++++++++++++++++++++++++++++
-    
+        
     frmCompras.getContentPane().add(calendar2);
 
 
@@ -73,12 +77,12 @@ private class MyDateListener
 {
 
 public void
-dateChanged(
-    DateEvent e)
+dateChanged(DateEvent e)
 {
+
     Calendar c = e.getSelectedDate();
     if (c != null) {
-	System.out.println(c.getTime());
+	Compras.fecha=c.getTime();
     }
     else {
 	System.out.println("No time selected.");
