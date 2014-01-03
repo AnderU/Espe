@@ -4,7 +4,7 @@ import BaseDatos.ConectorBD;
 
 public class ClienteC implements BaseDatos{
 	private int Id;
-	private String IdPoblacion,cliente,direccion, telefono1, telefono2, correo, fax, web, cp, provincia, nif, cuentaCorriente, banco, observaciones;
+	private String IdPoblacion,cliente,direccion, telefono1, telefono2, correo, fax, web, cp, IdProvincia, nif, cuentaCorriente, banco, observaciones;
 	
 	public String getWeb() {
 		return web;
@@ -22,13 +22,7 @@ public class ClienteC implements BaseDatos{
 		this.cp = cp;
 	}
 
-	public String getProvincia() {
-		return provincia;
-	}
-
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
+	
 
 	public String getNif() {
 		return nif;
@@ -162,6 +156,14 @@ public class ClienteC implements BaseDatos{
 
 	public void setFax(String fax) {
 		this.fax = fax;
+	}
+
+	public String getIdProvincia() {
+		return IdProvincia;
+	}
+
+	public void setIdProvincia(String idProvincia) {
+		IdProvincia = idProvincia;
 	}
 
 }
