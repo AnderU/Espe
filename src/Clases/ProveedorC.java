@@ -4,8 +4,72 @@ import BaseDatos.ConectorBD;
 
 public class ProveedorC implements BaseDatos{
 	private int Id;
-	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo;
+	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo , fax , web, cp , provincia  , nif, cuentaCorriente, banco , observaciones;
 	
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	public String getWeb() {
+		return web;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
+	}
+
+	public String getCp() {
+		return cp;
+	}
+
+	public void setCp(String cp) {
+		this.cp = cp;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getNif() {
+		return nif;
+	}
+
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public String getCuentaCorriente() {
+		return cuentaCorriente;
+	}
+
+	public void setCuentaCorriente(String cuentaCorriente) {
+		this.cuentaCorriente = cuentaCorriente;
+	}
+
+	public String getBanco() {
+		return banco;
+	}
+
+	public void setBanco(String banco) {
+		this.banco = banco;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
 	public String getDireccion() {
 		return direccion;
 	}
@@ -67,23 +131,40 @@ public class ProveedorC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
+		
 		String valores="'"+proveedor+"' , ";
 		valores+="'"+this.IdPoblacion+"' , ";
 		valores+="'"+this.direccion+"' , ";
 		valores+="'"+this.telefono1+"' , ";
 		valores+="'"+this.telefono2+"' , ";
-		valores+="'"+this.correo+"'";
+		valores+="'"+this.correo+"' ,";
+		valores+="'"+this.fax+"' , ";
+		valores+="'"+this.web+"' , ";
+		valores+="'"+this.cp+"' ,  ";
+		valores+="'"+this.provincia+"' , ";
+		valores+="'"+this.nif+"' , ";
+		valores+="'"+this.cuentaCorriente+"' , ";
+		valores+="'"+this.banco+"' ,";
+		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("proveedores",valores);
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+proveedor.toUpperCase()+"' , ";
+		String valores="'"+proveedor+"' , ";
 		valores+="'"+this.IdPoblacion+"' , ";
-		valores+="'"+this.direccion.toUpperCase()+"' , ";
+		valores+="'"+this.direccion+"' , ";
 		valores+="'"+this.telefono1+"' , ";
 		valores+="'"+this.telefono2+"' , ";
-		valores+="'"+this.correo+"'";
+		valores+="'"+this.correo+"' ,";
+		valores+="'"+this.fax+"' , ";
+		valores+="'"+this.web+"' , ";
+		valores+="'"+this.cp+"' ,  ";
+		valores+="'"+this.provincia+"' , ";
+		valores+="'"+this.nif+"' , ";
+		valores+="'"+this.cuentaCorriente+"' , ";
+		valores+="'"+this.banco+"' ,";
+		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("proveedores", valores, Integer.toString(this.Id));
 	}
 	@Override
