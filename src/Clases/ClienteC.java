@@ -3,9 +3,65 @@ package Clases;
 import BaseDatos.ConectorBD;
 
 public class ClienteC implements BaseDatos{
-	private int Id, IdPoblacion;
-	private String cliente, direccion, telefono1, telefono2, correo;
+	private int Id;
+	private String IdPoblacion,cliente,direccion, telefono1, telefono2, correo, fax, web, cp, provincia, nif, cuentaCorriente, banco, observaciones;
 	
+	public String getWeb() {
+		return web;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
+	}
+
+	public String getCp() {
+		return cp;
+	}
+
+	public void setCp(String cp) {
+		this.cp = cp;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getNif() {
+		return nif;
+	}
+
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public String getCuentaCorriente() {
+		return cuentaCorriente;
+	}
+
+	public void setCuentaCorriente(String cuentaCorriente) {
+		this.cuentaCorriente = cuentaCorriente;
+	}
+
+	public String getBanco() {
+		return banco;
+	}
+
+	public void setBanco(String banco) {
+		this.banco = banco;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
 	public String getDireccion() {
 		return direccion;
 	}
@@ -42,21 +98,14 @@ public class ClienteC implements BaseDatos{
 	{
 		Id=0;
 		cliente="";
-		IdPoblacion=0;
+		setIdPoblacion("");
 		correo="";
 		direccion="";
 		telefono1="";
 		telefono2="";
-		
 	}
 	
-	public int getIdPoblacion() {
-		return IdPoblacion;
-	}
 
-	public void setIdPoblacion(int IdPoblacion) {
-		this.IdPoblacion = IdPoblacion;
-	}
 
 	public int getId() {
 		return Id;
@@ -74,19 +123,45 @@ public class ClienteC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+cliente+"'";
-		ConectorBD.bdMySQL.Insert("cliente",valores);
+		String valores="'"+cliente+"' , ";
+		valores+="'"+this.IdPoblacion+"' , ";
+		valores+="'"+this.direccion+"' , ";
+		valores+="'"+this.telefono1+"' , ";
+		valores+="'"+this.telefono2+"' , ";
+		valores+="'"+this.correo+"'";
+		ConectorBD.bdMySQL.Insert("clientes",valores);
 	}
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+cliente+"'";
-		ConectorBD.bdMySQL.Update("cliente", valores, Integer.toString(this.Id));
+		String valores="'"+cliente.toUpperCase()+"' , ";
+		valores+="'"+this.IdPoblacion+"' , ";
+		valores+="'"+this.direccion.toUpperCase()+"' , ";
+		valores+="'"+this.telefono1+"' , ";
+		valores+="'"+this.telefono2+"' , ";
+		valores+="'"+this.correo+"'";
+		ConectorBD.bdMySQL.Update("clientes", valores, Integer.toString(this.Id));
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("cliente", Integer.toString(this.Id));
+		ConectorBD.bdMySQL.Delete("clientes", Integer.toString(this.Id));
+	}
+
+	public String getIdPoblacion() {
+		return IdPoblacion;
+	}
+
+	public void setIdPoblacion(String idPoblacion) {
+		IdPoblacion = idPoblacion;
+	}
+
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
 
 }

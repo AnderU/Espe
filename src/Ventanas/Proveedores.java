@@ -39,6 +39,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
 
 
 public class Proveedores {
@@ -47,13 +50,12 @@ public class Proveedores {
 	private JList<ProveedorC> list;
 	private JTextField textField_mostrar;
 	private JTextField textField_nombre;
-	private JTextField textField_codigo;
 	private JTextField textField_correo;
 	private JTextField textField_telefono2;
 	private JTextField textField_telefono1;
 	private JTextField textField_direccion;
 	
-	private JPanel panel;
+	private JPanel panel_datos;
 	private JButton btnMostrar;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
@@ -62,7 +64,6 @@ public class Proveedores {
 	private JButton btnEditar;
 	private JScrollPane scrollPane;
 	private JButton btnNuevo ;
-	private JLabel lblCodigo;
 	private JLabel lblNombre;
 	private JLabel lblCorreo;
 	private JLabel lblDireccion;
@@ -70,8 +71,18 @@ public class Proveedores {
 	private JLabel lblTelefono2;
 	private JLabel lblPoblacion;
 	private JComboBox<Poblacion> comboBoxPoblacion;
+	private JComboBox comboBoxProvincia; 
 	private JButton btnCancelar_edit;
 	private JButton btnAceptar_edit;
+	private JLabel lblCp;
+	private JTextField textField_cp;
+	private JTextField textField_fax;
+	private JTextField textField_web;
+	private JTextField textField_nif;
+	private JTextField textField_cuentaCorriente;
+	private JTextField textField_banco;
+	private JPanel panel_observaciones;
+	private JTextField textField_observaciones;
 	
 	/**
 	 * Launch the application.
@@ -100,24 +111,36 @@ public class Proveedores {
 		btnCancelar_edit.setVisible(false);
 		
 		textField_nombre.setEditable(false);
-		textField_codigo.setEditable(false);
 		textField_correo.setEditable(false);
 		textField_telefono2.setEditable(false);
 		textField_telefono1.setEditable(false);
 		textField_direccion.setEditable(false);
+		textField_fax.setEditable(false);
+		textField_web.setEditable(false);
+		textField_cp.setEditable(false);
+		textField_nif.setEditable(false);
+		textField_cuentaCorriente.setEditable(false);
+		textField_banco.setEditable(false);
+		textField_observaciones.setEditable(false);
 		comboBoxPoblacion.setEnabled(false);
-		btnMostrar.setEnabled(true);
+		comboBoxProvincia.setEnabled(false);
+		
 		list.clearSelection();
+		
 		textField_nombre.setText("");
 		textField_correo.setText("");
 		textField_telefono2.setText("");
 		textField_telefono1.setText("");
 		textField_direccion.setText("");
-		textField_codigo.setText("");
+		textField_fax.setText("");
+		textField_web.setText("");
+		textField_cp.setText("");
+		textField_nif.setText("");
+		textField_cuentaCorriente.setText("");
+		textField_banco.setText("");
+		textField_observaciones.setText("");
 		comboBoxPoblacion.setSelectedIndex(0);
-		System.out.println("eI");
-		
-		
+		comboBoxProvincia.setSelectedIndex(0);		
 	}
 	
 	public void setEstadoNuevo()
@@ -132,35 +155,43 @@ public class Proveedores {
 		textField_telefono2.setEditable(true);
 		textField_telefono1.setEditable(true);
 		textField_direccion.setEditable(true);
+		textField_fax.setEditable(true);
+		textField_web.setEditable(true);
+		textField_cp.setEditable(true);
+		textField_nif.setEditable(true);
+		textField_cuentaCorriente.setEditable(true);
+		textField_banco.setEditable(true);
+		textField_observaciones.setEditable(true);
 		comboBoxPoblacion.setEnabled(true);
+		comboBoxProvincia.setEnabled(true);
+		
 		textField_nombre.setText("");
 		textField_correo.setText("");
 		textField_telefono2.setText("");
 		textField_telefono1.setText("");
 		textField_direccion.setText("");
-		textField_codigo.setText("");
+		textField_fax.setText("");
+		textField_web.setText("");
+		textField_cp.setText("");
+		textField_nif.setText("");
+		textField_cuentaCorriente.setText("");
+		textField_banco.setText("");
+		textField_observaciones.setText("");
 		comboBoxPoblacion.setSelectedIndex(0);
+		comboBoxProvincia.setSelectedIndex(0);
 		
 		btnEditar.setEnabled(false);
-		btnBorrar.setEnabled(false);
-		btnMostrar.setEnabled(false);
-		System.out.println("en");
-		
+		btnBorrar.setEnabled(false);	
 	}
 	
 	public void setEstadoSeleccion()
 	{
-
 		btnAceptar.setVisible(false);
 		btnCancelar.setVisible(false);
 		btnAceptar_edit.setVisible(false);
 		btnCancelar_edit.setVisible(false);
 		btnEditar.setEnabled(true);
 		btnBorrar.setEnabled(true);
-		btnMostrar.setEnabled(false);
-		System.out.println("eS");
-		
-		
 	}
 	
 	public void setEstadoEditar()
@@ -170,16 +201,22 @@ public class Proveedores {
 		textField_telefono2.setEditable(true);
 		textField_telefono1.setEditable(true);
 		textField_direccion.setEditable(true);
+		textField_fax.setEditable(true);
+		textField_web.setEditable(true);
+		textField_cp.setEditable(true);
+		textField_nif.setEditable(true);
+		textField_cuentaCorriente.setEditable(true);
+		textField_banco.setEditable(true);
+		textField_observaciones.setEditable(true);
 		comboBoxPoblacion.setEnabled(true);
+		comboBoxProvincia.setEnabled(true);
+				
 		list.setEnabled(false);
 		btnAceptar_edit.setVisible(true);
 		btnCancelar_edit.setVisible(true);
 		btnNuevo.setEnabled(false);
 		btnBorrar.setEnabled(false);
-		btnEditar.setEnabled(false);
-		btnMostrar.setEnabled(false);
-		System.out.println("eE");
-		
+		btnEditar.setEnabled(false);		
 	}
 	
 	/**
@@ -212,99 +249,65 @@ public class Proveedores {
 		
 	
 		
-		panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(10, 310, 1330, 385);
-		frmProvdor.getContentPane().add(panel);
-		panel.setLayout(null);
-		
-//****************** CODIGO ************************************
-		lblCodigo = new JLabel("C\u00F3digo");
-		lblCodigo.setBounds(10, 10, 46, 14);
-		lblCodigo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(lblCodigo);
-		
-		textField_codigo = new JTextField();
-		textField_codigo.setBounds(70, 7, 46, 20);
-		textField_codigo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		textField_codigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		panel.add(textField_codigo);
-		textField_codigo.setColumns(5);
-		textField_codigo.setEditable(false);
+		panel_datos = new JPanel();
+		panel_datos.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_datos.setBounds(10, 310, 1330, 385);
+		frmProvdor.getContentPane().add(panel_datos);
+		panel_datos.setLayout(null);
 		
 //****************** NOMBRE ************************************		
 		lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(139, 10, 57, 14);
+		lblNombre.setBounds(20, 23, 57, 14);
 		lblNombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(lblNombre);
+		panel_datos.add(lblNombre);
 		
 		textField_nombre = new JTextField();
-		textField_nombre.setBounds(206, 7, 406, 20);
+		textField_nombre.setBounds(117, 20, 894, 20);
 		textField_nombre.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textField_nombre.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(textField_nombre);
+		panel_datos.add(textField_nombre);
 		textField_nombre.setColumns(50);
 
 		
 //****************** CORREO ************************************		
 		lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(574, 86, 57, 14);
+		lblCorreo.setBounds(20, 60, 57, 14);
 		lblCorreo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(lblCorreo);
+		panel_datos.add(lblCorreo);
 		
 		textField_correo = new JTextField();
-		textField_correo.setBounds(620, 83, 246, 20);
+		textField_correo.setBounds(117, 57, 894, 20);
 		textField_correo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textField_correo.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(textField_correo);
+		panel_datos.add(textField_correo);
 		textField_correo.setColumns(50);
-
-
-//****************** DIRECCION ************************************		
-		lblDireccion = new JLabel("Direccion");
-		lblDireccion.setBounds(10, 49, 57, 14);
-		lblDireccion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(lblDireccion);
-		
-		textField_direccion = new JTextField();
-		textField_direccion.setBounds(70, 47, 542, 20);
-		textField_direccion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		textField_direccion.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(textField_direccion);
-		textField_direccion.setColumns(50);
 
 		
 //****************** TELEFONOS ************************************		
 		lblTelefono1 = new JLabel("Telefono1");
-		lblTelefono1.setBounds(10, 86, 57, 14);
+		lblTelefono1.setBounds(20, 100, 57, 14);
 		lblTelefono1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(lblTelefono1);
+		panel_datos.add(lblTelefono1);
 		
 		textField_telefono1 = new JTextField();
-		textField_telefono1.setBounds(70, 83, 187, 20);
+		textField_telefono1.setBounds(117, 97, 205, 20);
 		textField_telefono1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textField_telefono1.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(textField_telefono1);
+		panel_datos.add(textField_telefono1);
 		textField_telefono1.setColumns(50);
 
 
 		lblTelefono2 = new JLabel("Telefono2");
-		lblTelefono2.setBounds(290, 86, 57, 14);
+		lblTelefono2.setBounds(357, 100, 90, 14);
 		lblTelefono2.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panel.add(lblTelefono2);
+		panel_datos.add(lblTelefono2);
 		
 		textField_telefono2 = new JTextField();
-		textField_telefono2.setBounds(357, 83, 187, 20);
+		textField_telefono2.setBounds(450, 97, 205, 20);
 		textField_telefono2.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textField_telefono2.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(textField_telefono2);
+		panel_datos.add(textField_telefono2);
 		textField_telefono2.setColumns(50);
-
-		
-//****************** POBLACION ************************************
-		lblPoblacion = new JLabel("Poblaci\u00F3n");
-		lblPoblacion.setBounds(639, 10, 89, 14);
-		panel.add(lblPoblacion);
 	
 		Poblacion aux= new Poblacion(); 
 		ResultSet rs=ConectorBD.bdMySQL.Select("poblaciones", "*", "true");
@@ -322,20 +325,13 @@ public class Proveedores {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		comboBoxPoblacion = new JComboBox<Poblacion>(elementos);
-		comboBoxPoblacion.setBounds(696, 7, 170, 20);
-		comboBoxPoblacion.setVisible(true);
-		comboBoxPoblacion.setAutoscrolls(true);
-		comboBoxPoblacion.setMaximumRowCount(5);
-		comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(comboBoxPoblacion);	
 
 //****************** EDITAR ************************************	
 	btnEditar = new JButton("");
 	btnEditar.setToolTipText("Editar");
 	btnEditar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Pencil-icon.png")));
-	btnEditar.setBounds(1150, 6, 80, 55);
-	panel.add(btnEditar);
+	btnEditar.setBounds(1092, 20, 80, 55);
+	panel_datos.add(btnEditar);
 	btnEditar.setVisible(false);
 	btnEditar.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) 
@@ -354,19 +350,19 @@ public class Proveedores {
 		btnBorrar = new JButton("");
 		btnBorrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Trash-icon.png")));
 		btnBorrar.setToolTipText("Borrar");
-		btnBorrar.setBounds(1240, 6, 80, 55);
-		panel.add(btnBorrar);
+		btnBorrar.setBounds(1199, 20, 80, 55);
+		panel_datos.add(btnBorrar);
 		
 	
 //****************** ACEPTAR ************************************			
 	btnAceptar = new JButton("");
-	btnAceptar.setBounds(1150, 75, 80, 55);
-	panel.add(btnAceptar);
+	btnAceptar.setBounds(1092, 94, 80, 55);
+	panel_datos.add(btnAceptar);
 	btnAceptar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Accept-icon.png")));
 	
 	btnAceptar_edit = new JButton("");
-	btnAceptar_edit.setBounds(1150, 75, 80, 55);
-	panel.add(btnAceptar_edit);
+	btnAceptar_edit.setBounds(1092, 94, 80, 55);
+	panel_datos.add(btnAceptar_edit);
 	btnAceptar_edit.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			
@@ -394,26 +390,141 @@ public class Proveedores {
 	
 //****************** CANCELAR ************************************	
 	btnCancelar = new JButton("");
-	btnCancelar.setBounds(1240, 75, 80, 55);
-	panel.add(btnCancelar);
+	btnCancelar.setBounds(1199, 94, 80, 55);
+	panel_datos.add(btnCancelar);
 	btnCancelar.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			setEstadoInicial();
 		}
 	});
-	btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
+	btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Delete-icon.png")));
 	
 	btnCancelar_edit = new JButton("");
-	btnCancelar_edit.setBounds(1240, 75, 80, 55);
-	panel.add(btnCancelar_edit);
+	btnCancelar_edit.setBounds(1199, 94, 80, 55);
+	panel_datos.add(btnCancelar_edit);
 	btnCancelar_edit.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			setEstadoInicial();			
 			
 		}
 	});
-	btnCancelar_edit.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Cancel-icon.png")));
+	btnCancelar_edit.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Delete-icon.png")));
 	btnCancelar_edit.setToolTipText("Cancelar");
+	
+	JPanel panel_direccion = new JPanel();
+	panel_direccion.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Direcci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+	panel_direccion.setToolTipText("");
+	panel_direccion.setBounds(10, 165, 1001, 88);
+	panel_datos.add(panel_direccion);
+					panel_direccion.setLayout(null);
+			
+			
+			//****************** DIRECCION ************************************		
+					lblDireccion = new JLabel("Domicilio");
+					lblDireccion.setBounds(10, 25, 90, 14);
+					panel_direccion.add(lblDireccion);
+					lblDireccion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			
+			lblCp = new JLabel("C.P.");
+			lblCp.setBounds(10, 56, 90, 14);
+			lblCp.setHorizontalAlignment(SwingConstants.LEFT);
+			panel_direccion.add(lblCp);
+	
+	textField_direccion = new JTextField();
+	textField_direccion.setBounds(107, 22, 884, 20);
+	panel_direccion.add(textField_direccion);
+	textField_direccion.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+	textField_direccion.setAlignmentX(Component.LEFT_ALIGNMENT);
+	textField_direccion.setColumns(50);
+	
+	textField_cp = new JTextField();
+	textField_cp.setBounds(107, 53, 205, 20);
+	panel_direccion.add(textField_cp);
+	textField_cp.setColumns(10);
+	
+			
+	//****************** POBLACION ************************************
+			lblPoblacion = new JLabel("Poblaci\u00F3n");
+			lblPoblacion.setBounds(347, 56, 90, 14);
+			panel_direccion.add(lblPoblacion);
+			comboBoxPoblacion = new JComboBox<Poblacion>(elementos);
+			comboBoxPoblacion.setBounds(440, 53, 205, 20);
+			panel_direccion.add(comboBoxPoblacion);
+			comboBoxPoblacion.setVisible(true);
+			comboBoxPoblacion.setAutoscrolls(true);
+			comboBoxPoblacion.setMaximumRowCount(5);
+			comboBoxPoblacion.setAlignmentX(Component.LEFT_ALIGNMENT);
+			
+			JLabel lblProvincia = new JLabel("Provincia");
+			lblProvincia.setBounds(680, 56, 90, 14);
+			panel_direccion.add(lblProvincia);
+			
+			comboBoxProvincia = new JComboBox();
+			comboBoxProvincia.setBounds(786, 53, 205, 20);
+			panel_direccion.add(comboBoxProvincia);
+			
+			JLabel lblFax = new JLabel("Fax");
+			lblFax.setBounds(20, 135, 90, 14);
+			panel_datos.add(lblFax);
+			
+			textField_fax = new JTextField();
+			textField_fax.setBounds(117, 132, 205, 20);
+			panel_datos.add(textField_fax);
+			textField_fax.setColumns(10);
+			
+			JLabel lblWeb = new JLabel("Web");
+			lblWeb.setBounds(357, 135, 90, 14);
+			panel_datos.add(lblWeb);
+			
+			textField_web = new JTextField();
+			textField_web.setBounds(450, 132, 205, 20);
+			panel_datos.add(textField_web);
+			textField_web.setColumns(10);
+			
+			JPanel panel_banco = new JPanel();
+			panel_banco.setBorder(new TitledBorder(null, "Datos Bancarios", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_banco.setBounds(10, 272, 1001, 88);
+			panel_datos.add(panel_banco);
+			panel_banco.setLayout(null);
+			
+			JLabel lblNif = new JLabel("NIF");
+			lblNif.setBounds(10, 25, 90, 14);
+			panel_banco.add(lblNif);
+			
+			textField_nif = new JTextField();
+			textField_nif.setBounds(107, 22, 205, 20);
+			panel_banco.add(textField_nif);
+			textField_nif.setColumns(10);
+			
+			JLabel lblCuentaCorriente = new JLabel("CC");
+			lblCuentaCorriente.setBounds(10, 56, 90, 14);
+			panel_banco.add(lblCuentaCorriente);
+			
+			textField_cuentaCorriente = new JTextField();
+			textField_cuentaCorriente.setBounds(107, 53, 884, 20);
+			panel_banco.add(textField_cuentaCorriente);
+			textField_cuentaCorriente.setColumns(10);
+			
+			JLabel lblBanco = new JLabel("Banco");
+			lblBanco.setBounds(347, 25, 90, 14);
+			panel_banco.add(lblBanco);
+			
+			textField_banco = new JTextField();
+			textField_banco.setBounds(440, 22, 551, 20);
+			panel_banco.add(textField_banco);
+			textField_banco.setColumns(10);
+			
+			panel_observaciones = new JPanel();
+			panel_observaciones.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_observaciones.setBounds(1031, 165, 289, 195);
+			panel_datos.add(panel_observaciones);
+			panel_observaciones.setLayout(null);
+			
+			textField_observaciones = new JTextField();
+			textField_observaciones.setBounds(10, 22, 269, 162);
+			textField_observaciones.setText("");
+			panel_observaciones.add(textField_observaciones);
+			textField_observaciones.setColumns(10);
 	btnCancelar_edit.setVisible(false);
 	btnCancelar.setVisible(false);
 	btnAceptar_edit.setVisible(false);
@@ -492,10 +603,9 @@ public class Proveedores {
 			
 			if (!list.isSelectionEmpty())
 			{
-				setEstadoSeleccion();
-				textField_codigo.setText(Integer.toString(list.getSelectedValue().getId()));
 				textField_nombre.setText(list.getSelectedValue().getProveedor());
 				comboBoxPoblacion.setSelectedIndex(Integer.parseInt(list.getSelectedValue().getIdPoblacion()));
+				setEstadoSeleccion();
 			}
 		}
 	});		
@@ -513,12 +623,12 @@ public class Proveedores {
         }
     });
 	
-	JPanel panel_1 = new JPanel();
-	panel_1.setName("Filtros");
-	panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-	panel_1.setBounds(856, 77, 484, 222);
-	frmProvdor.getContentPane().add(panel_1);
-	panel_1.setLayout(null);
+	JPanel panel_buscar = new JPanel();
+	panel_buscar.setName("Filtros");
+	panel_buscar.setBorder(new TitledBorder(null, "Filtros", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	panel_buscar.setBounds(856, 77, 484, 222);
+	frmProvdor.getContentPane().add(panel_buscar);
+	panel_buscar.setLayout(null);
 	
 	textField_mostrar = new JTextField();
 	textField_mostrar.addMouseListener(new MouseAdapter() {
@@ -527,8 +637,8 @@ public class Proveedores {
 			setEstadoInicial();
 		}
 	});
-	textField_mostrar.setBounds(10, 27, 337, 20);
-	panel_1.add(textField_mostrar);
+	textField_mostrar.setBounds(10, 22, 464, 20);
+	panel_buscar.add(textField_mostrar);
 	textField_mostrar.setColumns(10);
 	textField_mostrar.setEditable(true);
 	
@@ -538,13 +648,9 @@ public class Proveedores {
 	//****************** MOSTRAR ************************************
 			btnMostrar = new JButton("");
 			btnMostrar.setBounds(10, 156, 80, 55);
-			panel_1.add(btnMostrar);
+			panel_buscar.add(btnMostrar);
 			btnMostrar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Search-icon.png")));
 			btnMostrar.setToolTipText("Buscar");
-			
-			JLabel lblFiltros = new JLabel("Filtros");
-			lblFiltros.setBounds(10, 11, 46, 14);
-			panel_1.add(lblFiltros);
 			btnMostrar.setVisible(true);
 			
 			btnMostrar.addActionListener(new ActionListener() {
@@ -567,6 +673,7 @@ public class Proveedores {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+					setEstadoInicial();
 				}
 			});
 	
