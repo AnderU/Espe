@@ -4,10 +4,30 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Vector;
+
 import org.freixas.jcalendar.*;
+
+import Tablas.ComboRenderer;
+import Tablas.TablaDetalleCompra;
+
+import BaseDatos.ConectorBD;
+import Clases.DetalleComprasC;
+import Clases.GeneroC;
+import Clases.ProveedorC;
 
 /**
  * This example shows various instances of the JCalendar class.
@@ -36,18 +56,35 @@ public class Compras
 	private JButton btnCancelar;
 	private JButton btnAceptar_edit;
 	private JButton btnCancelar_edit;
-	
+	private JPanel Desglose;
+	private JComboBox cmbProveedor;
+	private JTable tListado;
+	private JTextField textField;
+	private JScrollPane scrollPane_1;
+	private JTable tPescado;
+	private JPanel Observaciones;
+	private JTable tOtros;
+	private JTextField textField_IPescado;
+	private JTextField textField_IPIP;
+	private JTextField textField_ICajas;
+	private JTextField textField_Subtotal;
+	private JTextField textField_IvaI;
+	private JTextField textField_Total;
+	private JTextField textField_IP;
+	private JTextField textField_Iva;
+	private TablaDetalleCompra modeloTDetalle;
 	
 	
 	
 	public static Date fecha;
-	private JTable table;
+
+
 /**
  * Create various instances of a JCalendar.
  */
 	
 	public void setEstadoInicial(){
-		//table.setEnabled(true);
+		tListado.setEnabled(false);
 		btnAceptar.setVisible(false);
 		btnCancelar.setVisible(false);
 		/*cmbGrupo.setVisible(false);
@@ -66,6 +103,24 @@ public class Compras
 		btnBorrar.setVisible(true);
 		btnEditar.setEnabled(false);
 		btnBorrar.setEnabled(false);
+		tPescado.setEnabled(false);
+		cmbProveedor.setEnabled(false);
+		cmbProveedor.setSelectedIndex(0);
+		textField_IvaI.setText("");
+		textField_Iva.setText("");
+		textField_Subtotal.setText("");
+		textField_IPIP.setText("");
+		textField_IP.setText("");
+		textField_IPescado.setText("");
+		textField_ICajas.setText("");
+		textField_Total.setText("");
+		
+		int rows = this.modeloTDetalle.getRowCount(); 
+		for(int i =0  ; i<rows ; i++)
+		{
+			modeloTDetalle.removeRow(0); 
+		}
+		
 	} 
 
 	public void setEstadoNuevo()
@@ -73,9 +128,13 @@ public class Compras
 		btnNuevo.setEnabled(false);
 		btnAceptar.setVisible(true);
 		btnCancelar.setVisible(true);
-		/*list.setEnabled(false);
+		tListado.setEnabled(false);
+		cmbProveedor.setEnabled(true);
+		tPescado.setEnabled(true);
 		
-		textField_nombre.setEditable(true);
+		DetalleComprasC aux = new DetalleComprasC();
+		modeloTDetalle.insertRow(aux);
+		/*textField_nombre.setEditable(true);
 		textField_correo.setEditable(true);
 		textField_telefono2.setEditable(true);
 		textField_telefono1.setEditable(true);
@@ -107,6 +166,25 @@ public class Compras
 		
 		btnEditar.setEnabled(false);
 		btnBorrar.setEnabled(false);	
+	    ResultSet rs1=ConectorBD.bdMySQL.Select("configuracion", "*", "Id=1");
+	    try {
+			while (rs1.next())
+				textField_IP.setText(rs1.getObject(3).toString());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    rs1=ConectorBD.bdMySQL.Select("configuracion", "*", "Id=2");
+	    try {
+			while (rs1.next())
+				textField_Iva.setText(rs1.getObject(3).toString());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    textField_Subtotal.setText("0.0");
+	    textField_ICajas.setText("0.0");
+	    textField_IPescado.setText("0.0");
 	}
 	
 	public void setEstadoSeleccion()
@@ -143,12 +221,39 @@ public class Compras
 		btnBorrar.setEnabled(false);
 		btnEditar.setEnabled(false);		
 	}
+    public void setUpSportColumn(JTable table,  TableColumn columnaGenero) {
+     	   
+    	GeneroC aux1= new GeneroC(); 
+    		ResultSet rs=ConectorBD.bdMySQL.Select("genero", "*", "true");
+    		Vector<GeneroC> elementos1= new Vector<GeneroC>(); 
+    		elementos1.addElement(aux1);
+    		try {
+    			while (rs.next())
+    			{
+    				GeneroC a=new GeneroC();
+    				
+    				a.setId(Integer.parseInt(rs.getObject(1).toString()));
+    				a.setGenero(rs.getObject(2).toString());
+    				elementos1.addElement(a);
+    				
+    			}
+    		} catch (SQLException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+    		
+    	    JComboBox<GeneroC> cmbGenero = new JComboBox<GeneroC>(elementos1);
+    	    cmbGenero.setBounds(10, 11, 342, 20);
+    	    cmbGenero.setRenderer(new ComboRenderer());
+    	   columnaGenero.setCellEditor(new DefaultCellEditor(cmbGenero));
+}
 	
 public
 Compras()
 {
     // Set up the frame
 	frmCompras = new JFrame();
+	frmCompras.setIconImage(Toolkit.getDefaultToolkit().getImage(Compras.class.getResource("/Imagenes/Animals-Fish-icon.png")));
     frmCompras.setTitle("Compras");
     frmCompras.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frmCompras.getContentPane().setLayout(null);
@@ -158,15 +263,15 @@ Compras()
     MyDateListener listener = new MyDateListener();
 
 
-    JCalendar calendar2 = new JCalendar(JCalendar.DISPLAY_DATE, false);
-    calendar2.setLocation(10, 11);
-    calendar2.setSize(375, 200);
-    calendar2.addDateListener(listener);
+    JCalendar calendario = new JCalendar(JCalendar.DISPLAY_DATE, false);
+    calendario.setLocation(10, 11);
+    calendario.setSize(375, 200);
+    calendario.addDateListener(listener);
 
    
     //++++++++++++++++++++++++++++++++++++
         
-    frmCompras.getContentPane().add(calendar2);
+    frmCompras.getContentPane().add(calendario);
     
     btnNuevo = new JButton("");
     btnNuevo.addActionListener(new ActionListener() {
@@ -207,7 +312,17 @@ Compras()
     btnAceptar = new JButton("");
     btnAceptar.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
-    		setEstadoInicial();
+    		if (cmbProveedor.getSelectedIndex()!=0 &&
+    				(modeloTDetalle.getRowCount()>1 || 
+    						(!modeloTDetalle.getValueAt(0,0).equals("") && !modeloTDetalle.getValueAt(0,1).equals("") && !modeloTDetalle.getValueAt(0,2).equals(""))
+    				)
+    		)
+    		{
+    			
+    			setEstadoInicial();
+    		}
+    		else
+    			JOptionPane.showMessageDialog(frmCompras, "Datos obligatorios no rellenados");
     	}
     });
     btnAceptar.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Accept-icon.png")));
@@ -219,6 +334,7 @@ Compras()
     btnCancelar = new JButton("");
     btnCancelar.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
+    		
     		setEstadoInicial();
     	}
     });
@@ -254,8 +370,228 @@ Compras()
     scrollPane.setBounds(10, 235, 375, 460);
     frmCompras.getContentPane().add(scrollPane);
     
-    table = new JTable();
-    scrollPane.setViewportView(table);
+    tListado = new JTable();
+    scrollPane.setViewportView(tListado);
+    
+    Desglose = new JPanel();
+    Desglose.setBorder(new LineBorder(new Color(0, 0, 0)));
+    Desglose.setBounds(395, 77, 957, 618);
+    frmCompras.getContentPane().add(Desglose);
+    Desglose.setLayout(null);
+    // combobox proveedores
+
+    
+    ProveedorC aux1= new ProveedorC(); 
+ 		ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
+ 		Vector<ProveedorC> elementos1= new Vector<ProveedorC>(); 
+ 		elementos1.addElement(aux1);
+ 		try {
+ 			while (rs.next())
+ 			{
+ 				ProveedorC a=new ProveedorC();
+ 				
+ 				a.setId(Integer.parseInt(rs.getObject(1).toString()));
+ 				a.setProveedor(rs.getObject(2).toString());
+ 				elementos1.addElement(a);
+ 				
+ 			}
+ 		} catch (SQLException e1) {
+ 			// TODO Auto-generated catch block
+ 			e1.printStackTrace();
+ 		}
+ 		
+ 	    cmbProveedor = new JComboBox<ProveedorC>(elementos1);
+ 	    cmbProveedor.setEnabled(false);
+ 	    cmbProveedor.setBounds(10, 11, 342, 20);
+ 	    Desglose.add(cmbProveedor);
+    
+    //-----------------------------------
+    
+    
+    JLabel lblPesoDelPescado = new JLabel("Peso del pescado:");
+    lblPesoDelPescado.setBounds(381, 14, 111, 14);
+    Desglose.add(lblPesoDelPescado);
+    
+    textField = new JTextField();
+    textField.setEditable(false);
+    textField.setBounds(499, 11, 86, 20);
+    Desglose.add(textField);
+    textField.setColumns(10);
+    
+    scrollPane_1 = new JScrollPane();
+
+    scrollPane_1.setBounds(10, 47, 937, 202);
+    Desglose.add(scrollPane_1);
+    //----------------------------------------- TABLA DETALLE COMPRAS
+    
+    
+	// Cargamos la tabla
+	Vector <String> columnNames = new  Vector <String>(); 
+	Vector<DetalleComprasC> vectorTabla= new Vector<DetalleComprasC>();
+    
+    
+    modeloTDetalle= new TablaDetalleCompra(vectorTabla,columnNames);
+    
+    
+    
+    tPescado = new JTable(modeloTDetalle);
+    setUpSportColumn(tPescado, tPescado.getColumnModel().getColumn(0));
+    tPescado.getModel().addTableModelListener(new TableModelListener() {
+
+		@Override
+		public void tableChanged(TableModelEvent arg0) {
+			// TODO Auto-generated method stub
+		if (tPescado.getRowCount()>0)
+		{
+			if (!modeloTDetalle.getValueAt(tPescado.getRowCount()-1,0).equals("") && 
+				!modeloTDetalle.getValueAt(tPescado.getRowCount()-1,1).equals("") &&
+				!modeloTDetalle.getValueAt(tPescado.getRowCount()-1,2).equals(""))
+			{
+				DetalleComprasC aux = new DetalleComprasC();
+				modeloTDetalle.insertRow(aux);
+				
+			}
+			Double op1= new Double(0);
+			double op2;
+			
+			Double op3= new Double(0);
+			double op4;
+			for (int i=0; i<tPescado.getRowCount(); i++)
+			{
+				op2=0;
+				if (!modeloTDetalle.getValueAt(i,1).equals(""))
+				{
+					op2=Double.parseDouble(modeloTDetalle.getValueAt(i,1).toString());
+				}
+				op1+=op2;
+				
+				op4=0;
+				if (!modeloTDetalle.getValueAt(i,3).equals(""))
+				{
+					op4=Double.parseDouble(modeloTDetalle.getValueAt(i,3).toString());
+				}
+				op3+=op4;
+				
+
+			}
+			
+			textField.setText(op1.toString());
+			textField_IPescado.setText(op3.toString());
+		    if (!textField_IP.getText().equals(""))
+		    {
+		    	DecimalFormat df = new DecimalFormat("0.00##");
+		    	Double importe=(Double.parseDouble(textField_IP.getText())/100)*op3;
+		    	textField_IPIP.setText(df.format(importe));
+		    	
+		    	double importeP=Double.parseDouble(textField_IPescado.getText())+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
+		    	double importeC=Double.parseDouble(textField_ICajas.getText().replace(',','.'));
+		    	
+		    	textField_Subtotal.setText(Double.toString(importeP+importeC));	 
+		    	
+		    	importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP+importeC);
+		    	textField_IvaI.setText(df.format(importe));	
+		    	
+		    	textField_Total.setText(Double.toString(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
+
+		    	
+		    }
+		}	
+			
+		}
+      });
+    tPescado.setEnabled(false);
+    scrollPane_1.setViewportView(tPescado);
+    //------------------------------------------
+    Observaciones = new JPanel();
+    Observaciones.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    Observaciones.setBounds(10, 405, 547, 202);
+    Desglose.add(Observaciones);
+    Observaciones.setLayout(null);
+    
+    JTextPane txtPObservaciones = new JTextPane();
+    txtPObservaciones.setMaximumSize(new Dimension(527, 196));
+    txtPObservaciones.setBounds(10, 23, 527, 196);
+    Observaciones.add(txtPObservaciones);
+    
+    JPanel Importes = new JPanel();
+    Importes.setBorder(new TitledBorder(null, "Importes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    Importes.setBounds(567, 405, 380, 202);
+    Desglose.add(Importes);
+    Importes.setLayout(null);
+    
+    JLabel lblImportePescado = new JLabel("Importe Pescado:");
+    lblImportePescado.setBounds(10, 25, 102, 14);
+    Importes.add(lblImportePescado);
+    
+    JLabel lblImpuestoPort = new JLabel("Impuesto Port:");
+    lblImpuestoPort.setBounds(10, 50, 102, 14);
+    Importes.add(lblImpuestoPort);
+    
+    JLabel lblImpuestoCajas = new JLabel("Importe Cajas:");
+    lblImpuestoCajas.setBounds(10, 75, 102, 14);
+    Importes.add(lblImpuestoCajas);
+    
+    JLabel lblSubtotal = new JLabel("Subtotal:");
+    lblSubtotal.setBounds(10, 100, 102, 14);
+    Importes.add(lblSubtotal);
+    
+    JLabel lblIva = new JLabel("Iva:");
+    lblIva.setBounds(10, 125, 102, 14);
+    Importes.add(lblIva);
+    
+    JLabel lblTotal = new JLabel("Total:");
+    lblTotal.setBounds(10, 150, 102, 14);
+    Importes.add(lblTotal);
+    
+    textField_IPescado = new JTextField();
+
+    textField_IPescado.setBounds(203, 22, 167, 20);
+
+    Importes.add(textField_IPescado);
+    textField_IPescado.setColumns(10);
+    
+    textField_IPIP = new JTextField();
+    textField_IPIP.setColumns(10);
+    textField_IPIP.setBounds(203, 47, 167, 20);    
+    Importes.add(textField_IPIP);
+    
+    textField_ICajas = new JTextField();
+    textField_ICajas.setColumns(10);
+    textField_ICajas.setBounds(203, 72, 167, 20);
+    Importes.add(textField_ICajas);
+    
+    textField_Subtotal = new JTextField();
+    textField_Subtotal.setColumns(10);
+    textField_Subtotal.setBounds(203, 97, 167, 20);
+    Importes.add(textField_Subtotal);
+    
+    textField_IvaI = new JTextField();
+    textField_IvaI.setColumns(10);
+    textField_IvaI.setBounds(203, 122, 167, 20);
+    Importes.add(textField_IvaI);
+    
+    textField_Total = new JTextField();
+    textField_Total.setColumns(10);
+    textField_Total.setBounds(203, 147, 167, 20);
+    Importes.add(textField_Total);
+    
+    textField_IP = new JTextField();
+    textField_IP.setColumns(10);
+    textField_IP.setBounds(122, 47, 69, 20);
+
+    Importes.add(textField_IP);
+    
+    textField_Iva = new JTextField();
+    textField_Iva.setColumns(10);
+    textField_Iva.setBounds(122, 122, 69, 20);
+    Importes.add(textField_Iva);
+    
+    JScrollPane scrollPane_2 = new JScrollPane();
+    scrollPane_2.setBounds(10, 260, 937, 134);
+    Desglose.add(scrollPane_2);
+    
+    tOtros = new JTable();
+    scrollPane_2.setViewportView(tOtros);
 
 
     frmCompras.setVisible(true);

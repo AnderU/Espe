@@ -6,6 +6,7 @@ public class ProveedorC implements BaseDatos{
 	private int Id;
 	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo , fax , web, cp , IdProvincia  , nif, cuentaCorriente, banco , observaciones;
 	
+	
 	public String getFax() {
 		return fax;
 	}
@@ -97,7 +98,7 @@ public class ProveedorC implements BaseDatos{
 	public ProveedorC()
 	{
 		Id=0;
-		proveedor="";
+		this.proveedor="Especifique proveedor";
 		setIdPoblacion("");
 		correo="";
 		direccion="";
@@ -179,6 +180,10 @@ public class ProveedorC implements BaseDatos{
 
 	public void setIdProvincia(String idProvincia) {
 		IdProvincia = idProvincia;
+	}
+	public String toString()
+	{
+		return this.proveedor;
 	}
 
 }

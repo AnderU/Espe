@@ -11,6 +11,9 @@ public class ConceptosC implements BaseDatos{
 	private String patron;
 	private int IdTipo;
 	private int IdGrupo;
+	private String Tipo;
+	private String Grupo;
+	
 	public int getId() {
 		return Id;
 	}
@@ -67,8 +70,7 @@ public class ConceptosC implements BaseDatos{
 		Grupo = grupo;
 	}
 
-	private String Tipo;
-	private String Grupo;
+
 	
 
 
