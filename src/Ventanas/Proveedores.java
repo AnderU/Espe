@@ -45,6 +45,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import javax.swing.JTextPane;
 import java.awt.Dimension;
+import javax.swing.JCheckBox;
 
 
 public class Proveedores {
@@ -86,6 +87,7 @@ public class Proveedores {
 	private JTextField textField_banco;
 	private JPanel panel_observaciones;
 	private JTextPane textPane_observaciones;
+	private JCheckBox chckbxUsaCajas;
 
 	
 	/**
@@ -144,7 +146,8 @@ public class Proveedores {
 		textField_banco.setText("");
 		textPane_observaciones.setText("");
 		comboBoxPoblacion.setSelectedIndex(0);
-		comboBoxProvincia.setSelectedIndex(0);		
+		comboBoxProvincia.setSelectedIndex(0);	
+		chckbxUsaCajas.setEnabled(false);
 	}
 	
 	public void setEstadoNuevo()
@@ -185,7 +188,8 @@ public class Proveedores {
 		comboBoxProvincia.setSelectedIndex(0);
 		
 		btnEditar.setEnabled(false);
-		btnBorrar.setEnabled(false);	
+		btnBorrar.setEnabled(false);
+		chckbxUsaCajas.setEnabled(true);
 	}
 	
 	public void setEstadoSeleccion()
@@ -220,7 +224,8 @@ public class Proveedores {
 		btnCancelar_edit.setVisible(true);
 		btnNuevo.setEnabled(false);
 		btnBorrar.setEnabled(false);
-		btnEditar.setEnabled(false);		
+		btnEditar.setEnabled(false);
+		chckbxUsaCajas.setEnabled(true);
 	}
 	
 	/**
@@ -417,6 +422,10 @@ public class Proveedores {
 				aux.setCuentaCorriente(textField_cuentaCorriente.getText());
 				aux.setBanco(textField_banco.getText());
 				aux.setObservaciones(textPane_observaciones.getText());
+				if (chckbxUsaCajas.isSelected())
+					aux.setUsaCajas("1");
+				else
+					aux.setUsaCajas("0");
 				if (comboBoxProvincia.getSelectedIndex()!=0)
 					aux.setIdProvincia(Integer.toString(comboBoxProvincia.getSelectedIndex()));
 				if (comboBoxPoblacion.getSelectedIndex()!=0)
@@ -455,6 +464,10 @@ public class Proveedores {
 				aux.setCuentaCorriente(textField_cuentaCorriente.getText());
 				aux.setBanco(textField_banco.getText());
 				aux.setObservaciones(textPane_observaciones.getText());
+				if (chckbxUsaCajas.isSelected())
+					aux.setUsaCajas("1");
+				else
+					aux.setUsaCajas("0");
 				if (comboBoxProvincia.getSelectedIndex()!=0)
 					aux.setIdProvincia(Integer.toString(comboBoxProvincia.getSelectedIndex()));
 				aux.setId(list.getSelectedValue().getId());
@@ -620,6 +633,10 @@ public class Proveedores {
 		textPane_observaciones.setBounds(10, 22, 269, 162);
 		panel_observaciones.add(textPane_observaciones);
 		
+		chckbxUsaCajas = new JCheckBox("Usa Cajas");
+		chckbxUsaCajas.setBounds(701, 96, 97, 23);
+		panel_datos.add(chckbxUsaCajas);
+		
 		
 //****************** LISTA ************************************	
 	listModel = new DefaultListModel<ProveedorC>();
@@ -644,6 +661,7 @@ public class Proveedores {
 			aux1.setCuentaCorriente(rs1.getObject(13).toString());
 			aux1.setBanco(rs1.getObject(14).toString());
 			aux1.setObservaciones(rs1.getObject(15).toString());
+			aux1.setUsaCajas(rs1.getObject(16).toString());
 			listModel.addElement(aux1);
 		}
 	}
@@ -679,6 +697,10 @@ public class Proveedores {
 				textField_cuentaCorriente.setText(list.getSelectedValue().getCuentaCorriente());
 				textField_banco.setText(list.getSelectedValue().getBanco());
 				textPane_observaciones.setText(list.getSelectedValue().getObservaciones());
+				if (list.getSelectedValue().getUsaCajas().equals("true"))
+					chckbxUsaCajas.setSelected(true);
+				else
+					chckbxUsaCajas.setSelected(false);
 				comboBoxProvincia.setSelectedIndex(Integer.parseInt(list.getSelectedValue().getIdProvincia()));
 				comboBoxPoblacion.setSelectedIndex(Integer.parseInt(list.getSelectedValue().getIdPoblacion()));
 				setEstadoSeleccion();

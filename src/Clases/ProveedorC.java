@@ -4,7 +4,8 @@ import BaseDatos.ConectorBD;
 
 public class ProveedorC implements BaseDatos{
 	private int Id;
-	private String IdPoblacion,proveedor,direccion, telefono1, telefono2, correo , fax , web, cp , IdProvincia  , nif, cuentaCorriente, banco , observaciones;
+	private String IdPoblacion,proveedor,direccion, telefono1, 
+	telefono2, correo , fax , web, cp , IdProvincia  , nif, cuentaCorriente, banco , observaciones , usaCajas;
 	
 	
 	public String getFax() {
@@ -104,6 +105,7 @@ public class ProveedorC implements BaseDatos{
 		direccion="";
 		telefono1="";
 		telefono2="";
+		this.usaCajas="0";
 	}
 	
 
@@ -124,6 +126,7 @@ public class ProveedorC implements BaseDatos{
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
+
 		
 		String valores="'"+proveedor+"' , ";
 		valores+="'"+this.IdPoblacion+"' , ";
@@ -138,12 +141,22 @@ public class ProveedorC implements BaseDatos{
 		valores+="'"+this.nif+"' , ";
 		valores+="'"+this.cuentaCorriente+"' , ";
 		valores+="'"+this.banco+"' ,";
-		valores+="'"+this.observaciones+"'";
+		valores+="'"+this.observaciones+"' , ";
+		valores+=this.usaCajas;
 		ConectorBD.bdMySQL.Insert("proveedores",valores);
 	}
+	public String getUsaCajas() {
+		return usaCajas;
+	}
+
+	public void setUsaCajas(String usaCajas) {
+		this.usaCajas = usaCajas;
+	}
+
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
+		
 		String valores="'"+proveedor+"' , ";
 		valores+="'"+this.IdPoblacion+"' , ";
 		valores+="'"+this.direccion+"' , ";
@@ -157,7 +170,8 @@ public class ProveedorC implements BaseDatos{
 		valores+="'"+this.nif+"' , ";
 		valores+="'"+this.cuentaCorriente+"' , ";
 		valores+="'"+this.banco+"' ,";
-		valores+="'"+this.observaciones+"'";
+		valores+="'"+this.observaciones+"' , ";
+		valores+=this.usaCajas;
 		ConectorBD.bdMySQL.Update("proveedores", valores, Integer.toString(this.Id));
 	}
 	@Override

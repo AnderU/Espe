@@ -2,7 +2,7 @@ package Clases;
 
 public class DetalleComprasC {
 	
-	private String Id, idGenero , cantidad , precio , idcompra , genero;
+	private String Id, idGenero , cantidad , precio , idcompra , genero , facturada;
 
 
 
@@ -14,6 +14,7 @@ public class DetalleComprasC {
 		precio="";
 		idcompra="";
 		genero="";
+		facturada="0";
 	}
 	
 	public String getId() {
@@ -62,6 +63,14 @@ public class DetalleComprasC {
 
 	public void setGenero(String genero) {
 		this.genero = genero;
+	}
+
+	public String getFacturada() {
+		return facturada;
+	}
+
+	public void setFacturada(String facturada) {
+		this.facturada = facturada;
 	}  
 
 }

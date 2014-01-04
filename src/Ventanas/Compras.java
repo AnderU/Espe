@@ -9,6 +9,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import java.sql.ResultSet;
@@ -60,10 +61,9 @@ public class Compras
 	private JComboBox cmbProveedor;
 	private JTable tListado;
 	private JTextField textField;
-	private JScrollPane scrollPane_1;
+	private JScrollPane sPGenero;
 	private JTable tPescado;
 	private JPanel Observaciones;
-	private JTable tOtros;
 	private JTextField textField_IPescado;
 	private JTextField textField_IPIP;
 	private JTextField textField_ICajas;
@@ -77,6 +77,7 @@ public class Compras
 	
 	
 	public static Date fecha;
+	private JTable tCajas;
 
 
 /**
@@ -257,21 +258,6 @@ Compras()
     frmCompras.setTitle("Compras");
     frmCompras.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frmCompras.getContentPane().setLayout(null);
-
-
-    //Creamos el calendario
-    MyDateListener listener = new MyDateListener();
-
-
-    JCalendar calendario = new JCalendar(JCalendar.DISPLAY_DATE, false);
-    calendario.setLocation(10, 11);
-    calendario.setSize(375, 200);
-    calendario.addDateListener(listener);
-
-   
-    //++++++++++++++++++++++++++++++++++++
-        
-    frmCompras.getContentPane().add(calendario);
     
     btnNuevo = new JButton("");
     btnNuevo.addActionListener(new ActionListener() {
@@ -366,12 +352,12 @@ Compras()
     btnCancelar_edit.setBounds(755, 11, 80, 55);
     frmCompras.getContentPane().add(btnCancelar_edit);
     
-    JScrollPane scrollPane = new JScrollPane();
-    scrollPane.setBounds(10, 235, 375, 460);
-    frmCompras.getContentPane().add(scrollPane);
+    JScrollPane sPListado = new JScrollPane();
+    sPListado.setBounds(10, 235, 375, 460);
+    frmCompras.getContentPane().add(sPListado);
     
     tListado = new JTable();
-    scrollPane.setViewportView(tListado);
+    sPListado.setViewportView(tListado);
     
     Desglose = new JPanel();
     Desglose.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -418,10 +404,10 @@ Compras()
     Desglose.add(textField);
     textField.setColumns(10);
     
-    scrollPane_1 = new JScrollPane();
+    sPGenero = new JScrollPane();
 
-    scrollPane_1.setBounds(10, 47, 937, 202);
-    Desglose.add(scrollPane_1);
+    sPGenero.setBounds(10, 47, 937, 202);
+    Desglose.add(sPGenero);
     //----------------------------------------- TABLA DETALLE COMPRAS
     
     
@@ -500,7 +486,7 @@ Compras()
 		}
       });
     tPescado.setEnabled(false);
-    scrollPane_1.setViewportView(tPescado);
+    sPGenero.setViewportView(tPescado);
     //------------------------------------------
     Observaciones = new JPanel();
     Observaciones.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -586,43 +572,49 @@ Compras()
     textField_Iva.setBounds(122, 122, 69, 20);
     Importes.add(textField_Iva);
     
-    JScrollPane scrollPane_2 = new JScrollPane();
-    scrollPane_2.setBounds(10, 260, 937, 134);
-    Desglose.add(scrollPane_2);
+    JPanel Cajas = new JPanel();
+    Cajas.setBorder(new TitledBorder(null, "Cajas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    Cajas.setBounds(10, 260, 937, 147);
+    Desglose.add(Cajas);
+    Cajas.setLayout(null);
     
-    tOtros = new JTable();
-    scrollPane_2.setViewportView(tOtros);
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(10, 22, 427, 114);
+    Cajas.add(scrollPane);
+    
+    // tabla cajas
+
+    
+    
+	rs=ConectorBD.bdMySQL.Select("configuracion", "*", "Parametro LIKE '%CAJA%'");
+	Vector<Vector<String>> elementos2= new Vector<Vector<String>>(); 
+	try {
+		while (rs.next())
+		{
+			Vector<String> aux = new Vector<String>();
+			aux.add(rs.getObject(2).toString());
+			aux.add("0");
+			elementos2.add(aux);
+			
+		}
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	Vector<String> titulo = new Vector<String>();
+	titulo.add("Tipo");
+	titulo.add("Cantidad");
+	DefaultTableModel modeloCajas = new DefaultTableModel(elementos2,titulo);
+    tCajas = new JTable(modeloCajas);
+    scrollPane.setViewportView(tCajas);
+    //----------------------------
+    
+    /*com.toedter.calendar.JCalendar calendar = new com.toedter.calendar.JCalendar();
+    calendar.setBounds(10, 11, 375, 213);
+    frmCompras.getContentPane().add(calendar);*/
 
 
     frmCompras.setVisible(true);
     setEstadoInicial();
-}
-
-
-
-
-
-
-//**********************************************************************
-// Inner Classes
-//**********************************************************************
-
-private class MyDateListener
-      implements DateListener
-{
-
-public void
-dateChanged(DateEvent e)
-{
-
-    Calendar c = e.getSelectedDate();
-    if (c != null) {
-	Compras.fecha=c.getTime();
-    }
-    else {
-	System.out.println("No time selected.");
-    }
-}
-
 }
 }
