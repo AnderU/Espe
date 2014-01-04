@@ -20,8 +20,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
 
-import org.freixas.jcalendar.*;
-
 import Tablas.ComboRenderer;
 import Tablas.TablaDetalleCompra;
 
