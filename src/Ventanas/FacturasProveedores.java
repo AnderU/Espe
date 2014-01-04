@@ -1,63 +1,48 @@
 package Ventanas;
 
-import java.awt.Component;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import java.awt.SystemColor;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Vector;
-
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import BaseDatos.ConectorBD;
-import Clases.ConceptosC;
 import Clases.FacturasProveedoresC;
-import Clases.GrupoConcepto;
+import Clases.FormaPago;
+import Clases.ProveedorC;
 
-import Clases.TipoConcepto;
-
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTabbedPane;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+
 import javax.swing.JLabel;
 
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
 
 public class FacturasProveedores {
 
 	private JFrame frmFactProv;
 	private JTable tblFactProv;
 	private JTextField textField_nFactura;
-	private JTextField textField_proveedor;
-	private JTextField textField_formaDePago;
 	private final ButtonGroup Con_Sin = new ButtonGroup();
 	private JRadioButton rdbtnConIva;
 	private JRadioButton rdbtnSinIva;
 	private JLabel lblIva;
 	private JPanel panel_observaciones;
 	private JTextPane textPane_observaciones;
-	
+	private JComboBox<FormaPago> comboBox_formaPago;
+	private JComboBox<ProveedorC> cmbProveedor;
 
 	
 	private JDateChooser dateChooser_fecha;
@@ -99,16 +84,16 @@ public class FacturasProveedores {
 		btnCancelar_edit.setVisible(false);
 		
 		textField_nFactura.setEditable(false);
-		textField_proveedor.setEditable(false);
-		textField_formaDePago.setEditable(false);
+		cmbProveedor.setEnabled(false);
+		comboBox_formaPago.setEnabled(false);
 		textPane_observaciones.setEditable(false);
 		
 		
 		tblFactProv.clearSelection();
 		
 		textField_nFactura.setText("");
-		textField_proveedor.setText("");
-		textField_formaDePago.setText("");
+		cmbProveedor.setSelectedIndex(0);
+		comboBox_formaPago.setSelectedIndex(0);
 		
 		textPane_observaciones.setText("");
 				
@@ -122,14 +107,14 @@ public class FacturasProveedores {
 		tblFactProv.setEnabled(false);
 		
 		textField_nFactura.setEditable(true);
-		textField_proveedor.setEditable(true);
-		textField_formaDePago.setEditable(false);
+		cmbProveedor.setEnabled(true);
+		comboBox_formaPago.setEnabled(true);
 		textPane_observaciones.setEditable(true);
 
 		
 		textField_nFactura.setText("");
-		textField_proveedor.setText("");
-		textField_formaDePago.setText("");
+		cmbProveedor.setSelectedIndex(0);
+		comboBox_formaPago.setSelectedIndex(0);
 
 		textPane_observaciones.setText("");
 
@@ -154,7 +139,7 @@ public class FacturasProveedores {
 		
 //***************** TABLA ********************************	
 		tblFactProv = new JTable();
-		tblFactProv.setBounds(10, 274, 1324, 415);
+		tblFactProv.setBounds(10, 274, 1334, 415);
 		frmFactProv.getContentPane().add(tblFactProv);
 		
 //***************** N FACTURA ********************************	
@@ -163,49 +148,70 @@ public class FacturasProveedores {
 		frmFactProv.getContentPane().add(lblNFactura);
 		
 		textField_nFactura = new JTextField();
-		textField_nFactura.setBounds(110, 115, 260, 20);
+		textField_nFactura.setBounds(141, 115, 250, 20);
 		frmFactProv.getContentPane().add(textField_nFactura);
 		textField_nFactura.setColumns(10);
 		
 //***************** PROVEEDOR ********************************		
 		JLabel lblProveedor = new JLabel("Proveedor");
-		lblProveedor.setBounds(400, 118, 90, 14);
+		lblProveedor.setBounds(418, 118, 65, 14);
 		frmFactProv.getContentPane().add(lblProveedor);
 		
-		textField_proveedor = new JTextField();
-		textField_proveedor.setBounds(480, 115, 539, 20);
-		frmFactProv.getContentPane().add(textField_proveedor);
-		textField_proveedor.setColumns(10);
+		ProveedorC aux1= new ProveedorC(); 
+ 		ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
+ 		Vector<ProveedorC> elementos1= new Vector<ProveedorC>(); 
+ 		elementos1.addElement(aux1);
+ 		try {
+ 			while (rs.next())
+ 			{
+ 				ProveedorC a=new ProveedorC();
+ 				
+ 				a.setId(Integer.parseInt(rs.getObject(1).toString()));
+ 				a.setProveedor(rs.getObject(2).toString());
+ 				elementos1.addElement(a);
+ 				
+ 			}
+ 		} catch (SQLException e1) {
+ 			// TODO Auto-generated catch block
+ 			e1.printStackTrace();
+ 		}
+ 		
+ 	    cmbProveedor = new JComboBox<ProveedorC>(elementos1);
+ 	    cmbProveedor.setEnabled(false);
+ 	    cmbProveedor.setBounds(487, 115, 549, 20);
+ 	    frmFactProv.getContentPane().add(cmbProveedor);
+    
 		
 //***************** FORMA DE PAGO ********************************		
 		JLabel lblFormaDePago = new JLabel("Forma de Pago");
-		lblFormaDePago.setBounds(20, 158, 79, 14);
+		lblFormaDePago.setBounds(20, 158, 111, 14);
 		frmFactProv.getContentPane().add(lblFormaDePago);
 		
-		textField_formaDePago = new JTextField();
-		textField_formaDePago.setBounds(110, 155, 260, 20);
-		frmFactProv.getContentPane().add(textField_formaDePago);
-		textField_formaDePago.setColumns(10);
+		comboBox_formaPago = new JComboBox<FormaPago>();
+		comboBox_formaPago.setEnabled(false);
+		comboBox_formaPago.setBounds(141, 155, 250, 20);
+		frmFactProv.getContentPane().add(comboBox_formaPago);
+		
 
 //***************** IVA ********************************			
 		rdbtnConIva = new JRadioButton("Con");
-		rdbtnConIva.setBounds(440, 154, 50, 23);
+		rdbtnConIva.setBounds(487, 154, 54, 23);
 		frmFactProv.getContentPane().add(rdbtnConIva);
 		Con_Sin.add(rdbtnConIva);
 		
 		rdbtnSinIva = new JRadioButton("Sin");
-		rdbtnSinIva.setBounds(490, 154, 50, 23);
+		rdbtnSinIva.setBounds(538, 154, 54, 23);
 		frmFactProv.getContentPane().add(rdbtnSinIva);
 		Con_Sin.add(rdbtnSinIva);
 		
 		lblIva = new JLabel("IVA");
-		lblIva.setBounds(400, 158, 34, 14);
+		lblIva.setBounds(418, 158, 34, 14);
 		frmFactProv.getContentPane().add(lblIva);
 
 //****************** OBSERVACIONES ************************************
 
 		panel_observaciones = new JPanel();
-		panel_observaciones.setBounds(1048, 105, 286, 158);
+		panel_observaciones.setBounds(1058, 104, 286, 158);
 		panel_observaciones.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmFactProv.getContentPane().add(panel_observaciones);
 		panel_observaciones.setLayout(null);
@@ -233,7 +239,7 @@ public class FacturasProveedores {
 		btnEditar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Pencil-icon.png")));
 		btnEditar.setBounds(110, 11, 80, 55);
 		frmFactProv.getContentPane().add(btnEditar);
-		btnEditar.setVisible(false);
+		btnEditar.setVisible(true);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -249,7 +255,7 @@ public class FacturasProveedores {
 		btnBorrar.setToolTipText("Borrar");
 		btnBorrar.setBounds(210, 11, 80, 55);
 		frmFactProv.getContentPane().add(btnBorrar);
-		btnBorrar.setVisible(false);
+		btnBorrar.setVisible(true);
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -279,7 +285,7 @@ public class FacturasProveedores {
 				if (!textField_nFactura.getText().equals(""))
 				{				
 					FacturasProveedoresC aux= new FacturasProveedoresC();
-					aux.setnFactura(Integer.parseInt(textField_nFactura.getText()));
+					aux.setnFactura(textField_nFactura.getText());
 					
 					aux.setObservaciones(textPane_observaciones.getText());
 				}				
@@ -330,7 +336,7 @@ public class FacturasProveedores {
 				if (!textField_nFactura.getText().equals(""))
 				{					
 					FacturasProveedoresC aux= new FacturasProveedoresC();
-					aux.setnFactura(Integer.parseInt(textField_nFactura.getText()));
+					aux.setnFactura(textField_nFactura.getText());
 					
 					aux.setObservaciones(textPane_observaciones.getText());
 				}		
@@ -343,22 +349,23 @@ public class FacturasProveedores {
 	
 		
 		dateChooser_fecha = new JDateChooser();
-		dateChooser_fecha.setBounds(615, 155, 130, 20);
+		dateChooser_fecha.setBounds(655, 155, 130, 20);
 		frmFactProv.getContentPane().add(dateChooser_fecha);
 		
 		dateChooser_fechaCobro = new JDateChooser();
-		dateChooser_fechaCobro.setBounds(889, 155, 130, 20);
+		dateChooser_fechaCobro.setBounds(906, 155, 130, 20);
 		frmFactProv.getContentPane().add(dateChooser_fechaCobro);
 		
 		JLabel lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(574, 158, 46, 14);
+		lblFecha.setBounds(609, 158, 46, 14);
 		frmFactProv.getContentPane().add(lblFecha);
 		
 		JLabel lblFechaDeCobro = new JLabel("Fecha de Cobro");
-		lblFechaDeCobro.setBounds(789, 158, 90, 14);
+		lblFechaDeCobro.setBounds(816, 158, 90, 14);
 		frmFactProv.getContentPane().add(lblFechaDeCobro);
 		
+	
 		
-		
+	setEstadoInicial();	
 	}
 }

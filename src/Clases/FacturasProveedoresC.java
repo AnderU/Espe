@@ -1,21 +1,18 @@
 package Clases;
 
-import java.sql.Date;
-
 import BaseDatos.ConectorBD;
 
 public class FacturasProveedoresC implements BaseDatos{
 
-	private int nFactura;
-	private String IdProveedor, formaPago, observaciones, fecha, fechaCobro;
+	private String nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago;
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+nFactura+"' , ";
-		valores+="'"+this.IdProveedor+"' , ";
-		valores+="'"+this.formaPago+"' , ";
+		valores+=this.IdProveedor+" , ";
+		valores+=this.IdFormaPago+" , ";
 		valores+="'"+this.fecha+"' , ";
-		valores+="'"+this.fechaCobro+"' , ";
+		valores+="'"+this.fechaPago+"' , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("facturaProv",valores);
 	}
@@ -24,28 +21,29 @@ public class FacturasProveedoresC implements BaseDatos{
 	public void Update() {
 		// TODO Auto-generated method stub
 		String valores="'"+nFactura+"' , ";
-		valores+="'"+this.IdProveedor+"' , ";
-		valores+="'"+this.formaPago+"' , ";
+		valores+=this.IdProveedor+" , ";
+		valores+=this.IdFormaPago+" , ";
 		valores+="'"+this.fecha+"' , ";
-		valores+="'"+this.fechaCobro+"' , ";
+		valores+="'"+this.fechaPago+"' , ";
 		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Update("facturaProv", valores, Integer.toString(this.nFactura));
+		ConectorBD.bdMySQL.Update("facturaProv", valores, this.nFactura);
 		
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("facturaProv", Integer.toString(this.nFactura));
+		ConectorBD.bdMySQL.Delete("facturaProv", this.nFactura);
 		
 	}
 	
 	
 	public FacturasProveedoresC()
 	{
-		nFactura=0;
+		nFactura="sin numero";
 		IdProveedor="";
 		formaPago="";
 		observaciones="";
+		IdFormaPago="";
 		
 	}
 	public String getFecha() {
@@ -54,21 +52,29 @@ public class FacturasProveedoresC implements BaseDatos{
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public String getFechaCobro() {
-		return fechaCobro;
+	public String getFechaPago() {
+		return fechaPago;
 	}
-	public void setFechaCobro(String fechaCobro) {
-		this.fechaCobro = fechaCobro;
+	public void setFechaPago(String fechaPago) {
+		this.fechaPago = fechaPago;
 	}
-	public int getnFactura() {
+	public String getnFactura() {
 		return nFactura;
 	}
-	public void setnFactura(int nFactura) {
+	public void setnFactura(String nFactura) {
 		this.nFactura = nFactura;
 	}
 	public String getIdProveedor() {
 		return IdProveedor;
 	}
+	public String getIdFormaPago() {
+		return IdFormaPago;
+	}
+
+	public void setIdFormaPago(String idFormaPago) {
+		IdFormaPago = idFormaPago;
+	}
+
 	public void setIdProveedor(String idProveedor) {
 		IdProveedor = idProveedor;
 	}
