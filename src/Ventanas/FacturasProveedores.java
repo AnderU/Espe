@@ -187,7 +187,26 @@ public class FacturasProveedores {
 		lblFormaDePago.setBounds(20, 158, 111, 14);
 		frmFactProv.getContentPane().add(lblFormaDePago);
 		
-		comboBox_formaPago = new JComboBox<FormaPago>();
+		FormaPago auxf= new FormaPago(); 
+ 		ResultSet rsf=ConectorBD.bdMySQL.Select("formapago", "*", "true");
+ 		Vector<FormaPago> elementosf= new Vector<FormaPago>(); 
+ 		elementosf.addElement(auxf);
+ 		try {
+ 			while (rsf.next())
+ 			{
+ 				FormaPago af=new FormaPago();
+ 				
+ 				af.setId(rsf.getObject(1).toString());
+ 				af.setForma(rsf.getObject(2).toString());
+ 				elementosf.addElement(af);
+ 				
+ 			}
+ 		} catch (SQLException ef) {
+ 			// TODO Auto-generated catch block
+ 			ef.printStackTrace();
+ 		}
+
+		comboBox_formaPago = new JComboBox<FormaPago>(elementosf);
 		comboBox_formaPago.setEnabled(false);
 		comboBox_formaPago.setBounds(141, 155, 250, 20);
 		frmFactProv.getContentPane().add(comboBox_formaPago);

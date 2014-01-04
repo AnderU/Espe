@@ -4,7 +4,7 @@ import BaseDatos.ConectorBD;
 
 public class FacturasProveedoresC implements BaseDatos{
 
-	private String nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago;
+	private String IdFactProv, nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago;
 	@Override
 	public void Insert() {
 		// TODO Auto-generated method stub
@@ -14,7 +14,7 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+="'"+this.fecha+"' , ";
 		valores+="'"+this.fechaPago+"' , ";
 		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Insert("facturaProv",valores);
+		ConectorBD.bdMySQL.Insert("facturasproveedores",valores);
 	}
 	
 	@Override
@@ -26,19 +26,20 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+="'"+this.fecha+"' , ";
 		valores+="'"+this.fechaPago+"' , ";
 		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Update("facturaProv", valores, this.nFactura);
+		ConectorBD.bdMySQL.Update("facturasproveedores", valores, this.IdFactProv);
 		
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("facturaProv", this.nFactura);
+		ConectorBD.bdMySQL.Delete("facturasproveedores", this.IdFactProv);
 		
 	}
 	
 	
 	public FacturasProveedoresC()
 	{
+		IdFactProv="0";
 		nFactura="sin numero";
 		IdProveedor="";
 		formaPago="";
@@ -89,6 +90,14 @@ public class FacturasProveedoresC implements BaseDatos{
 	}
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	public String getIdFactProv() {
+		return IdFactProv;
+	}
+
+	public void setIdFactProv(String idFactProv) {
+		IdFactProv = idFactProv;
 	}
 
 }

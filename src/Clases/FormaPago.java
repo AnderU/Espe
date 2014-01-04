@@ -16,11 +16,11 @@ public class FormaPago {
 	public void setId(String id) {
 		Id = id;
 	}
-	public String getPoblacion() {
+	public String getForma() {
 		return forma;
 	}
-	public void setPoblacion(String poblacion) {
-		this.forma = poblacion;
+	public void setForma(String forma) {
+		this.forma = forma;
 	}
 	@Override
 	public String toString()
