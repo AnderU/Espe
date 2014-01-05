@@ -115,7 +115,7 @@ public class ClienteC implements BaseDatos{
 	}
 	
 	@Override
-	public void Insert() {
+	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+this.cliente+"' , ";
 		valores+="'"+this.IdPoblacion+"' , ";
@@ -132,6 +132,7 @@ public class ClienteC implements BaseDatos{
 		valores+="'"+this.banco+"' ,";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("clientes",valores);
+		return 0;
 	}
 	@Override
 	public void Update() {

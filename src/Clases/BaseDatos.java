@@ -8,7 +8,7 @@ public interface BaseDatos {
 	
 
 	
-	public void Insert();
+	public int Insert();
 	public void Update();
 	public void Delete();
 

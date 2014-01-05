@@ -1,5 +1,7 @@
 package Clases;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import BaseDatos.ConectorBD;
@@ -46,14 +48,17 @@ public class ComprasC implements BaseDatos{
 		this.fecha = fecha;
 	}
 	@Override
-	public void Insert() {
+	public int Insert() {
 		// TODO Auto-generated method stub
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
 		String valores="'"+this.idproveedor+"' , ";
-		valores+="'"+this.fecha+""+"' , ";
+		valores+="'"+df.format(this.fecha)+"' , ";
 		valores+="'"+this.observaciones+"' , ";
 		valores+=this.impuestos+" , ";
 		valores+=this.iva;
-		ConectorBD.bdMySQL.Insert("compras",valores);
+		int id=ConectorBD.bdMySQL.Insert("compras",valores);
+		return id;
 	}
 	@Override
 	public void Update() {

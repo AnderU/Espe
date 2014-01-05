@@ -14,7 +14,9 @@ import javax.swing.table.TableColumn;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -26,9 +28,13 @@ import Tablas.ComboRenderer;
 import Tablas.TablaDetalleCompra;
 
 import BaseDatos.ConectorBD;
+import Clases.ComprasC;
 import Clases.DetalleComprasC;
 import Clases.GeneroC;
 import Clases.ProveedorC;
+import com.toedter.calendar.JCalendar;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 /**
  * This example shows various instances of the JCalendar class.
@@ -73,8 +79,8 @@ public class Compras
 	private JTextField textField_IP;
 	private JTextField textField_Iva;
 	private TablaDetalleCompra modeloTDetalle;
-	
-	
+	private com.toedter.calendar.JCalendar calendar1;
+	private  JTextPane txtPObservaciones;
 	
 	public static Date fecha;
 	private JTable tCajas;
@@ -304,6 +310,24 @@ Compras()
     				)
     		)
     		{
+    			ComprasC auxC= new ComprasC();
+
+    			auxC.setIdproveedor(Integer.toString(((ProveedorC)cmbProveedor.getSelectedItem()).getId()));
+    			auxC.setObservaciones(txtPObservaciones.getText());
+    			auxC.setImpuestos(textField_IP.getText());
+    			auxC.setIva(textField_Iva.getText());
+    			auxC.setFecha(fecha);
+    			auxC.Insert();
+    			
+    			DetalleComprasC auxDC= new DetalleComprasC();
+    			for (int i=0; i<tPescado.getRowCount(); i++)
+    			{
+    				auxDC.setIdGenero((String) modeloTDetalle.getValueAt(i, 4));
+    				auxDC.setCantidad((String) modeloTDetalle.getValueAt(i, 1));
+    				auxDC.setPrecio((String) modeloTDetalle.getValueAt(i, 2));
+    				
+    			}
+    			
     			
     			setEstadoInicial();
     		}
@@ -494,7 +518,7 @@ Compras()
     Desglose.add(Observaciones);
     Observaciones.setLayout(null);
     
-    JTextPane txtPObservaciones = new JTextPane();
+    txtPObservaciones = new JTextPane();
     txtPObservaciones.setMaximumSize(new Dimension(527, 196));
     txtPObservaciones.setBounds(10, 23, 527, 196);
     Observaciones.add(txtPObservaciones);
@@ -607,11 +631,26 @@ Compras()
 	DefaultTableModel modeloCajas = new DefaultTableModel(elementos2,titulo);
     tCajas = new JTable(modeloCajas);
     scrollPane.setViewportView(tCajas);
+       
+
+
     //----------------------------
     
-    /*com.toedter.calendar.JCalendar calendar = new com.toedter.calendar.JCalendar();
-    calendar.setBounds(10, 11, 375, 213);
-    frmCompras.getContentPane().add(calendar);*/
+    calendar1 = new com.toedter.calendar.JCalendar();
+    calendar1.addPropertyChangeListener(new PropertyChangeListener() {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent arg0) {
+			// TODO Auto-generated method stub
+			fecha=calendar1.getCalendar().getTime();
+		
+		}
+    });
+    calendar1.setBounds(10, 11, 375, 213);
+    frmCompras.getContentPane().add(calendar1);
+
+ 
+    
 
 
     frmCompras.setVisible(true);

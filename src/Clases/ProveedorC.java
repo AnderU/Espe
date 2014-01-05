@@ -124,7 +124,7 @@ public class ProveedorC implements BaseDatos{
 	}
 	
 	@Override
-	public void Insert() {
+	public int Insert() {
 		// TODO Auto-generated method stub
 
 		
@@ -144,6 +144,7 @@ public class ProveedorC implements BaseDatos{
 		valores+="'"+this.observaciones+"' , ";
 		valores+=this.usaCajas;
 		ConectorBD.bdMySQL.Insert("proveedores",valores);
+		return 0;
 	}
 	public String getUsaCajas() {
 		return usaCajas;

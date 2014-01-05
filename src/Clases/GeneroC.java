@@ -29,10 +29,11 @@ public class GeneroC implements BaseDatos{
 		this.genero = genero;
 	}
 	@Override
-	public void Insert() {
+	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+genero.toUpperCase()+"'";
 		ConectorBD.bdMySQL.Insert("genero",valores);
+		return 0;
 		
 	}
 	@Override

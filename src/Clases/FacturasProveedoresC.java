@@ -6,7 +6,7 @@ public class FacturasProveedoresC implements BaseDatos{
 
 	private String IdFactProv, nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago;
 	@Override
-	public void Insert() {
+	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+nFactura+"' , ";
 		valores+=this.IdProveedor+" , ";
@@ -15,6 +15,7 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+="'"+this.fechaPago+"' , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("facturasproveedores",valores);
+		return 0;
 	}
 	
 	@Override

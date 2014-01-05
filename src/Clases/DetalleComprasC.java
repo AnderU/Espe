@@ -1,8 +1,10 @@
 package Clases;
 
-public class DetalleComprasC {
+import BaseDatos.ConectorBD;
+
+public class DetalleComprasC implements BaseDatos{
 	
-	private String Id, idGenero , cantidad , precio , idcompra , genero , facturada;
+	private String Id, idGenero , cantidad , precio , idcompra ,  facturada, genero ;
 
 
 
@@ -71,6 +73,30 @@ public class DetalleComprasC {
 
 	public void setFacturada(String facturada) {
 		this.facturada = facturada;
+	}
+
+	@Override
+	public int Insert() {
+		// TODO Auto-generated method stub
+		String valores="'"+this.idGenero+"' , ";
+		valores+=this.cantidad+" , ";
+		valores+=this.precio+" , ";
+		valores+=this.idcompra+" , ";
+		valores+=this.facturada;
+		ConectorBD.bdMySQL.Insert("detalleCompras",valores);
+		return 0;
+	}
+
+	@Override
+	public void Update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Delete() {
+		// TODO Auto-generated method stub
+		
 	}  
 
 }

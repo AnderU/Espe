@@ -73,18 +73,19 @@ public class ConectorBD {
 
 	}
 	
-	public void  Insert(String tabla , String valores)
+	public int  Insert(String tabla , String valores)
 	{
 		
 		String estructura=this.GetEstructura(tabla);
+		int id=0;
 		try {
 			
-			st.executeUpdate("INSERT INTO "+tabla +" ( "+estructura+" ) VALUES "+"( "+valores+" )");
+			id=st.executeUpdate("INSERT INTO "+tabla +" ( "+estructura+" ) VALUES "+"( "+valores+" )", Statement.RETURN_GENERATED_KEYS);
 			
 		} catch (SQLException e) {
 			
 		}
-		
+		return id;
 
 	}
 	public void  Update(String tabla , String valores, String Id)

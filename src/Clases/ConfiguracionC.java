@@ -31,9 +31,9 @@ public class ConfiguracionC implements BaseDatos{
 	}
 
 	@Override
-	public void Insert() {
+	public int Insert() {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override
