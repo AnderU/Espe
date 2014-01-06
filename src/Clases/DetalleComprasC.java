@@ -101,7 +101,7 @@ public class DetalleComprasC implements BaseDatos{
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		
+		ConectorBD.bdMySQL.Delete("detalleCompras", this.Id);
 	}  
 
 }

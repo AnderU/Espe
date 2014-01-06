@@ -74,6 +74,10 @@ public class TablaDetalleCompra extends AbstractTableModel {
             case 5:
             	value= conceptos.getId();
              break;
+            
+            case 6:
+            	value= conceptos.getIdcompra();
+             break;
         }
 
         return value;
