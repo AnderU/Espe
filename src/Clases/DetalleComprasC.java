@@ -78,7 +78,7 @@ public class DetalleComprasC implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+this.idGenero+"' , ";
+		String valores=this.idGenero+" , ";
 		valores+=this.cantidad+" , ";
 		valores+=this.precio+" , ";
 		valores+=this.idcompra+" , ";
@@ -90,7 +90,12 @@ public class DetalleComprasC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		
+		String valores=this.idGenero+" , ";
+		valores+=this.cantidad+" , ";
+		valores+=this.precio+" , ";
+		valores+=this.idcompra+" , ";
+		valores+=this.facturada;
+		ConectorBD.bdMySQL.Update("detalleCompras",valores, this.Id);
 	}
 
 	@Override

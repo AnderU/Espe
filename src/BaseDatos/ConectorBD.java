@@ -78,10 +78,14 @@ public class ConectorBD {
 		
 		String estructura=this.GetEstructura(tabla);
 		int id=0;
+		ResultSet rs=null;
 		try {
 			
-			id=st.executeUpdate("INSERT INTO "+tabla +" ( "+estructura+" ) VALUES "+"( "+valores+" )", Statement.RETURN_GENERATED_KEYS);
-			
+			st.executeUpdate("INSERT INTO "+tabla +" ( "+estructura+" ) VALUES "+"( "+valores+" )", Statement.RETURN_GENERATED_KEYS);
+			rs=st.getGeneratedKeys();
+			if (null != rs && rs.next()) {
+			     id =(int) rs.getLong(1);
+			}
 		} catch (SQLException e) {
 			
 		}

@@ -115,11 +115,10 @@ public class Conceptos {
 	
 		// Cargamos la tabla
 		Vector <String> columnNames = new  Vector <String>(); 
-		columnNames.add("Id");
 		columnNames.add("Concepto");
 		columnNames.add("Patrón");
-		columnNames.add("Grupo");		
 		columnNames.add("Tipo");
+		columnNames.add("Grupo");
 		Vector<ConceptosC> vectorTabla= new Vector<ConceptosC>();
         ResultSet rs=ConectorBD.bdMySQL.Select("conceptos", "*", "true");
         ResultSet rs1;

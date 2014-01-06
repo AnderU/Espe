@@ -7,10 +7,7 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 import Clases.ComprasC;
-import Clases.DetalleComprasC;
-import Clases.GeneroC;
-
-
+import Clases.ConceptosC;
 
 public class TablaListadoCompras extends AbstractTableModel {
 
@@ -53,46 +50,50 @@ public class TablaListadoCompras extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
-                
-            	value = conceptos.getIdproveedor();
-
+                value = conceptos.getProveedor();
                 break;
             case 1:
                 value = conceptos.getIva();
                 break;
             case 2:
-                value = conceptos.getImpuestos();
+                value = conceptos.getImporte();
                 break;
-
+            case 3:
+            	 value = conceptos.getId();
+            	break;
+            case 4:
+            	value = conceptos.getImpuestos();
+            	break;
+            case 5:
+            	value = conceptos.getIdproveedor();
+            	break;
+            	
         }
 
         return value;
 
     }
-    public Class getColumnClass(int c) {
-        return getValueAt(0, c).getClass();
+    
+    @Override
+    public String getColumnName(int index) {
+        return this.nombresColumnas.get(index);
     }
-   /* @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        return // Return the class that best represents the column...
-    }
-    */
     //Override this if you want the values to be editable...
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
     	ComprasC rowVector = (ComprasC) this.conceptos.elementAt(rowIndex);
     	 switch (columnIndex) {
 
-      /*   case 0:
-        	 rowVector.setGenero(((GeneroC)aValue).getGenero());
-        
+         case 0:
+        	 rowVector.setProveedor((String) aValue);
              break;
          case 1:
-        	 rowVector.setCantidad((String) aValue);
+        	 rowVector.setIva((String) aValue);
              break;
          case 2:
-        	 rowVector.setPrecio((String) aValue);
-             break;*/
+        	 rowVector.setImporte((String) aValue);
+             break;
+         	
      }
         
         fireTableCellUpdated(rowIndex, columnIndex);
@@ -108,10 +109,6 @@ public class TablaListadoCompras extends AbstractTableModel {
 
         return conceptos.get(row);
     }
-    
-    public boolean isCellEditable(int row, int column) {
 
-    	   return false;
-
-    }
 }
+

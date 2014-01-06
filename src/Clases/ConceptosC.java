@@ -70,14 +70,6 @@ public class ConceptosC implements BaseDatos{
 		Grupo = grupo;
 	}
 
-
-	
-
-
-
-
-	
-
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub

@@ -30,7 +30,10 @@ public class TablaConceptos extends AbstractTableModel {
         fireTableRowsDeleted(row, row);
     }
     
-    
+    @Override
+    public String getColumnName(int index) {
+        return this.nombresColumnas.get(index);
+    }
     @Override
     public int getRowCount() {
         return conceptos.size();

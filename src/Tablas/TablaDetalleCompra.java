@@ -71,10 +71,17 @@ public class TablaDetalleCompra extends AbstractTableModel {
             case 4:
             	value= conceptos.getIdGenero();
                 break;
+            case 5:
+            	value= conceptos.getId();
+             break;
         }
 
         return value;
 
+    }
+    @Override
+    public String getColumnName(int index) {
+        return this.nombresColumnas.get(index);
     }
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
@@ -91,8 +98,8 @@ public class TablaDetalleCompra extends AbstractTableModel {
     	 switch (columnIndex) {
 
          case 0:
-        	 rowVector.setGenero(((GeneroC)aValue).getGenero());
         	 rowVector.setIdGenero(Integer.toString(((GeneroC)aValue).getId()));
+        	 rowVector.setGenero(((GeneroC)aValue).getGenero());
              break;
          case 1:
         	 rowVector.setCantidad((String) aValue);

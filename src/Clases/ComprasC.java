@@ -8,8 +8,21 @@ import BaseDatos.ConectorBD;
 
 public class ComprasC implements BaseDatos{
 
-	private String Id, idproveedor , observaciones, impuestos , iva;
+	private String Id, idproveedor , observaciones, impuestos , iva , proveedor , importe;
 	private Date fecha;
+	
+	public ComprasC()
+	{
+		Id="";
+		idproveedor="";
+		observaciones="";
+		impuestos="";
+		iva="";
+		proveedor="";
+		importe="";
+		fecha=null;
+		
+	}
 	
 	public String getId() {
 		return Id;
@@ -63,11 +76,32 @@ public class ComprasC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String valores="'"+this.idproveedor+"' , ";
+		valores+="'"+df.format(this.fecha)+"' , ";
+		valores+="'"+this.observaciones+"' , ";
+		valores+=this.impuestos+" , ";
+		valores+=this.iva;
+		ConectorBD.bdMySQL.Update("compras",valores,this.Id);
 		
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
+		ConectorBD.bdMySQL.Delete("compras", this.Id);
 		
+	}
+	public String getProveedor() {
+		return proveedor;
+	}
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
+	}
+	public String getImporte() {
+		return importe;
+	}
+	public void setImporte(String importe) {
+		this.importe = importe;
 	}
 }
