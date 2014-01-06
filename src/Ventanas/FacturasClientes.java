@@ -3,10 +3,8 @@ package Ventanas;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.SystemColor;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -36,10 +34,6 @@ public class FacturasClientes {
 	private JFrame frmFactProv;
 	private JTable tblFactProv;
 	private JTextField textField_nFactura;
-	private final ButtonGroup Con_Sin = new ButtonGroup();
-	private JRadioButton rdbtnConIva;
-	private JRadioButton rdbtnSinIva;
-	private JLabel lblIva;
 	private JPanel panel_observaciones;
 	private JTextPane textPane_observaciones;
 	private JComboBox<FormaCobro> comboBox_formaCobro;
@@ -50,13 +44,9 @@ public class FacturasClientes {
 	private JDateChooser dateChooser_fechaCobro;
 
 	private JPanel pnl_importes;
-	private JTextField textField_IPescado;
-	private JTextField textField_IPIP;
-	private JTextField textField_ICajas;
 	private JTextField textField_Subtotal;
 	private JTextField textField_IvaI;
 	private JTextField textField_Total;
-	private JTextField textField_IP;
 	private JTextField textField_Iva;
 	
 	private JButton btnAceptar;
@@ -66,6 +56,7 @@ public class FacturasClientes {
 	private JButton btnBorrar;
 	private JButton btnEditar;
 	private JButton btnNuevo ;
+	private JPanel pnl_cliente;
 	
 	/**
 	 * Launch the application.
@@ -109,16 +100,9 @@ public class FacturasClientes {
 		dateChooser_fecha.setCalendar(null);
 		dateChooser_fechaCobro.setCalendar(null);
 		
-		rdbtnConIva.setSelected(false);
-		rdbtnSinIva.setSelected(false);
-		
 		textField_IvaI.setText("");
 		textField_Iva.setText("");
 		textField_Subtotal.setText("");
-		textField_IPIP.setText("");
-		textField_IP.setText("");
-		textField_IPescado.setText("");
-		textField_ICajas.setText("");
 		textField_Total.setText("");
 		
 				
@@ -135,7 +119,6 @@ public class FacturasClientes {
 		cmbCliente.setEnabled(true);
 		comboBox_formaCobro.setEnabled(true);
 		textPane_observaciones.setEditable(true);
-
 		
 		textField_nFactura.setText("");
 		cmbCliente.setSelectedIndex(0);
@@ -148,13 +131,9 @@ public class FacturasClientes {
 
 		dateChooser_fecha.setCalendar(Calendar.getInstance());
 		dateChooser_fechaCobro.setCalendar(null);
-		
-		rdbtnConIva.setSelected(true);
-		rdbtnSinIva.setSelected(false);
-		
+			
 		textField_Subtotal.setText("0.0");
-		textField_ICajas.setText("0.0");
-		textField_IPescado.setText("0.0");
+		
 	}
 
 	/**
@@ -174,23 +153,18 @@ public class FacturasClientes {
 		
 //***************** TABLA ********************************	
 		tblFactProv = new JTable();
-		tblFactProv.setBounds(10, 274, 1026, 415);
+		tblFactProv.setBounds(10, 118, 1011, 571);
 		frmFactProv.getContentPane().add(tblFactProv);
 		
 //***************** N FACTURA ********************************	
 		JLabel lblNFactura = new JLabel("N\u00BA Factura");
-		lblNFactura.setBounds(20, 118, 90, 14);
+		lblNFactura.setBounds(1046, 118, 90, 14);
 		frmFactProv.getContentPane().add(lblNFactura);
 		
 		textField_nFactura = new JTextField();
-		textField_nFactura.setBounds(141, 115, 250, 20);
+		textField_nFactura.setBounds(1109, 115, 223, 20);
 		frmFactProv.getContentPane().add(textField_nFactura);
 		textField_nFactura.setColumns(10);
-		
-//***************** PROVEEDOR ********************************		
-		JLabel lblCliente = new JLabel("Cliente");
-		lblCliente.setBounds(418, 118, 65, 14);
-		frmFactProv.getContentPane().add(lblCliente);
 		
 		ClienteC aux1= new ClienteC(); 
  		ResultSet rs=ConectorBD.bdMySQL.Select("clientes", "*", "true");
@@ -213,13 +187,20 @@ public class FacturasClientes {
  		
  	    cmbCliente = new JComboBox<ClienteC>(elementos1);
  	    cmbCliente.setEnabled(false);
- 	    cmbCliente.setBounds(487, 115, 549, 20);
- 	    frmFactProv.getContentPane().add(cmbCliente);
+ 	    cmbCliente.setBounds(10, 21, 266, 20);
+ 	    
+	    pnl_cliente = new JPanel();
+	    pnl_cliente.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	    pnl_cliente.setBounds(1046, 152, 286, 60);
+	    frmFactProv.getContentPane().add(pnl_cliente);
+	    pnl_cliente.setLayout(null);
+	    pnl_cliente.add(cmbCliente);
+ 	    
     
 		
 //***************** FORMA DE PAGO ********************************		
 		JLabel lblFormaDeCobro = new JLabel("Forma de Cobro");
-		lblFormaDeCobro.setBounds(20, 158, 111, 14);
+		lblFormaDeCobro.setBounds(1046, 233, 90, 14);
 		frmFactProv.getContentPane().add(lblFormaDeCobro);
 		
 		FormaCobro auxf= new FormaCobro(); 
@@ -243,29 +224,13 @@ public class FacturasClientes {
 
 		comboBox_formaCobro = new JComboBox<FormaCobro>(elementosf);
 		comboBox_formaCobro.setEnabled(false);
-		comboBox_formaCobro.setBounds(141, 155, 250, 20);
+		comboBox_formaCobro.setBounds(1174, 230, 158, 20);
 		frmFactProv.getContentPane().add(comboBox_formaCobro);
-		
-
-//***************** IVA ********************************			
-		rdbtnConIva = new JRadioButton("Con");
-		rdbtnConIva.setBounds(487, 154, 54, 23);
-		frmFactProv.getContentPane().add(rdbtnConIva);
-		Con_Sin.add(rdbtnConIva);
-		
-		rdbtnSinIva = new JRadioButton("Sin");
-		rdbtnSinIva.setBounds(538, 154, 54, 23);
-		frmFactProv.getContentPane().add(rdbtnSinIva);
-		Con_Sin.add(rdbtnSinIva);
-		
-		lblIva = new JLabel("IVA");
-		lblIva.setBounds(418, 158, 34, 14);
-		frmFactProv.getContentPane().add(lblIva);
 
 //****************** OBSERVACIONES ************************************
 
 		panel_observaciones = new JPanel();
-		panel_observaciones.setBounds(1058, 104, 286, 158);
+		panel_observaciones.setBounds(1046, 352, 286, 206);
 		panel_observaciones.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmFactProv.getContentPane().add(panel_observaciones);
 		panel_observaciones.setLayout(null);
@@ -404,20 +369,20 @@ public class FacturasClientes {
 		
 		dateChooser_fecha = new JDateChooser();
 		dateChooser_fecha.setDateFormatString("dd-MM-yyyy");
-		dateChooser_fecha.setBounds(655, 155, 130, 20);
+		dateChooser_fecha.setBounds(1174, 271, 158, 20);
 		frmFactProv.getContentPane().add(dateChooser_fecha);
 		
 		dateChooser_fechaCobro = new JDateChooser();
 		dateChooser_fechaCobro.setDateFormatString("dd-MM-yyyy");
-		dateChooser_fechaCobro.setBounds(906, 155, 130, 20);
+		dateChooser_fechaCobro.setBounds(1172, 307, 160, 20);
 		frmFactProv.getContentPane().add(dateChooser_fechaCobro);
 		
 		JLabel lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(609, 158, 46, 14);
+		lblFecha.setBounds(1046, 274, 46, 14);
 		frmFactProv.getContentPane().add(lblFecha);
 		
 		JLabel lblFechaDeCobro = new JLabel("Fecha de Cobro");
-		lblFechaDeCobro.setBounds(816, 158, 90, 14);
+		lblFechaDeCobro.setBounds(1046, 310, 90, 14);
 		frmFactProv.getContentPane().add(lblFechaDeCobro);
 		
 		
@@ -426,78 +391,45 @@ public class FacturasClientes {
 //****************** IMPORTES ************************************
 		
 		pnl_importes = new JPanel();
-		pnl_importes.setBounds(1058, 274, 286, 415);
+		pnl_importes.setBorder(new TitledBorder(null, "Importes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnl_importes.setBounds(1046, 580, 286, 109);
 		frmFactProv.getContentPane().add(pnl_importes);
 		pnl_importes.setLayout(null);
-		
-		textField_IPescado = new JTextField();
-
-	    textField_IPescado.setBounds(203, 22, 73, 20);
-
-	    pnl_importes.add(textField_IPescado);
-	    textField_IPescado.setColumns(10);
-	    
-	    textField_IPIP = new JTextField();
-	    textField_IPIP.setColumns(10);
-	    textField_IPIP.setBounds(203, 47, 73, 20);    
-	    pnl_importes.add(textField_IPIP);
-	    
-	    textField_ICajas = new JTextField();
-	    textField_ICajas.setColumns(10);
-	    textField_ICajas.setBounds(203, 72, 73, 20);
-	    pnl_importes.add(textField_ICajas);
 	    
 	    textField_Subtotal = new JTextField();
 	    textField_Subtotal.setColumns(10);
-	    textField_Subtotal.setBounds(203, 97, 73, 20);
+	    textField_Subtotal.setBounds(203, 16, 73, 20);
 	    pnl_importes.add(textField_Subtotal);
 	    
 	    textField_IvaI = new JTextField();
 	    textField_IvaI.setColumns(10);
-	    textField_IvaI.setBounds(203, 122, 73, 20);
+	    textField_IvaI.setBounds(203, 47, 73, 20);
 	    pnl_importes.add(textField_IvaI);
 	    
 	    textField_Total = new JTextField();
 	    textField_Total.setColumns(10);
-	    textField_Total.setBounds(203, 147, 73, 20);
+	    textField_Total.setBounds(203, 75, 73, 20);
 	    pnl_importes.add(textField_Total);
-	    
-	    textField_IP = new JTextField();
-	    textField_IP.setColumns(10);
-	    textField_IP.setBounds(122, 47, 69, 20);
-
-	    pnl_importes.add(textField_IP);
 	    
 	    textField_Iva = new JTextField();
 	    textField_Iva.setColumns(10);
-	    textField_Iva.setBounds(122, 122, 69, 20);
-	    pnl_importes.add(textField_Iva);		
-		
-	
-	    JLabel lblImportePescado = new JLabel("Importe Pescado:");
-	    lblImportePescado.setBounds(10, 25, 102, 14);
-	    pnl_importes.add(lblImportePescado);
-	    
-	    JLabel lblImpuestoPort = new JLabel("Impuesto Port:");
-	    lblImpuestoPort.setBounds(10, 50, 102, 14);
-	    pnl_importes.add(lblImpuestoPort);
-	    
-	    JLabel lblImpuestoCajas = new JLabel("Importe Cajas:");
-	    lblImpuestoCajas.setBounds(10, 75, 102, 14);
-	    pnl_importes.add(lblImpuestoCajas);
+	    textField_Iva.setBounds(91, 47, 69, 20);
+	    pnl_importes.add(textField_Iva);
 	    
 	    JLabel lblSubtotal = new JLabel("Subtotal:");
-	    lblSubtotal.setBounds(10, 100, 102, 14);
+	    lblSubtotal.setBounds(10, 19, 102, 14);
 	    pnl_importes.add(lblSubtotal);
 	    
 	    JLabel lblIva = new JLabel("Iva:");
-	    lblIva.setBounds(10, 125, 102, 14);
+	    lblIva.setBounds(10, 50, 102, 14);
 	    pnl_importes.add(lblIva);
 	    
 	    JLabel lblTotal = new JLabel("Total:");
-	    lblTotal.setBounds(10, 150, 102, 14);
+	    lblTotal.setBounds(10, 78, 102, 14);
 	    pnl_importes.add(lblTotal);
 	    
+
+
 	    
 		
 	setEstadoInicial();	
