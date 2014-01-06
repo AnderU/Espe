@@ -432,34 +432,34 @@ public class FacturasProveedores {
 		
 		textField_IPescado = new JTextField();
 
-	    textField_IPescado.setBounds(203, 22, 167, 20);
+	    textField_IPescado.setBounds(203, 22, 73, 20);
 
 	    pnl_importes.add(textField_IPescado);
 	    textField_IPescado.setColumns(10);
 	    
 	    textField_IPIP = new JTextField();
 	    textField_IPIP.setColumns(10);
-	    textField_IPIP.setBounds(203, 47, 167, 20);    
+	    textField_IPIP.setBounds(203, 47, 73, 20);    
 	    pnl_importes.add(textField_IPIP);
 	    
 	    textField_ICajas = new JTextField();
 	    textField_ICajas.setColumns(10);
-	    textField_ICajas.setBounds(203, 72, 167, 20);
+	    textField_ICajas.setBounds(203, 72, 73, 20);
 	    pnl_importes.add(textField_ICajas);
 	    
 	    textField_Subtotal = new JTextField();
 	    textField_Subtotal.setColumns(10);
-	    textField_Subtotal.setBounds(203, 97, 167, 20);
+	    textField_Subtotal.setBounds(203, 97, 73, 20);
 	    pnl_importes.add(textField_Subtotal);
 	    
 	    textField_IvaI = new JTextField();
 	    textField_IvaI.setColumns(10);
-	    textField_IvaI.setBounds(203, 122, 167, 20);
+	    textField_IvaI.setBounds(203, 122, 73, 20);
 	    pnl_importes.add(textField_IvaI);
 	    
 	    textField_Total = new JTextField();
 	    textField_Total.setColumns(10);
-	    textField_Total.setBounds(203, 147, 167, 20);
+	    textField_Total.setBounds(203, 147, 73, 20);
 	    pnl_importes.add(textField_Total);
 	    
 	    textField_IP = new JTextField();
