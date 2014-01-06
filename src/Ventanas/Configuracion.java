@@ -321,10 +321,10 @@ public class Configuracion {
 		else
 		{
 			textField_Nombre.setText("espedb");
-			textField_Password.setText("010190291290");
-			textField_Puerto.setText(":3306");
-			textField_Servidor.setText("db4free.net");
-			textField_User.setText("anderyaitor");
+			textField_Password.setText("espe");
+			textField_Puerto.setText("");
+			textField_Servidor.setText("localhost");
+			textField_User.setText("root");
 		}
 		frame.setVisible(true);
 	}

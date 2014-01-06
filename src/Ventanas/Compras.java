@@ -35,21 +35,6 @@ import com.toedter.calendar.JCalendar;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
-/**
- * This example shows various instances of the JCalendar class.
- * <hr>
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the Artistic License. You should have
- * received a copy of the Artistic License along with this program. If
- * not, a copy is available at
- * <a href="http://opensource.org/licenses/artistic-license.php">
- * opensource.org</a>.
- *
- * @author Antonio Freixas
- */
-
-// Copyright © 2004 Antonio Freixas
-// All Rights Reserved.
 
 public class Compras 
 {
@@ -71,7 +56,6 @@ public class Compras
 	private JPanel Observaciones;
 	private JTextField textField_IPescado;
 	private JTextField textField_IPIP;
-	private JTextField textField_ICajas;
 	private JTextField textField_Subtotal;
 	private JTextField textField_IvaI;
 	private JTextField textField_Total;
@@ -81,10 +65,9 @@ public class Compras
 	private com.toedter.calendar.JCalendar calendar1;
 	private  JTextPane txtPObservaciones;
 	private TablaListadoCompras modeloListado;
-	private int aux;
+	private JButton btnBorrarDetalle;
 	
 	public static Date fecha;
-	private JTable tCajas;
 
 
 /**
@@ -92,10 +75,13 @@ public class Compras
  */
 	
 	public void setEstadoInicial(){
+	
+		btnBorrarDetalle.setVisible(false);
+		
 		cmbProveedor.setSelectedIndex(0);
 		
 		tListado.setEnabled(true);
-		tCajas.setEnabled(false);
+		tListado.clearSelection();
 		
 		btnAceptar.setVisible(false);
 		btnCancelar.setVisible(false);
@@ -116,7 +102,6 @@ public class Compras
 		textField_IPIP.setText("");
 		textField_IP.setText("");
 		textField_IPescado.setText("");
-		textField_ICajas.setText("");
 		textField_Total.setText("");
 		txtPObservaciones.setText("");
 		
@@ -126,7 +111,6 @@ public class Compras
 		textField_IPIP.setEditable(false);
 		textField_IP.setEditable(false);
 		textField_IPescado.setEditable(false);
-		textField_ICajas.setEditable(false);
 		textField_Total.setEditable(false);
 		txtPObservaciones.setEditable(false);
 		
@@ -151,7 +135,7 @@ public class Compras
 		tListado.setEnabled(false);
 		cmbProveedor.setEnabled(true);
 		tPescado.setEnabled(true);
-		tCajas.setEnabled(true);
+		
 		
 		cmbProveedor.setSelectedIndex(0);
 		
@@ -182,7 +166,6 @@ public class Compras
 			e1.printStackTrace();
 		}
 	    textField_Subtotal.setText("0.0");
-	    textField_ICajas.setText("0.0");
 	    textField_IPescado.setText("0.0");
 	    
 
@@ -216,7 +199,8 @@ public class Compras
 		btnBorrar.setEnabled(false);
 		btnEditar.setEnabled(false);
 		tPescado.setEnabled(true);
-		tCajas.setEnabled(true);
+		cmbProveedor.setEnabled(true);
+
 
 	}
     public void setUpSportColumn(JTable table,  TableColumn columnaGenero) {
@@ -255,13 +239,11 @@ public class Compras
 	    	textField_IPIP.setText(df.format(importe));
 	    	
 	    	double importeP=Double.parseDouble(textField_IPescado.getText())+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
-	    	double importeC=0;
-	    	if (!textField_ICajas.getText().replace(',','.').equals(""))
-	    		importeC=Double.parseDouble(textField_ICajas.getText().replace(',','.'));
+
 	    	
-	    	textField_Subtotal.setText(Double.toString(importeP+importeC));	 
+	    	textField_Subtotal.setText(Double.toString(importeP));	 
 	    	
-	    	importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP+importeC);
+	    	importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP);
 	    	textField_IvaI.setText(df.format(importe));	
 	    	
 	    	textField_Total.setText(Double.toString(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
@@ -518,52 +500,54 @@ Compras()
     	@Override
     	public void mouseClicked(MouseEvent arg0) {
     		
-    		setEstadoSeleccion();
-    		String id=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 3);
-    		String impuestos=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 4);
-    		String iva=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 1);
-    		String idProveedor= (String) modeloListado.getValueAt(tListado.getSelectedRow(), 5);
-    		ResultSet rs=ConectorBD.bdMySQL.Select("detalleCompras","*","IdCompra="+id);
-    		try {
-				while (rs.next())
-				{
-					DetalleComprasC a = new DetalleComprasC();
-					a.setId(rs.getObject(1).toString());
-					a.setIdGenero(rs.getObject(2).toString());
-					a.setCantidad(rs.getObject(3).toString());
-					a.setPrecio(rs.getObject(4).toString());
-					a.setIdcompra(rs.getObject(5).toString());
-					a.setFacturada(rs.getObject(6).toString());
-					ResultSet rs1=ConectorBD.bdMySQL.SelectAux("genero","Genero","Id="+a.getIdGenero());
-					rs1.next();
-					a.setGenero(rs1.getObject(1).toString());
-					modeloTDetalle.insertRow(a);
-					//modeloTDetalle.getRowCount()-1
+    		if (tListado.isEnabled())
+    		{
+	    		setEstadoSeleccion();
+	    		String id=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 3);
+	    		String impuestos=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 4);
+	    		String iva=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 1);
+	    		String idProveedor= (String) modeloListado.getValueAt(tListado.getSelectedRow(), 5);
+	    		ResultSet rs=ConectorBD.bdMySQL.Select("detalleCompras","*","IdCompra="+id);
+	    		try {
+					while (rs.next())
+					{
+						DetalleComprasC a = new DetalleComprasC();
+						a.setId(rs.getObject(1).toString());
+						a.setIdGenero(rs.getObject(2).toString());
+						a.setCantidad(rs.getObject(3).toString());
+						a.setPrecio(rs.getObject(4).toString());
+						a.setIdcompra(rs.getObject(5).toString());
+						a.setFacturada(rs.getObject(6).toString());
+						ResultSet rs1=ConectorBD.bdMySQL.SelectAux("genero","Genero","Id="+a.getIdGenero());
+						rs1.next();
+						a.setGenero(rs1.getObject(1).toString());
+						modeloTDetalle.insertRow(a);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		textField_IP.setText(impuestos);
-    		textField_Iva.setText(iva);
-    		
-    		for (int i=0; i<cmbProveedor.getComponentCount(); i++)
-    		{
-    			if (Integer.parseInt(idProveedor)==((ProveedorC)cmbProveedor.getItemAt(i)).getId())
-    			{
-    				cmbProveedor.setSelectedIndex(i);
-    			}
-    		}
-    		// PEQUEÑA ARREGLO
-    		int row= modeloTDetalle.getRowCount();
-    		for (int i=row-1; i>=0; i--)
-    		{
-    			if (modeloTDetalle.getValueAt(i, 1).equals(""))
-    			{
-    				modeloTDetalle.removeRow(i);
-    			}
-    		}
-    		
+	    		textField_IP.setText(impuestos);
+	    		textField_Iva.setText(iva);
+	    		
+	    		for (int i=0; i<cmbProveedor.getComponentCount(); i++)
+	    		{
+	    			if (Integer.parseInt(idProveedor)==((ProveedorC)cmbProveedor.getItemAt(i)).getId())
+	    			{
+	    				cmbProveedor.setSelectedIndex(i);
+	    			}
+	    		}
+	    		// PEQUEÑO ARREGLO
+	    		int row= modeloTDetalle.getRowCount();
+	    		for (int i=row-1; i>=0; i--)
+	    		{
+	    			if (modeloTDetalle.getValueAt(i, 1).equals(""))
+	    			{
+	    				modeloTDetalle.removeRow(i);
+	    			}
+	    		}
+	    		
+	    	}
     	}
     });
     sPListado.setViewportView(tListado);
@@ -615,7 +599,7 @@ Compras()
     
     sPGenero = new JScrollPane();
 
-    sPGenero.setBounds(10, 47, 937, 202);
+    sPGenero.setBounds(10, 47, 937, 347);
     Desglose.add(sPGenero);
     //----------------------------------------- TABLA DETALLE COMPRAS
     
@@ -634,6 +618,15 @@ Compras()
     
     
     tPescado = new JTable(modeloTDetalle);
+    tPescado.addMouseListener(new MouseAdapter() {
+    	@Override
+    	public void mouseClicked(MouseEvent arg0) {
+    		if (tPescado.isEnabled())
+    			btnBorrarDetalle.setVisible(true);
+    		
+    		
+    	}
+    });
     setUpSportColumn(tPescado, tPescado.getColumnModel().getColumn(0));
     tPescado.getModel().addTableModelListener(new TableModelListener() {
 
@@ -709,10 +702,6 @@ Compras()
     lblImpuestoPort.setBounds(10, 50, 102, 14);
     Importes.add(lblImpuestoPort);
     
-    JLabel lblImpuestoCajas = new JLabel("Importe Cajas:");
-    lblImpuestoCajas.setBounds(10, 75, 102, 14);
-    Importes.add(lblImpuestoCajas);
-    
     JLabel lblSubtotal = new JLabel("Subtotal:");
     lblSubtotal.setBounds(10, 100, 102, 14);
     Importes.add(lblSubtotal);
@@ -736,11 +725,6 @@ Compras()
     textField_IPIP.setColumns(10);
     textField_IPIP.setBounds(203, 47, 167, 20);    
     Importes.add(textField_IPIP);
-    
-    textField_ICajas = new JTextField();
-    textField_ICajas.setColumns(10);
-    textField_ICajas.setBounds(203, 72, 167, 20);
-    Importes.add(textField_ICajas);
     
     textField_Subtotal = new JTextField();
     textField_Subtotal.setColumns(10);
@@ -781,16 +765,6 @@ Compras()
     textField_Iva.setBounds(122, 122, 69, 20);
     Importes.add(textField_Iva);
     
-    JPanel Cajas = new JPanel();
-    Cajas.setBorder(new TitledBorder(null, "Cajas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-    Cajas.setBounds(10, 260, 937, 147);
-    Desglose.add(Cajas);
-    Cajas.setLayout(null);
-    
-    JScrollPane scrollPane = new JScrollPane();
-    scrollPane.setBounds(10, 22, 427, 114);
-    Cajas.add(scrollPane);
-    
     // tabla cajas
 
     
@@ -814,8 +788,6 @@ Compras()
 	titulo.add("Tipo");
 	titulo.add("Cantidad");
 	DefaultTableModel modeloCajas = new DefaultTableModel(elementos2,titulo);
-    tCajas = new JTable(modeloCajas);
-    scrollPane.setViewportView(tCajas);
        
 
 
@@ -833,6 +805,38 @@ Compras()
     });
     calendar1.setBounds(10, 11, 375, 213);
     frmCompras.getContentPane().add(calendar1);
+    
+    btnBorrarDetalle = new JButton("");
+    btnBorrarDetalle.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent arg0) {
+    		
+    		
+    		int result= JOptionPane.showConfirmDialog(frmCompras, "", "¡Atención!",JOptionPane.OK_CANCEL_OPTION ,JOptionPane.WARNING_MESSAGE);
+    		if (result==JOptionPane.OK_OPTION)
+    		{
+    			if (modeloTDetalle.getRowCount()!=2)
+    			{
+	    			String id= (String) modeloTDetalle.getValueAt(tPescado.getSelectedRow(), 5);
+	    			DetalleComprasC aux= new DetalleComprasC();
+	    			aux.setId(id);
+	    			aux.Delete();
+	    			
+    			}
+    			else
+    			{
+    				String idCompra= (String) modeloTDetalle.getValueAt(tPescado.getSelectedRow(), 6);
+    				ComprasC aux = new ComprasC();
+    				aux.setId(idCompra);
+    				aux.Delete();
+    			}
+    			RecargaListado();
+    		}
+    	}
+    });
+    btnBorrarDetalle.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Trash-icon.png")));
+    btnBorrarDetalle.setToolTipText("Borrar Detalle");
+    btnBorrarDetalle.setBounds(1272, 11, 80, 55);
+    frmCompras.getContentPane().add(btnBorrarDetalle);
 
  
     
