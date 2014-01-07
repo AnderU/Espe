@@ -1,11 +1,15 @@
 package Ventanas;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.Toolkit;
+import java.awt.Window;
+
 import javax.swing.JFrame;
 import java.awt.SystemColor;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -13,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -30,10 +35,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -51,7 +59,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-public class FacturasProveedores {
+public class FacturasProveedores extends JFrame{
 
 	private JFrame frmFactProv;
 	private TablaFacturasProveedores modeloFactProv;
@@ -87,6 +95,9 @@ public class FacturasProveedores {
 	private JButton btnNuevo ;
 	private JTable table_1;
 	private JScrollPane scrollPane;
+	private String FacturaSeleccionada;
+	
+	private JDialog busquedaFacturas;
 	
 	/**
 	 * Launch the application.
@@ -98,9 +109,125 @@ public class FacturasProveedores {
 	public FacturasProveedores() {
 		initialize();
 	}
+	public void abreDialogo()
+	{
+		panelBusquedaFacProv miPanelBusqueda= new panelBusquedaFacProv();
+
+		Window win = SwingUtilities.getWindowAncestor(this);
+		  busquedaFacturas = new JDialog(win, "Búsqueda Facturas",
+	      ModalityType.APPLICATION_MODAL);
+		  
+		  busquedaFacturas.getContentPane().add(miPanelBusqueda);
+		  busquedaFacturas.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		  busquedaFacturas.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		  busquedaFacturas.setResizable(false);
+		  busquedaFacturas.setIconImage(Toolkit.getDefaultToolkit().getImage(FacturasProveedores.class.getResource("/Imagenes/Animals-Fish-icon.png")));
+		  busquedaFacturas.setLocationRelativeTo(null);
+		  busquedaFacturas.setVisible(true);
+		
+		if (miPanelBusqueda.getTable().getSelectedRow()!=-1 && miPanelBusqueda.getVerPulsado())
+		{
+			String id=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 7);
+			FacturaSeleccionada=id;
+			String IP=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 5);
+			String iva=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 4);
+			String nFactura=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 2);
+			textField_nFactura.setText(nFactura);
+			
+			String IdProveedor=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 8);
+			for (int i=0; i<cmbProveedor.getItemCount(); i++)
+			{
+				String idAux=Integer.toString(cmbProveedor.getItemAt(i).getId());
+				if (idAux.equals(IdProveedor))
+				{
+					cmbProveedor.setSelectedIndex(i);
+				}
+			}	
+			
+			String IdFormaPago=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 9);
+			for (int i=0; i<comboBox_formaPago.getItemCount(); i++)
+			{
+				if (comboBox_formaPago.getItemAt(i).getId().equals(IdFormaPago))
+				{
+					comboBox_formaPago.setSelectedIndex(i);
+				}
+			}	
+			
+			String fecha=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 0);
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar miCalendario=new GregorianCalendar();
+			try {
+				miCalendario.setTime(df.parse(fecha));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			dateChooser_fecha.setCalendar(miCalendario.getInstance());
+			
+			CargaTablaFact(id);
+			if (!iva.equals("0.0"))
+			{
+				rdbtnConIva.setSelected(true);
+				rdbtnSinIva.setSelected(false);
+			}
+			else
+			{
+				rdbtnConIva.setSelected(false);
+				rdbtnSinIva.setSelected(true);
+			}
+			String observaciones=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 2);
+			textPane_observaciones.setText(observaciones);
+			textField_IP.setText(IP);
+			textField_Iva.setText(iva);
+			Recalcula();
+			setEstadoSeleccion();
+			
+		}
+	}
+	public void setEstadoEditar()
+	{
+		btnAceptar_edit.setVisible(true);
+		btnCancelar_edit.setVisible(true);
+		btnAceptar.setVisible(false);
+		btnCancelar.setVisible(false);
+		btnNuevo.setEnabled(false);
+		btnEditar.setEnabled(false);
+		btnBorrar.setEnabled(false);
+		dateChooser_fecha.setEnabled(true);
+		dateChooser_fechaPago.setEnabled(true);
+		rdbtnConIva.setEnabled(true);
+		rdbtnSinIva.setEnabled(true);
+		
+		textField_nFactura.setEditable(true);
+		cmbProveedor.setEnabled(true);
+		comboBox_formaPago.setEnabled(true);
+		textPane_observaciones.setEditable(true);
+
+		
+
+	}
+	
+	public void setEstadoSeleccion()
+	{
+		btnEditar.setEnabled(true);
+		btnBorrar.setEnabled(true);
+		textField_nFactura.setEditable(false);
+		cmbProveedor.setEnabled(false);
+		comboBox_formaPago.setEnabled(false);
+		textPane_observaciones.setEditable(false);
+		dateChooser_fecha.setEnabled(false);
+		dateChooser_fechaPago.setEnabled(false);
+		
+		
+	}
 	
 	public void setEstadoInicial()
 	{
+		int row=modeloFactProv.getRowCount();
+		for (int i=row-1; i>=0; i--)
+			modeloFactProv.removeRow(0);
+		
+		FacturaSeleccionada="0";
 		btnNuevo.setVisible(true);
 		btnNuevo.setEnabled(true);
 		btnEditar.setEnabled(false);
@@ -127,8 +254,13 @@ public class FacturasProveedores {
 		dateChooser_fecha.setCalendar(null);
 		dateChooser_fechaPago.setCalendar(null);
 		
+		dateChooser_fecha.setEnabled(false);
+		dateChooser_fechaPago.setEnabled(false);
+		
 		rdbtnConIva.setSelected(false);
 		rdbtnSinIva.setSelected(false);
+		rdbtnConIva.setEnabled(false);
+		rdbtnSinIva.setEnabled(false);
 		
 		textField_IvaI.setText("");
 		textField_Iva.setText("");
@@ -137,12 +269,25 @@ public class FacturasProveedores {
 		textField_IP.setText("");
 		textField_IPescado.setText("");
 		textField_Total.setText("");
+		textField_IvaI.setEditable(false);
+		textField_Iva.setEditable(false);
+		textField_Subtotal.setEditable(false);
+		textField_IPIP.setEditable(false);
+		textField_IP.setEditable(false);
+		textField_IPescado.setEditable(false);
+		textField_Total.setEditable(false);
+
+		
 		
 				
 	}
 	
 	public void setEstadoNuevo()
 	{
+		int row=modeloFactProv.getRowCount();
+		for (int i=row-1; i>=0; i--)
+			modeloFactProv.removeRow(0);
+		
 		btnNuevo.setEnabled(false);
 		btnAceptar.setVisible(true);
 		btnCancelar.setVisible(true);
@@ -159,12 +304,18 @@ public class FacturasProveedores {
 
 		textPane_observaciones.setText("");
 
+		
 		btnEditar.setEnabled(false);
 		btnBorrar.setEnabled(false);	
 
 		dateChooser_fecha.setCalendar(Calendar.getInstance());
 		dateChooser_fechaPago.setCalendar(null);
+		dateChooser_fecha.setEnabled(true);
+		dateChooser_fechaPago.setEnabled(true);
 		
+		
+		rdbtnConIva.setEnabled(true);
+		rdbtnSinIva.setEnabled(true);
 		rdbtnConIva.setSelected(true);
 		rdbtnSinIva.setSelected(false);
 		
@@ -185,7 +336,43 @@ public class FacturasProveedores {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	
+	public void CargaTablaFact(String idFactura)
+	{
+		
+		int row=modeloFactProv.getRowCount();
+		for (int i=row-1; i>=0; i--)
+			modeloFactProv.removeRow(0);
+		
+		ResultSet rs=ConectorBD.bdMySQL.Select("detallecompras","*","IdFactura="+idFactura);
+		try {
+			while (rs.next())
+			{
+				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("compras","IdProveedor ,Fecha , Iva","Id="+rs.getObject(5).toString());
+				rs1.next();
+				FacturasProveedoresTC aux = new FacturasProveedoresTC();
+				aux.setIdGenero(rs.getObject(2).toString());
+				ResultSet rs2=ConectorBD.bdMySQL.SelectAux1("genero","Genero","Id="+aux.getIdGenero());
+				rs2.next();
+				aux.setGenero(rs2.getObject(1).toString());
+				aux.setCantidad(rs.getObject(3).toString());
+				aux.setPrecio(rs.getObject(4).toString());
+				aux.setFacturada(Boolean.parseBoolean(rs.getObject(6).toString()));
+				SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+				aux.setFecha(formatoFecha.parse(rs1.getObject(2).toString()));
+				aux.setIva(rs1.getObject(3).toString());
+				aux.setId(rs.getObject(1).toString());
+				aux.setIdCompra(rs.getObject(5).toString());
+				modeloFactProv.insertRow(aux);				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	public void CargaTabla(String idProveedor)
 	{
 		
@@ -289,9 +476,10 @@ public class FacturasProveedores {
 						Double total=0.0;
 						String iva="";
 						int seleccionado=0;
+						boolean error=false;
 						for (int i=0; i<modeloFactProv.getRowCount(); i++)
 						{
-							if ((Boolean) modeloFactProv.getValueAt(i, 6))
+							if ((Boolean) modeloFactProv.getValueAt(i, 6) )
 							{
 								String ivaAux=(String) modeloFactProv.getValueAt(i, 5);
 								if (iva.equals(ivaAux) || seleccionado==0)
@@ -302,17 +490,20 @@ public class FacturasProveedores {
 								}
 								else
 								{
-									total=0.0;
-									for (int j=0; j<modeloFactProv.getRowCount(); j++)
-									{
-										modeloFactProv.setValueAt(false, j , 6 );
-									}
-									JOptionPane.showMessageDialog(frmFactProv, "Por favor seleccione compras con el mismo iva");
-									break;
+									error=true;
+									i=modeloFactProv.getRowCount();
 								}
 							}
 						}
 						
+						if (error)
+						{
+							total=0.0;							
+							JOptionPane.showMessageDialog(frmFactProv, "Por favor seleccione compras con el mismo iva");
+							btnAceptar.setEnabled(false);
+						}
+						else
+							btnAceptar.setEnabled(true);
 						if (rdbtnConIva.isSelected())
 							textField_Iva.setText(iva);
 						else
@@ -480,7 +671,7 @@ public class FacturasProveedores {
 			public void actionPerformed(ActionEvent e) 
 			{
 				
-				
+				setEstadoEditar();
 				
 			}
 		});
@@ -499,11 +690,11 @@ public class FacturasProveedores {
 				if (result==JOptionPane.OK_OPTION)
 				{
 					FacturasProveedoresC aux= new FacturasProveedoresC();
-
+					aux.setIdFactProv(FacturaSeleccionada);
 					aux.Delete();
-					
+					setEstadoInicial();
 				}
-				setEstadoInicial();
+				
 			}
 		});
 		
@@ -610,8 +801,8 @@ public class FacturasProveedores {
 						SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 						
 						aux.setFecha(formatoFecha.format(dateChooser_fecha.getCalendar().getTime()));
-						
-						//aux.setFechaPago(formatoFecha.format(dateChooser_fechaPago.getCalendar().getTime()));
+						if(dateChooser_fechaPago.getCalendar()!=null) 
+							aux.setFechaPago(formatoFecha.format(dateChooser_fechaPago.getCalendar().getTime()));
 						aux.setnFactura(textField_nFactura.getText());
 						aux.setObservaciones(textPane_observaciones.getText());
 						aux.setIva(textField_Iva.getText());
@@ -733,6 +924,20 @@ public class FacturasProveedores {
 	    JLabel lblTotal = new JLabel("Total:");
 	    lblTotal.setBounds(10, 150, 102, 14);
 	    pnl_importes.add(lblTotal);
+	    
+	    JButton btnBuscar = new JButton("");
+	    btnBuscar.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent arg0) {
+	    		
+	    	     abreDialogo();
+	    		
+	    		//FacturasProveedoresBusqueda ventanaBusqueda= new FacturasProveedoresBusqueda(frmFactProv.hashCode());
+	    	}
+	    });
+	    btnBuscar.setIcon(new ImageIcon(FacturasProveedores.class.getResource("/Imagenes/Search-icon.png")));
+	    btnBuscar.setToolTipText("Buscar");
+	    btnBuscar.setBounds(502, 11, 80, 55);
+	    frmFactProv.getContentPane().add(btnBuscar);
 	    
 
 	    

@@ -4,7 +4,8 @@ import BaseDatos.ConectorBD;
 
 public class FacturasProveedoresC implements BaseDatos{
 
-	private String IdFactProv, nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago , impuestos , iva;
+	private String IdFactProv, nFactura, IdProveedor, 
+	formaPago, observaciones, fecha, fechaPago,IdFormaPago , impuestos , iva , total , proveedor;
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
@@ -12,7 +13,7 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+=this.IdProveedor+" , ";
 		valores+=this.IdFormaPago+" , ";
 		valores+="'"+this.fecha+"' , ";
-		valores+="'"+this.fechaPago+"' , ";
+		valores+=this.fechaPago+" , ";
 		valores+="'"+this.observaciones+"' , ";
 		valores+=this.impuestos+" , ";
 		valores+=this.iva;
@@ -42,7 +43,7 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+=this.IdProveedor+" , ";
 		valores+=this.IdFormaPago+" , ";
 		valores+="'"+this.fecha+"' , ";
-		valores+="'"+this.fechaPago+"' , ";
+		valores+=this.fechaPago+" , ";
 		valores+="'"+this.observaciones+"'";
 		valores+=this.impuestos+" , ";
 		valores+=this.iva;
@@ -65,7 +66,7 @@ public class FacturasProveedoresC implements BaseDatos{
 		formaPago="";
 		observaciones="";
 		IdFormaPago="";
-		this.fechaPago="0000-00-00";
+		this.fechaPago="NULL";
 		
 	}
 	public String getFecha() {
@@ -119,6 +120,22 @@ public class FacturasProveedoresC implements BaseDatos{
 
 	public void setIdFactProv(String idFactProv) {
 		IdFactProv = idFactProv;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public String getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
 	}
 
 }

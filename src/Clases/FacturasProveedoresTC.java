@@ -104,7 +104,7 @@ public class FacturasProveedoresTC implements BaseDatos{
 			return this.facturada;
 	}
 
-	public void setFacturada(boolean facturada) {
+	public void setFacturada(Boolean facturada) {
 		this.facturada = facturada;
 	}
 
