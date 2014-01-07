@@ -4,7 +4,7 @@ import BaseDatos.ConectorBD;
 
 public class FacturasProveedoresC implements BaseDatos{
 
-	private String IdFactProv, nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago;
+	private String IdFactProv, nFactura, IdProveedor, formaPago, observaciones, fecha, fechaPago,IdFormaPago , impuestos , iva;
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
@@ -13,11 +13,28 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+=this.IdFormaPago+" , ";
 		valores+="'"+this.fecha+"' , ";
 		valores+="'"+this.fechaPago+"' , ";
-		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Insert("facturasproveedores",valores);
-		return 0;
+		valores+="'"+this.observaciones+"' , ";
+		valores+=this.impuestos+" , ";
+		valores+=this.iva;
+		return ConectorBD.bdMySQL.Insert("facturasproveedores",valores);
 	}
 	
+	public String getImpuestos() {
+		return impuestos;
+	}
+
+	public void setImpuestos(String impuestos) {
+		this.impuestos = impuestos;
+	}
+
+	public String getIva() {
+		return iva;
+	}
+
+	public void setIva(String iva) {
+		this.iva = iva;
+	}
+
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
@@ -27,6 +44,8 @@ public class FacturasProveedoresC implements BaseDatos{
 		valores+="'"+this.fecha+"' , ";
 		valores+="'"+this.fechaPago+"' , ";
 		valores+="'"+this.observaciones+"'";
+		valores+=this.impuestos+" , ";
+		valores+=this.iva;
 		ConectorBD.bdMySQL.Update("facturasproveedores", valores, this.IdFactProv);
 		
 	}
@@ -46,6 +65,7 @@ public class FacturasProveedoresC implements BaseDatos{
 		formaPago="";
 		observaciones="";
 		IdFormaPago="";
+		this.fechaPago="0000-00-00";
 		
 	}
 	public String getFecha() {

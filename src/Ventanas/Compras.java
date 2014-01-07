@@ -481,10 +481,13 @@ Compras()
  				rs1.next();
  				a.setProveedor(rs1.getObject(1).toString());
  				rs1=ConectorBD.bdMySQL.SelectAux("detalleCompras","SUM(Precio*Cantidad)","IdCompra="+a.getId()+"");
- 				rs1.next();
  				double iva=Double.parseDouble(a.getIva());
  				double impuestos=Double.parseDouble(a.getImpuestos());
- 				double importeSinIva=Double.parseDouble(rs1.getObject(1).toString());
+ 				double importeSinIva=0.0;
+ 				while (rs1.next())
+ 				{
+	 				importeSinIva=Double.parseDouble(rs1.getObject(1).toString());
+ 				}
  				a.setImporte(Double.toString(importeSinIva*(1+impuestos/100)*(1+iva/100)));
  				vectorTabla0.addElement(a);
  				
@@ -517,7 +520,7 @@ Compras()
 						a.setCantidad(rs.getObject(3).toString());
 						a.setPrecio(rs.getObject(4).toString());
 						a.setIdcompra(rs.getObject(5).toString());
-						a.setFacturada(rs.getObject(6).toString());
+						a.setFacturada(Boolean.parseBoolean(rs.getObject(6).toString()));
 						ResultSet rs1=ConectorBD.bdMySQL.SelectAux("genero","Genero","Id="+a.getIdGenero());
 						rs1.next();
 						a.setGenero(rs1.getObject(1).toString());

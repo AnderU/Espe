@@ -1,5 +1,6 @@
 package Tablas;
 
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 
@@ -7,7 +8,9 @@ import javax.swing.table.AbstractTableModel;
 
 
 import Clases.ConceptosC;
+import Clases.DetalleComprasC;
 import Clases.FacturasProveedoresTC;
+import Clases.GeneroC;
 
 
 public class TablaFacturasProveedores extends AbstractTableModel {
@@ -54,10 +57,11 @@ public class TablaFacturasProveedores extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
-                value = conceptos.getIdGenero();
+            	SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+                value = formatoFecha.format(conceptos.getFecha());
                 break;
             case 1:
-                value = conceptos.getIdGenero();
+                value = conceptos.getGenero();
                 break;
             case 2:
                 value = conceptos.getCantidad();
@@ -72,20 +76,51 @@ public class TablaFacturasProveedores extends AbstractTableModel {
             	value = conceptos.getIva();
             	break;
             case 6:
-                value = "incluido";
+                value =conceptos.getFacturada();
                 break;
-            	
+            case 7:
+                value =conceptos.getId();
+                break;
+            case 8:
+                value =conceptos.getIdGenero();
+                break;  
+            case 9:
+                value =conceptos.getIdCompra();
+                break;  
         }
 
         return value;
 
     }
     
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+    	FacturasProveedoresTC rowVector = (FacturasProveedoresTC) this.conceptos.elementAt(rowIndex);
+    	 switch (columnIndex) {
 
+         case 6:
+        	 
+        	 rowVector.setFacturada((Boolean) aValue);
+             break;
+     }
+        
+        fireTableCellUpdated(rowIndex, columnIndex);
+    }
+    
+    public Class<?> getColumnClass(int columnIndex) {
+        if (columnIndex == 6)
+            return Boolean.class;
+        return super.getColumnClass(columnIndex);
+    }
 
     public FacturasProveedoresTC getUserAt(int row) {
 
         return conceptos.get(row);
     }
+    
+    public boolean isCellEditable(int row, int column) {
+    		
+     	    return (column==6);
+
+     }
 
 }

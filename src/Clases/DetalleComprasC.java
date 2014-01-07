@@ -4,8 +4,8 @@ import BaseDatos.ConectorBD;
 
 public class DetalleComprasC implements BaseDatos{
 	
-	private String Id, idGenero , cantidad , precio , idcompra ,  facturada, genero ;
-
+	private String Id, idGenero , cantidad , precio , idcompra , genero , idfactura ;
+	private boolean facturada;
 
 
 	public DetalleComprasC()
@@ -16,7 +16,8 @@ public class DetalleComprasC implements BaseDatos{
 		precio="";
 		idcompra="";
 		genero="";
-		facturada="0";
+		facturada=false;
+		idfactura="0";
 	}
 	
 	public String getId() {
@@ -67,11 +68,11 @@ public class DetalleComprasC implements BaseDatos{
 		this.genero = genero;
 	}
 
-	public String getFacturada() {
+	public boolean getFacturada() {
 		return facturada;
 	}
 
-	public void setFacturada(String facturada) {
+	public void setFacturada(boolean facturada) {
 		this.facturada = facturada;
 	}
 
@@ -82,7 +83,11 @@ public class DetalleComprasC implements BaseDatos{
 		valores+=this.cantidad+" , ";
 		valores+=this.precio+" , ";
 		valores+=this.idcompra+" , ";
-		valores+=this.facturada;
+		if (this.facturada)
+			valores+="1 , ";
+		else
+			valores+="0 , ";
+		valores+=this.idfactura;
 		ConectorBD.bdMySQL.Insert("detalleCompras",valores);
 		return 0;
 	}
@@ -94,7 +99,11 @@ public class DetalleComprasC implements BaseDatos{
 		valores+=this.cantidad+" , ";
 		valores+=this.precio+" , ";
 		valores+=this.idcompra+" , ";
-		valores+=this.facturada;
+		if (this.facturada)
+			valores+="1 , ";
+		else
+			valores+="0 , ";
+		valores+=this.idfactura;
 		ConectorBD.bdMySQL.Update("detalleCompras",valores, this.Id);
 	}
 
@@ -102,6 +111,14 @@ public class DetalleComprasC implements BaseDatos{
 	public void Delete() {
 		// TODO Auto-generated method stub
 		ConectorBD.bdMySQL.Delete("detalleCompras", this.Id);
+	}
+
+	public String getIdfactura() {
+		return idfactura;
+	}
+
+	public void setIdfactura(String idfactura) {
+		this.idfactura = idfactura;
 	}  
 
 }

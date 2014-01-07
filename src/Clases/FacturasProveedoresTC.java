@@ -4,8 +4,9 @@ import java.util.Date;
 
 public class FacturasProveedoresTC implements BaseDatos{
 
-	private String Id, idGenero, genero, cantidad ,precio , iva;
+	private String Id, idGenero, genero, cantidad ,precio , iva , idCompra;
 	private Date fecha;
+	private boolean facturada;
 	
 	public FacturasProveedoresTC()
 	{
@@ -96,6 +97,23 @@ public class FacturasProveedoresTC implements BaseDatos{
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public boolean getFacturada() {
+
+			return this.facturada;
+	}
+
+	public void setFacturada(boolean facturada) {
+		this.facturada = facturada;
+	}
+
+	public String getIdCompra() {
+		return idCompra;
+	}
+
+	public void setIdCompra(String idCompra) {
+		this.idCompra = idCompra;
 	}
 
 }

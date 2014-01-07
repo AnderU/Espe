@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.SystemColor;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -12,6 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
 
 import BaseDatos.ConectorBD;
 import Clases.DetalleComprasC;
@@ -25,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,6 +48,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JScrollPane;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class FacturasProveedores {
 
@@ -160,6 +168,16 @@ public class FacturasProveedores {
 		rdbtnConIva.setSelected(true);
 		rdbtnSinIva.setSelected(false);
 		
+		ResultSet rs1=ConectorBD.bdMySQL.SelectAux("configuracion","*","Id=1");
+		try {
+			rs1.next();
+			textField_IP.setText(rs1.getObject(3).toString());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		textField_Subtotal.setText("0.0");
 		textField_IPescado.setText("0.0");
 	}
@@ -186,23 +204,53 @@ public class FacturasProveedores {
 				{
 					FacturasProveedoresTC aux = new FacturasProveedoresTC();
 					aux.setIdGenero(rs.getObject(2).toString());
+					ResultSet rs2=ConectorBD.bdMySQL.SelectAux1("genero","Genero","Id="+aux.getIdGenero());
+					rs2.next();
+					aux.setGenero(rs2.getObject(1).toString());
 					aux.setCantidad(rs.getObject(3).toString());
 					aux.setPrecio(rs.getObject(4).toString());
-					
-					//SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-					//aux.setFecha(formatoFecha.parse(rs1.getObject(2).toString()));
+					aux.setFacturada(Boolean.parseBoolean(rs.getObject(6).toString()));
+					SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+					aux.setFecha(formatoFecha.parse(rs1.getObject(2).toString()));
 					aux.setIva(rs1.getObject(3).toString());
+					aux.setId(rs.getObject(1).toString());
+					aux.setIdCompra(rs.getObject(5).toString());
 					modeloFactProv.insertRow(aux);	
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
 
-	
+	public void Recalcula()
+	{
+	    if (!textField_IP.getText().equals(""))
+	    {
+	    	DecimalFormat df = new DecimalFormat("0.00##");
+	    	Double importe=(Double.parseDouble(textField_IP.getText())/100)*Double.parseDouble(textField_IPescado.getText());
+	    	textField_IPIP.setText(df.format(importe));
+	    	
+	    	double importeP=Double.parseDouble(textField_IPescado.getText())+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
+
+	    	
+	    	textField_Subtotal.setText(Double.toString(importeP));	 
+	    	if (!textField_Iva.getText().equals(""))
+	    		importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP);
+	    	else
+	    		importe=0.0;
+	    	textField_IvaI.setText(df.format(importe));	
+	    	
+	    	textField_Total.setText(Double.toString(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
+
+	    	
+	    }
+	}
 	private void initialize() {
 		
 		//***************** VENTANA ********************************		
@@ -232,7 +280,47 @@ public class FacturasProveedores {
 			    scrollPane.setBounds(10, 228, 1026, 467);
 			    frmFactProv.getContentPane().add(scrollPane);
 			    scrollPane.setViewportView(table_1);		
+			    table_1.getModel().addTableModelListener(new TableModelListener() {
 
+
+					@Override
+					public void tableChanged(TableModelEvent arg0) {
+						// TODO Auto-generated method stub
+						Double total=0.0;
+						String iva="";
+						int seleccionado=0;
+						for (int i=0; i<modeloFactProv.getRowCount(); i++)
+						{
+							if ((Boolean) modeloFactProv.getValueAt(i, 6))
+							{
+								String ivaAux=(String) modeloFactProv.getValueAt(i, 5);
+								if (iva.equals(ivaAux) || seleccionado==0)
+								{
+									total+= Double.parseDouble((String) modeloFactProv.getValueAt(i, 4));
+									iva=(String) modeloFactProv.getValueAt(i, 5);
+									seleccionado=1;
+								}
+								else
+								{
+									total=0.0;
+									for (int j=0; j<modeloFactProv.getRowCount(); j++)
+									{
+										modeloFactProv.setValueAt(false, j , 6 );
+									}
+									JOptionPane.showMessageDialog(frmFactProv, "Por favor seleccione compras con el mismo iva");
+									break;
+								}
+							}
+						}
+						
+						if (rdbtnConIva.isSelected())
+							textField_Iva.setText(iva);
+						else
+							textField_Iva.setText("0.0");
+						textField_IPescado.setText(total.toString());
+						Recalcula();
+					}
+			      });
 		
 
 		
@@ -320,6 +408,29 @@ public class FacturasProveedores {
 
 //***************** IVA ********************************			
 		rdbtnConIva = new JRadioButton("Con");
+		rdbtnConIva.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if (rdbtnConIva.isSelected())
+				{
+					for (int i=0; i<modeloFactProv.getRowCount(); i++)
+					{
+						if ((Boolean) modeloFactProv.getValueAt(i, 6))
+						{
+							textField_Iva.setText((String) modeloFactProv.getValueAt(i, 5));
+							break;
+						}
+						else
+							textField_Iva.setText("0.0");							
+					}
+				}	
+				else
+				{
+					textField_Iva.setText("0.0");
+					
+				}	
+				Recalcula();
+			}
+		});
 		rdbtnConIva.setBounds(487, 154, 54, 23);
 		frmFactProv.getContentPane().add(rdbtnConIva);
 		Con_Sin.add(rdbtnConIva);
@@ -388,7 +499,7 @@ public class FacturasProveedores {
 				if (result==JOptionPane.OK_OPTION)
 				{
 					FacturasProveedoresC aux= new FacturasProveedoresC();
-					//aux.setNFactura(tblFactProv.getSelectedRow().getNFactura());
+
 					aux.Delete();
 					
 				}
@@ -407,14 +518,34 @@ public class FacturasProveedores {
 		btnAceptar_edit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (!textField_nFactura.getText().equals(""))
+				if (!textField_nFactura.getText().equals("") && comboBox_formaPago.getSelectedIndex()!=0 && cmbProveedor.getSelectedIndex()!=0)
 				{				
-					FacturasProveedoresC aux= new FacturasProveedoresC();
-					aux.setnFactura(textField_nFactura.getText());
 					
-					aux.setObservaciones(textPane_observaciones.getText());
-				}				
-				setEstadoInicial();
+					boolean x=false;
+					for (int i=0; i<modeloFactProv.getRowCount(); i++)
+					{
+						if ((Boolean) modeloFactProv.getValueAt(i,6))
+						{
+							x=true;
+							break;
+						}
+					}
+					if (x)
+					{	
+						FacturasProveedoresC aux= new FacturasProveedoresC();
+			
+						aux.setIdFormaPago(((FormaPago)comboBox_formaPago.getSelectedItem()).getId());
+						//aux.setFecha();
+						aux.setnFactura(textField_nFactura.getText());
+						aux.setObservaciones(textPane_observaciones.getText());
+						setEstadoInicial();
+					}
+					else
+						JOptionPane.showMessageDialog(frmFactProv, "Seleccione al menos una compra");	
+				}	
+				else
+					JOptionPane.showMessageDialog(frmFactProv, "Datos obligatorios no rellenados");
+				
 			}
 		});
 		
@@ -458,14 +589,57 @@ public class FacturasProveedores {
 			public void actionPerformed(ActionEvent e) 
 			{
 				
-				if (!textField_nFactura.getText().equals(""))
-				{					
-					FacturasProveedoresC aux= new FacturasProveedoresC();
-					aux.setnFactura(textField_nFactura.getText());
+				if (!textField_nFactura.getText().equals("") && comboBox_formaPago.getSelectedIndex()!=0 && cmbProveedor.getSelectedIndex()!=0)
+				{				
 					
-					aux.setObservaciones(textPane_observaciones.getText());
-				}		
-				setEstadoInicial();
+					boolean x=false;
+					for (int i=0; i<modeloFactProv.getRowCount(); i++)
+					{
+						if ((Boolean) modeloFactProv.getValueAt(i,6))
+						{
+							x=true;
+							break;
+						}
+					}
+					if (x)
+					{	
+						FacturasProveedoresC aux= new FacturasProveedoresC();
+			
+						aux.setIdFormaPago(((FormaPago)comboBox_formaPago.getSelectedItem()).getId());
+						aux.setIdProveedor(Integer.toString(((ProveedorC)cmbProveedor.getSelectedItem()).getId()));
+						SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+						
+						aux.setFecha(formatoFecha.format(dateChooser_fecha.getCalendar().getTime()));
+						
+						//aux.setFechaPago(formatoFecha.format(dateChooser_fechaPago.getCalendar().getTime()));
+						aux.setnFactura(textField_nFactura.getText());
+						aux.setObservaciones(textPane_observaciones.getText());
+						aux.setIva(textField_Iva.getText());
+						aux.setImpuestos(textField_IP.getText());
+						int id=aux.Insert();
+						for (int i=0; i<modeloFactProv.getRowCount(); i++)
+						{
+							if ((Boolean)modeloFactProv.getValueAt(i, 6))
+							{
+								DetalleComprasC auxC= new DetalleComprasC();
+								auxC.setIdGenero((String)modeloFactProv.getValueAt(i, 8));
+								auxC.setCantidad((String)modeloFactProv.getValueAt(i, 2));
+								auxC.setPrecio((String)modeloFactProv.getValueAt(i, 3));
+								auxC.setIdcompra((String)modeloFactProv.getValueAt(i, 9));
+								auxC.setFacturada(true);
+								auxC.setIdfactura(Integer.toString(id));
+								auxC.setId((String)modeloFactProv.getValueAt(i, 7));
+								auxC.Update();						
+								
+							}
+						}
+						setEstadoInicial();
+					}
+					else
+						JOptionPane.showMessageDialog(frmFactProv, "Seleccione al menos una compra");	
+				}	
+				else
+					JOptionPane.showMessageDialog(frmFactProv, "Datos obligatorios no rellenados");
 				
 			}
 		});

@@ -18,6 +18,7 @@ public class ConectorBD {
 	private Connection conexion;
 	private Statement st;
 	private Statement st1;
+	private Statement st2;
 	private ResultSet rs;
 	private DatabaseMetaData meta;
 	private ResultSet columns;
@@ -65,6 +66,18 @@ public class ConectorBD {
 		
 		try {
 			rs = st1.executeQuery("Select "+consulta+" from "+tabla+" WHERE "+condicion);
+			return rs;
+		} catch (SQLException e) {
+			
+		}
+		return null;
+
+	}
+	public ResultSet SelectAux1(String tabla ,String consulta , String condicion)
+	{
+		
+		try {
+			rs = st2.executeQuery("Select "+consulta+" from "+tabla+" WHERE "+condicion);
 			return rs;
 		} catch (SQLException e) {
 			
@@ -167,6 +180,7 @@ public class ConectorBD {
 			conexion = DriverManager.getConnection("jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName(),aux.getUser(),aux.getPassword());
 			st= conexion.createStatement();
 			st1= conexion.createStatement();
+			st2= conexion.createStatement();
 			meta=conexion.getMetaData();
 		}
 		catch(Exception e)
