@@ -4,7 +4,7 @@ import BaseDatos.ConectorBD;
 
 public class MovimientosC implements BaseDatos{
 
-	private String  IdFact, fecha, fechaPC, IdProvCli, nFactura, observaciones;
+	private String  IdMov, fecha, fechaPC, IdProvCli, nFactura, observaciones;
 	private double importe;
 	@Override
 	public int Insert() {
@@ -29,20 +29,20 @@ public class MovimientosC implements BaseDatos{
 		valores+=+this.importe+" ,";
 		valores+="'"+this.nFactura+"' , ";
 		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Update("movimientos", valores, this.IdFact);
+		ConectorBD.bdMySQL.Update("movimientos", valores, this.IdMov);
 		
 	}
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("movimientos", this.IdFact);
+		ConectorBD.bdMySQL.Delete("movimientos", this.IdMov);
 		
 	}
 	
 	
 	public MovimientosC()
 	{
-		IdFact="0";
+		IdMov="0";
 		fecha="";
 		fechaPC="";
 		nFactura="sin numero";
@@ -54,13 +54,13 @@ public class MovimientosC implements BaseDatos{
 
 
 	public String getIdFact() {
-		return IdFact;
+		return IdMov;
 	}
 
 
 
 	public void setIdFact(String idFact) {
-		IdFact = idFact;
+		IdMov = idFact;
 	}
 
 

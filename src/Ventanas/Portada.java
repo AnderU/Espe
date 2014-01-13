@@ -114,7 +114,7 @@ public class Portada {
 		frmPortada.getContentPane().add(btnGenero);
 		
 		btnConcepto = new JButton("");
-		btnConcepto.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Kitchen-List-ingredients-icon.png")));
+		btnConcepto.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Accounting-Bill-icon.png")));
 		btnConcepto.setToolTipText("Conceptos");
 		btnConcepto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -194,6 +194,7 @@ public class Portada {
 		frmPortada.getContentPane().add(btnConfiguracion);
 		
 		btnMovimientos = new JButton("");
+		btnMovimientos.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Debug-Open-in-browser-icon.png")));
 		btnMovimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vMovimientos=new Movimientos();
@@ -204,6 +205,7 @@ public class Portada {
 		frmPortada.getContentPane().add(btnMovimientos);
 		
 		btnBalances = new JButton("");
+		btnBalances.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Accounting-Purchase-order-icon.png")));
 		btnBalances.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vBalances= new Balances();

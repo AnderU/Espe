@@ -48,7 +48,6 @@ public class Movimientos {
 	private JDateChooser dateChooser_fechaDesde;
 	private JDateChooser dateChooser_fechaHasta;
 	private JDateChooser dateChooser_fechaPCDesde;
-//	private JTable table_mov;
 	private JScrollPane scrollPane;
 	private JPanel pnl_fechaPC;
 	private JLabel lblFechaPCHasta;
@@ -89,7 +88,7 @@ public class Movimientos {
 		dateChooser_fechaDesde.setCalendar(null);
 		dateChooser_fechaPCDesde.setCalendar(null);
 		
-		rdbtnCadaMov.setSelected(false);
+		rdbtnCadaMov.setSelected(true);
 		rdbtnTotalesGrupo.setSelected(false);
 		
 				
