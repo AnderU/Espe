@@ -34,7 +34,6 @@ public class Portada {
 	private JButton btnFacturasAClientes;
 	private JButton btnConfiguracion;
 	private JButton btnMovimientos;
-	private JButton btnBalances;
 	
 	// Ventanas
 	
@@ -190,11 +189,11 @@ public class Portada {
 			}
 		});
 		btnConfiguracion.setToolTipText("Configuracion");
-		btnConfiguracion.setBounds(820, 11, 80, 55);
+		btnConfiguracion.setBounds(730, 11, 80, 55);
 		frmPortada.getContentPane().add(btnConfiguracion);
 		
 		btnMovimientos = new JButton("");
-		btnMovimientos.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Debug-Open-in-browser-icon.png")));
+		btnMovimientos.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Accounting-Purchase-order-icon.png")));
 		btnMovimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vMovimientos=new Movimientos();
@@ -203,17 +202,6 @@ public class Portada {
 		btnMovimientos.setToolTipText("Movimientos");
 		btnMovimientos.setBounds(640, 11, 80, 55);
 		frmPortada.getContentPane().add(btnMovimientos);
-		
-		btnBalances = new JButton("");
-		btnBalances.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Accounting-Purchase-order-icon.png")));
-		btnBalances.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				vBalances= new Balances();
-			}
-		});
-		btnBalances.setToolTipText("Balances");
-		btnBalances.setBounds(730, 11, 80, 55);
-		frmPortada.getContentPane().add(btnBalances);
 		
 		JLabel lblTitulo1 = new JLabel("PESCADER\u00CDA");
 		lblTitulo1.setForeground(Color.WHITE);
