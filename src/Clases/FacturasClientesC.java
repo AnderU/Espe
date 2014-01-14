@@ -1,21 +1,40 @@
 package Clases;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import BaseDatos.ConectorBD;
 
 public class FacturasClientesC implements BaseDatos{
 
-	private String IdFactCli, nFactura, IdCliente, formaCobro, observaciones, fecha, fechaCobro,IdFormaCobro;
+	private String IdFactCli, nFactura, IdCliente, formaCobro, observaciones, fecha, fechaCobro,IdFormaCobro, iva;
+	
+	public String formateaFecha(String fecha)
+	{
+		String ano=fecha.substring(6, 10);
+		String mes=fecha.substring(3, 5);
+		String dia=fecha.substring(0, 2);
+		return ano+"-"+mes+"-"+dia;
+	}
+	
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+nFactura+"' , ";
 		valores+=this.IdCliente+" , ";
 		valores+=this.IdFormaCobro+" , ";
-		valores+="'"+this.fecha+"' , ";
-		valores+="'"+this.fechaCobro+"' , ";
+		valores+="'"+formateaFecha(fecha)+"' , ";
+		if (!this.fechaCobro.equals("NULL"))
+		{
+			valores+="'"+formateaFecha(this.fechaCobro)+"' , ";
+		}
+		else
+			valores+=this.fechaCobro+" , ";
+		valores+=this.iva+" , ";
 		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Insert("facturasclientes",valores);
-		return 0;
+		
+		return ConectorBD.bdMySQL.Insert("facturasclientes",valores);
 	}
 	
 	public String getIdFactCli() {
@@ -88,8 +107,14 @@ public class FacturasClientesC implements BaseDatos{
 		String valores="'"+nFactura+"' , ";
 		valores+=this.IdCliente+" , ";
 		valores+=this.IdFormaCobro+" , ";
-		valores+="'"+this.fecha+"' , ";
-		valores+="'"+this.fechaCobro+"' , ";
+		valores+="'"+formateaFecha(fecha)+"' , ";
+		if (!this.fechaCobro.equals("NULL"))
+		{
+			valores+="'"+formateaFecha(this.fechaCobro)+"' , ";
+		}
+		else
+			valores+=this.fechaCobro+" , ";
+		valores+=this.iva+" , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("facturasclientes", valores, this.IdFactCli);
 		
@@ -110,6 +135,16 @@ public class FacturasClientesC implements BaseDatos{
 		formaCobro="";
 		observaciones="";
 		IdFormaCobro="";
+		this.fecha="NULL";
+		this.fechaCobro="NULL";
 		
+	}
+
+	public String getIva() {
+		return iva;
+	}
+
+	public void setIva(String iva) {
+		this.iva = iva;
 	}
 }

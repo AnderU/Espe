@@ -297,6 +297,7 @@ Compras()
 	fecha=new Date();
     // Set up the frame
 	frmCompras = new JFrame();
+	frmCompras.getContentPane().setBackground(SystemColor.textHighlight);
 	frmCompras.setIconImage(Toolkit.getDefaultToolkit().getImage(Compras.class.getResource("/Imagenes/Animals-Fish-icon.png")));
     frmCompras.setTitle("Compras");
     frmCompras.setExtendedState(JFrame.MAXIMIZED_BOTH);

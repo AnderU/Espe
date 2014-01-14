@@ -91,7 +91,7 @@ public class ClienteC implements BaseDatos{
 	public ClienteC()
 	{
 		Id=0;
-		cliente="";
+		cliente="Especifique cliente";
 		setIdPoblacion("");
 		correo="";
 		direccion="";
@@ -181,6 +181,11 @@ public class ClienteC implements BaseDatos{
 
 	public void setIdProvincia(String idProvincia) {
 		IdProvincia = idProvincia;
+	}
+	
+	public String toString()
+	{
+		return this.cliente;
 	}
 
 }
