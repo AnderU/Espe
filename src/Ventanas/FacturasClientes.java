@@ -293,7 +293,7 @@ public class FacturasClientes {
 
 //****************** ACEPTAR EDIT************************************	
 		btnAceptar_edit = new JButton("");
-		btnAceptar_edit.setBounds(311, 11, 80, 55);
+		btnAceptar_edit.setBounds(310, 11, 80, 55);
 		frmFactProv.getContentPane().add(btnAceptar_edit);
 		btnAceptar_edit.setIcon(new ImageIcon(Clientes.class.getResource("/Imagenes/Accept-icon.png")));
 		btnAceptar_edit.setToolTipText("Aceptar");
@@ -315,7 +315,7 @@ public class FacturasClientes {
 
 //****************** CANCELAR ************************************	
 		btnCancelar = new JButton("");
-		btnCancelar.setBounds(412, 11, 80, 55);
+		btnCancelar.setBounds(410, 11, 80, 55);
 		frmFactProv.getContentPane().add(btnCancelar);
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {

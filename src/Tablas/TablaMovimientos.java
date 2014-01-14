@@ -12,23 +12,23 @@ import Clases.MovimientosC;
 
 public class TablaMovimientos extends AbstractTableModel {
 
-    private Vector<MovimientosC> conceptos;
+    private Vector<MovimientosC> movimientos;
     private Vector<String> nombresColumnas;
 
-    public TablaMovimientos(Vector<MovimientosC> conceptos,Vector<String> nombresColumnas) {
+    public TablaMovimientos(Vector<MovimientosC> movimientos,Vector<String> nombresColumnas) {
 
-    	this.conceptos = new Vector<MovimientosC>(conceptos);
+    	this.movimientos = new Vector<MovimientosC>(movimientos);
         this.nombresColumnas= new Vector<String> (nombresColumnas);
         fireTableStructureChanged();
     }
 
     public void insertRow(MovimientosC rowData) {
-    	conceptos.addElement(rowData);
-        fireTableRowsInserted(conceptos.size(),conceptos.size());
+    	movimientos.addElement(rowData);
+        fireTableRowsInserted(movimientos.size(),movimientos.size());
     }
     
     public void removeRow(int row) {
-    	conceptos.removeElementAt(row);
+    	movimientos.removeElementAt(row);
         fireTableRowsDeleted(row, row);
     }
     
@@ -38,7 +38,7 @@ public class TablaMovimientos extends AbstractTableModel {
     }
     @Override
     public int getRowCount() {
-        return conceptos.size();
+        return movimientos.size();
     }
 
     @Override
@@ -50,28 +50,31 @@ public class TablaMovimientos extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         Object value = "??";
-        MovimientosC conceptos = this.conceptos.get(rowIndex);
+        MovimientosC movimientos = this.movimientos.get(rowIndex);
         switch (columnIndex) {
 
             case 0:
             	SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-                value = formatoFecha.format(conceptos.getFecha());
+                value = formatoFecha.format(movimientos.getFecha());
                 break;
             case 1:
             	SimpleDateFormat formatoFechaPC = new SimpleDateFormat("dd-MM-yyyy");
-                value = formatoFechaPC.format(conceptos.getFechaPC());
+                value = formatoFechaPC.format(movimientos.getFechaPC());
                 break;
             case 2:
-                value = conceptos.getIdProvCli();
+                value = movimientos.getIdProvCli();
                 break;
             case 3:
-                value = conceptos.getImporte();
+                value = movimientos.getImporte();
                 break;
             case 4:
-            	value = conceptos.getnFactura();
+            	value = movimientos.getnFactura();
             	break;
             case 5:
-            	value = conceptos.getObservaciones();
+            	value = movimientos.getObservaciones();
+            	break;
+            case 6:
+            	value = movimientos.getIdFact();
             	break;
         }
 
@@ -81,7 +84,7 @@ public class TablaMovimientos extends AbstractTableModel {
 
     public MovimientosC getUserAt(int row) {
 
-        return conceptos.get(row);
+        return movimientos.get(row);
     }
     
 
