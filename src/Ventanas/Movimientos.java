@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import BaseDatos.ConectorBD;
+import Clases.ComboC;
 import Clases.ConceptosC;
 import Clases.FormaPago;
 import Clases.MovimientosC;
@@ -48,8 +49,8 @@ public class Movimientos {
 
 	private JPanel pnl_observaciones;
 	private JTextPane textPane_observaciones;
-	private JComboBox<FormaPago> comboBox_grupo;
-	private JComboBox<ConceptosC> cmbConcepto;
+	private JComboBox<ComboC> comboBox_grupo;
+	private JComboBox<ConceptosC> comboBox_concepto;
 	private JScrollPane scrollPane;
 	private JTextField textField_importeTotal;
 	private JTable table_mov;
@@ -78,11 +79,12 @@ public class Movimientos {
 	
 	public void setEstadoInicial()
 	{
-		cmbConcepto.setEnabled(false);
+		comboBox_concepto.setEnabled(false);
 		comboBox_grupo.setEnabled(false);
 		textPane_observaciones.setEditable(false);
 		//cmbConcepto.setSelectedIndex(0);
 		comboBox_grupo.setSelectedIndex(0);
+		comboBox_grupo.setEnabled(true);
 		
 		textPane_observaciones.setText("");
 		
@@ -112,6 +114,7 @@ public class Movimientos {
 		textPane_observaciones.setText("");
 		btnEditar.setEnabled(false);
 		btnBorrar.setEnabled(false);
+		comboBox_grupo.setEnabled(true);
 	}
 	
 	public void setEstadoSeleccion()
@@ -197,27 +200,7 @@ public class Movimientos {
 			    
 			    table_mov = new JTable(modeloMov);
 			    scrollPane.setViewportView(table_mov);
-		
-		
-		
-		FormaPago auxf= new FormaPago(); 
- 		ResultSet rsf=ConectorBD.bdMySQL.Select("formapago", "*", "true");
- 		Vector<FormaPago> elementosf= new Vector<FormaPago>(); 
- 		elementosf.addElement(auxf);
- 		try {
- 			while (rsf.next())
- 			{
- 				FormaPago af=new FormaPago();
- 				
- 				af.setId(rsf.getObject(1).toString());
- 				af.setForma(rsf.getObject(2).toString());
- 				elementosf.addElement(af);
- 				
- 			}
- 		} catch (SQLException ef) {
- 			// TODO Auto-generated catch block
- 			ef.printStackTrace();
- 		}
+
 
 //****************** OBSERVACIONES ************************************
 
@@ -354,40 +337,67 @@ public class Movimientos {
 			btnCancelar.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Delete-icon.png")));
 			btnCancelar.setVisible(false);
 			
-		//****************** CANCELAR EDIT ************************************	
-			btnCancelar_edit = new JButton("");
-			btnCancelar_edit.setBounds(410, 11, 80, 55);
-			frmMovimientos.getContentPane().add(btnCancelar_edit);
-			btnCancelar_edit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setEstadoInicial();			
-				}
-			});
-			btnCancelar_edit.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Delete-icon.png")));
-			btnCancelar_edit.setToolTipText("Cancelar");
-			btnCancelar_edit.setVisible(false);
-		    	
-		    	panel_grupo = new JPanel();
-		    	panel_grupo.setBorder(new TitledBorder(null, "Grupo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		    	panel_grupo.setBounds(1083, 396, 251, 49);
-		    	frmMovimientos.getContentPane().add(panel_grupo);
-		    			panel_grupo.setLayout(null);
-		    	
-		    			comboBox_grupo = new JComboBox<FormaPago>(elementosf);
-		    			comboBox_grupo.setBounds(10, 18, 231, 20);
-		    			panel_grupo.add(comboBox_grupo);
-		    			comboBox_grupo.setEnabled(false);
-		    			
-		    			panel_concepto = new JPanel();
-		    			panel_concepto.setBorder(new TitledBorder(null, "Concepto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		    			panel_concepto.setBounds(1083, 325, 251, 49);
-		    			frmMovimientos.getContentPane().add(panel_concepto);
+//****************** CANCELAR EDIT ************************************	
+		btnCancelar_edit = new JButton("");
+		btnCancelar_edit.setBounds(410, 11, 80, 55);
+		frmMovimientos.getContentPane().add(btnCancelar_edit);
+		btnCancelar_edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setEstadoInicial();			
+			}
+		});
+		btnCancelar_edit.setIcon(new ImageIcon(Proveedores.class.getResource("/Imagenes/Delete-icon.png")));
+		btnCancelar_edit.setToolTipText("Cancelar");
+		btnCancelar_edit.setVisible(false);
+		
+		
+//**************************************GRUPO***************************************
+			
+    	panel_grupo = new JPanel();
+    	panel_grupo.setBorder(new TitledBorder(null, "Grupo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+    	panel_grupo.setBounds(1083, 396, 251, 49);
+    	frmMovimientos.getContentPane().add(panel_grupo);
+		panel_grupo.setLayout(null);
+
+	
+		
+		ComboC aux1= new ComboC(); 
+ 		rs=ConectorBD.bdMySQL.Select("gruposconcepto", "*", "true");
+ 		Vector<ComboC> elementos1= new Vector<ComboC>(); 
+ 		elementos1.addElement(aux1);
+ 		try {
+ 			while (rs.next())
+ 			{
+ 				ComboC a=new ComboC();
+ 				
+ 				a.setId(rs.getObject(1).toString());
+ 				a.setNombre(rs.getObject(2).toString());
+ 				elementos1.addElement(a);
+ 				
+ 			}
+ 		} catch (SQLException e1) {
+ 			// TODO Auto-generated catch block
+ 			e1.printStackTrace();
+ 		}
+
+ 		comboBox_grupo = new JComboBox<ComboC>(elementos1);
+		comboBox_grupo.setBounds(10, 18, 231, 20);
+		panel_grupo.add(comboBox_grupo);
+		comboBox_grupo.setEnabled(false);
+
+		
+//**************************************CONCEPTO***************************************
+
+		panel_concepto = new JPanel();
+		panel_concepto.setBorder(new TitledBorder(null, "Concepto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_concepto.setBounds(1083, 325, 251, 49);
+		frmMovimientos.getContentPane().add(panel_concepto);
  	    panel_concepto.setLayout(null);
 		    			
- 	    cmbConcepto = new JComboBox<ConceptosC>(/*elementos1*/);
- 	    cmbConcepto.setBounds(10, 18, 230, 20);
- 	    panel_concepto.add(cmbConcepto);
- 	    cmbConcepto.addItemListener(new ItemListener() {
+ 	    comboBox_concepto = new JComboBox<ConceptosC>(/*elementos1*/);
+ 	    comboBox_concepto.setBounds(10, 18, 230, 20);
+ 	    panel_concepto.add(comboBox_concepto);
+ 	    comboBox_concepto.addItemListener(new ItemListener() {
  	    	public void itemStateChanged(ItemEvent arg0) {
  	    		if (arg0.getStateChange() == ItemEvent.SELECTED) 
  	    		{
@@ -398,7 +408,7 @@ public class Movimientos {
  	    });
  	    
  	    
- 	     	    cmbConcepto.setEnabled(false);
+ 	     	    comboBox_concepto.setEnabled(false);
  	     	    
  	     	    panel_importe = new JPanel();
  	     	    panel_importe.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));

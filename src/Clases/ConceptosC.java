@@ -69,6 +69,12 @@ public class ConceptosC implements BaseDatos{
 	public void setGrupo(String grupo) {
 		Grupo = grupo;
 	}
+	
+
+	@Override
+	public String toString() {
+		return Grupo;
+	}
 
 	@Override
 	public int Insert() {
