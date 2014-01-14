@@ -43,7 +43,7 @@ public class TablaMovimientos extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 6;
     }
 
     @Override
@@ -62,19 +62,22 @@ public class TablaMovimientos extends AbstractTableModel {
                 value = formatoFechaPC.format(movimientos.getFechaPC());
                 break;
             case 2:
-                value = movimientos.getIdProvCli();
+                value = movimientos.getTipo();
                 break;
             case 3:
                 value = movimientos.getImporte();
                 break;
             case 4:
-            	value = movimientos.getnFactura();
+            	value = movimientos.getGrupo();
             	break;
             case 5:
-            	value = movimientos.getObservaciones();
+            	value = movimientos.getnFactura();
             	break;
             case 6:
-            	value = movimientos.getIdFact();
+            	value = movimientos.getIdMov();
+            	break;
+            case 7:
+            	value=movimientos.getObservaciones();
             	break;
         }
 

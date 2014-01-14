@@ -4,15 +4,29 @@ import BaseDatos.ConectorBD;
 
 public class MovimientosC implements BaseDatos{
 
-	private String  IdMov, fecha, fechaPC, IdProvCli, nFactura, observaciones;
+	private String  IdMov, fecha, fechaPC, IdConcepto, IdGrupo, nFactura, observaciones;
+	private String Tipo, Grupo;
+	
+
+	public String getIdGrupo() {
+		return IdGrupo;
+	}
+
+
+	public void setIdGrupo(String idGrupo) {
+		IdGrupo = idGrupo;
+	}
+
+
 	private double importe;
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+fecha+"' , ";
 		valores+="'"+this.fechaPC+"' , ";
-		valores+=this.IdProvCli+" , ";
-		valores+=+this.importe+" ,";
+		valores+=this.IdConcepto+" , ";
+		valores+=this.importe+" ,";
+		valores+="'"+this.IdGrupo+"' , ";
 		valores+="'"+this.nFactura+"' , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("movimientos",valores);
@@ -25,8 +39,9 @@ public class MovimientosC implements BaseDatos{
 		// TODO Auto-generated method stub
 		String valores="'"+fecha+"' , ";
 		valores+="'"+this.fechaPC+"' , ";
-		valores+=this.IdProvCli+" , ";
+		valores+=this.IdConcepto+" , ";
 		valores+=+this.importe+" ,";
+		valores+="'"+this.IdGrupo+"' , ";
 		valores+="'"+this.nFactura+"' , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("movimientos", valores, this.IdMov);
@@ -45,24 +60,36 @@ public class MovimientosC implements BaseDatos{
 		IdMov="0";
 		fecha="";
 		fechaPC="";
+		IdConcepto="";
+		importe=0;
+		IdGrupo="";
 		nFactura="sin numero";
-		IdProvCli="";
 		observaciones="";
+		Tipo="";
+		Grupo="";
 		
 	}
 
 
 
-	public String getIdFact() {
-		return IdMov;
+	public String getTipo() {
+		return Tipo;
 	}
 
 
-
-	public void setIdFact(String idFact) {
-		IdMov = idFact;
+	public void setTipo(String tipo) {
+		Tipo = tipo;
 	}
 
+
+	public String getGrupo() {
+		return Grupo;
+	}
+
+
+	public void setGrupo(String grupo) {
+		Grupo = grupo;
+	}
 
 
 	public String getnFactura() {
@@ -77,16 +104,25 @@ public class MovimientosC implements BaseDatos{
 
 
 
-	public String getIdProvCli() {
-		return IdProvCli;
+
+	public String getIdMov() {
+		return IdMov;
 	}
 
 
-
-	public void setIdProvCli(String idProvCli) {
-		IdProvCli = idProvCli;
+	public void setIdMov(String idMov) {
+		IdMov = idMov;
 	}
 
+
+	public String getIdConcepto() {
+		return IdConcepto;
+	}
+
+
+	public void setIdConcepto(String idConcepto) {
+		IdConcepto = idConcepto;
+	}
 
 
 	public String getObservaciones() {
