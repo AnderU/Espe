@@ -85,6 +85,8 @@ public class TablaFacturasClientes extends AbstractTableModel {
             case 6:
             	value = conceptos.getIdgenero();
             	break;
+            case 7:
+            	value = conceptos.getId();
         }
 
         return value;

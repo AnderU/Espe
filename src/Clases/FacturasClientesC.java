@@ -8,7 +8,7 @@ import BaseDatos.ConectorBD;
 
 public class FacturasClientesC implements BaseDatos{
 
-	private String IdFactCli, nFactura, IdCliente, formaCobro, observaciones, fecha, fechaCobro,IdFormaCobro, iva;
+	private String IdFactCli, nFactura, IdCliente, formaCobro, observaciones, fecha, fechaCobro,IdFormaCobro, iva, cliente , total;
 	
 	public String formateaFecha(String fecha)
 	{
@@ -22,8 +22,8 @@ public class FacturasClientesC implements BaseDatos{
 	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+nFactura+"' , ";
-		valores+=this.IdCliente+" , ";
 		valores+=this.IdFormaCobro+" , ";
+		valores+=this.IdCliente+" , ";
 		valores+="'"+formateaFecha(fecha)+"' , ";
 		if (!this.fechaCobro.equals("NULL"))
 		{
@@ -105,8 +105,8 @@ public class FacturasClientesC implements BaseDatos{
 	public void Update() {
 		// TODO Auto-generated method stub
 		String valores="'"+nFactura+"' , ";
-		valores+=this.IdCliente+" , ";
 		valores+=this.IdFormaCobro+" , ";
+		valores+=this.IdCliente+" , ";
 		valores+="'"+formateaFecha(fecha)+"' , ";
 		if (!this.fechaCobro.equals("NULL"))
 		{
@@ -146,5 +146,21 @@ public class FacturasClientesC implements BaseDatos{
 
 	public void setIva(String iva) {
 		this.iva = iva;
+	}
+
+	public String getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
 	}
 }

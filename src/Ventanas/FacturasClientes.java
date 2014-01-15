@@ -1,16 +1,21 @@
 package Ventanas;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.Toolkit;
+import java.awt.Window;
+
 import javax.swing.JFrame;
 import java.awt.SystemColor;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -29,8 +34,12 @@ import java.awt.event.ActionEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -44,6 +53,8 @@ import com.toedter.calendar.JDateChooserCellEditor;
 
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FacturasClientes {
 
@@ -75,6 +86,9 @@ public class FacturasClientes {
 	private JPanel pnl_cliente;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private JDialog busquedaFacturas;
+	private String FacturaSeleccionada;
+	private JButton btnBorrarDetalle;
 	
 	/**
 	 * Launch the application.
@@ -86,7 +100,150 @@ public class FacturasClientes {
 	public FacturasClientes() {
 		initialize();
 	}
+	
+	public void CargaTablaFact(String idFactura)
+	{
+		
+		int row=modeloTFactCli.getRowCount();
+		for (int i=row-1; i>=0; i--)
+			modeloTFactCli.removeRow(0);
+		
+		ResultSet rs=ConectorBD.bdMySQL.Select("detallefacturasclientes","*","IdFactura="+idFactura);
+		try {
+			while (rs.next())
+			{
+				DetalleFacturasCliente aux = new DetalleFacturasCliente();
+				aux.setId(rs.getObject(1).toString());
+				SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+				aux.setFecha(formatoFecha.format(rs.getObject(2)));
+				aux.setIdgenero(rs.getObject(3).toString());
+				ResultSet rs2=ConectorBD.bdMySQL.SelectAux1("genero","Genero","Id="+aux.getIdgenero());
+				rs2.next();
+				aux.setGenero(rs2.getObject(1).toString());
+				aux.setCantidad(rs.getObject(4).toString());
+				aux.setPrecio(rs.getObject(5).toString());
+				aux.setAlbaran(rs.getObject(6).toString());
+				modeloTFactCli.insertRow(aux);				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int row1= modeloTFactCli.getRowCount();
+		for (int i=row1-1; i>=0; i--)
+		{
+			if (modeloTFactCli.getValueAt(i, 7).equals(""))
+			{
+				modeloTFactCli.removeRow(i);
+			}
+		}
 
+	}
+
+	public void buscaFactura()
+	{
+		panelBusquedaFacCli miPanelBusqueda= new panelBusquedaFacCli();
+
+		Window win = SwingUtilities.getWindowAncestor(this.frmFactProv);
+		  busquedaFacturas = new JDialog(win, "Búsqueda Facturas",
+	      ModalityType.APPLICATION_MODAL);
+		  
+		  busquedaFacturas.getContentPane().add(miPanelBusqueda);
+		  busquedaFacturas.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		  busquedaFacturas.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		  busquedaFacturas.setResizable(false);
+		  busquedaFacturas.setIconImage(Toolkit.getDefaultToolkit().getImage(FacturasProveedores.class.getResource("/Imagenes/Animals-Fish-icon.png")));
+		  busquedaFacturas.setLocationRelativeTo(null);
+		  busquedaFacturas.setVisible(true);
+		
+		if (miPanelBusqueda.getTable().getSelectedRow()!=-1 && miPanelBusqueda.getVerPulsado())
+		{
+			String id=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 6);
+			FacturaSeleccionada=id;
+			String iva=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 4);
+			String nFactura=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 2);
+			textField_nFactura.setText(nFactura);
+			textPane_observaciones.setText((String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 9));
+			String IdProveedor=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 7);
+			for (int i=0; i<cmbCliente.getItemCount(); i++)
+			{
+				String idAux=Integer.toString(cmbCliente.getItemAt(i).getId());
+				if (idAux.equals(IdProveedor))
+				{
+					cmbCliente.setSelectedIndex(i);
+				}
+			}	
+			
+			String IdFormaPago=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 8);
+			for (int i=0; i<comboBox_formaCobro.getItemCount(); i++)
+			{
+				if (comboBox_formaCobro.getItemAt(i).getId().equals(IdFormaPago))
+				{
+					comboBox_formaCobro.setSelectedIndex(i);
+				}
+			}	
+			
+			String fecha=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 0);
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar miCalendario=new GregorianCalendar();
+			try {
+				miCalendario.setTime(df.parse(fecha));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			dateChooser_fecha.setCalendar(miCalendario.getInstance());
+			
+			textField_Iva.setText(iva);
+			
+			CargaTablaFact(id);
+			setEstadoSeleccion();
+			
+		}
+	}
+
+	public void setEstadoSeleccion()
+	{
+		btnEditar.setEnabled(true);
+		btnBorrar.setEnabled(true);
+		textField_nFactura.setEditable(false);
+		cmbCliente.setEnabled(false);
+		comboBox_formaCobro.setEnabled(false);
+		textPane_observaciones.setEditable(false);
+		dateChooser_fecha.setEnabled(false);
+		dateChooser_fechaCobro.setEnabled(false);
+		
+		
+	}
+	
+	public void setEstadoEditar()
+	{
+		
+		textField_Subtotal.setEditable(true);
+		textField_IvaI.setEditable(true);
+		textField_Total.setEditable(true);
+		textField_nFactura.setEditable(true);
+		cmbCliente.setEnabled(true);
+		comboBox_formaCobro.setEnabled(true);
+		textPane_observaciones.setEditable(true);
+		table.setEnabled(true);
+		
+		dateChooser_fecha.setEnabled(true);
+		dateChooser_fechaCobro.setEnabled(true);
+		
+		btnAceptar_edit.setVisible(true);
+		btnCancelar_edit.setVisible(true);
+		
+		btnNuevo.setEnabled(false);
+		btnEditar.setEnabled(false);
+		btnBorrar.setEnabled(false);
+	}
+	public void setEstadoSeleccionDetalle()
+	{
+		btnBorrarDetalle.setVisible(true);
+		
+	}
+	
 	
 	public void setEstadoInicial()
 	{
@@ -101,6 +258,9 @@ public class FacturasClientes {
 		btnBorrar.setEnabled(false);
 		btnEditar.setVisible(true);
 		btnBorrar.setVisible(true);
+		btnBorrarDetalle.setVisible(false);
+		
+		table.setEnabled(false);
 		
 		btnAceptar.setVisible(false);
 		btnCancelar.setVisible(false);
@@ -134,7 +294,7 @@ public class FacturasClientes {
 		textField_Total.setText("");
 		
 		table.clearSelection();
-		table.setEnabled(true);
+
 				
 	}
 	
@@ -168,6 +328,8 @@ public class FacturasClientes {
 			
 		textField_Subtotal.setText("0.0");
 		
+	
+		
 		ResultSet rs=ConectorBD.bdMySQL.Select("configuracion","Valor","Id=2");
 		try {
 			rs.next();
@@ -179,10 +341,9 @@ public class FacturasClientes {
 		rs=ConectorBD.bdMySQL.Select("facturasclientes","MAX(Id)","true");
 		
 		try {
-			if (rs.getFetchSize()!=0)
+			if (rs.next())
 			{
 					
-					rs.next();
 					Integer aux=Integer.parseInt(rs.getObject(1).toString());
 					aux++;
 					textField_nFactura.setText(aux.toString());
@@ -266,10 +427,20 @@ public class FacturasClientes {
 		modeloTFactCli= new TablaFacturasClientes(vectorTabla,columnNames);
 		
 	    scrollPane = new JScrollPane();
-	    scrollPane.setBounds(10, 77, 1026, 612);
+	    scrollPane.setBounds(10, 83, 1026, 612);
 	    frmFactProv.getContentPane().add(scrollPane);
 	    
 	    table = new JTable(modeloTFactCli);
+	    table.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent arg0) {
+	    		if (btnAceptar_edit.isVisible() && table.getSelectedRow()!=-1)
+	    		{
+	    			setEstadoSeleccionDetalle();
+	    		}
+	    		
+	    	}
+	    });
 	    scrollPane.setViewportView(table);
 	    setUpSportColumn(table, table.getColumnModel().getColumn(1));
 	    setUpSportColumn1(table, table.getColumnModel().getColumn(2));	  
@@ -422,7 +593,7 @@ public class FacturasClientes {
 			public void actionPerformed(ActionEvent e) 
 			{
 				
-				
+				setEstadoEditar();
 				
 			}
 		});
@@ -441,11 +612,12 @@ public class FacturasClientes {
 				if (result==JOptionPane.OK_OPTION)
 				{
 					FacturasClientesC aux= new FacturasClientesC();
-					//aux.setNFactura(tblFactProv.getSelectedRow().getNFactura());
+					aux.setIdFactCli(FacturaSeleccionada);
 					aux.Delete();
+					setEstadoInicial();
 					
 				}
-				setEstadoInicial();
+				
 			}
 		});
 		
@@ -460,13 +632,36 @@ public class FacturasClientes {
 		btnAceptar_edit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (!textField_nFactura.getText().equals(""))
-				{				
+				if (!textField_nFactura.getText().equals("") && cmbCliente.getSelectedIndex()!=0  && comboBox_formaCobro.getSelectedIndex()!=0 && dateChooser_fecha.getCalendar()!=null)
+				{					
 					FacturasClientesC aux= new FacturasClientesC();
 					aux.setnFactura(textField_nFactura.getText());
-					
+					SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+					aux.setFecha(formatoFecha.format(dateChooser_fecha.getCalendar().getTime()));
+					if (dateChooser_fechaCobro.getCalendar()!=null)
+						aux.setFechaCobro(formatoFecha.format(dateChooser_fechaCobro.getCalendar().getTime()));
+					aux.setIdFormaCobro(((FormaCobro)comboBox_formaCobro.getSelectedItem()).getId());
+					aux.setIdCliente(Integer.toString(((ClienteC) cmbCliente.getSelectedItem()).getId()));
 					aux.setObservaciones(textPane_observaciones.getText());
-				}				
+					aux.setIva(textField_Iva.getText());
+					aux.setIdFactCli(FacturaSeleccionada);
+					aux.Update();
+					for (int i=0; i<modeloTFactCli.getRowCount()-1; i++)
+					{
+						DetalleFacturasCliente aux1= new DetalleFacturasCliente();
+						aux1.setId((String) modeloTFactCli.getValueAt(i, 7));
+						aux1.setAlbaran((String) modeloTFactCli.getValueAt(i, 0));
+						aux1.setFecha((String) modeloTFactCli.getValueAt(i, 1));
+						aux1.setIdgenero((String) modeloTFactCli.getValueAt(i, 6));
+						aux1.setCantidad((String) modeloTFactCli.getValueAt(i, 3));
+						aux1.setPrecio((String) modeloTFactCli.getValueAt(i, 4));
+						aux1.setIdfactura(FacturaSeleccionada);						
+	    				if (aux1.getId().equals(""))
+	    					aux1.Insert();
+	    				else
+	    					aux1.Update();
+					}
+				}		
 				setEstadoInicial();
 			}
 		});
@@ -528,11 +723,12 @@ public class FacturasClientes {
 					for (int i=0; i<modeloTFactCli.getRowCount()-1; i++)
 					{
 						DetalleFacturasCliente aux1= new DetalleFacturasCliente();
-						aux1.setAlbaran((String) modeloTFactCli.getValueAt(table.getSelectedRow(), 0));
-						aux1.setFecha((String) modeloTFactCli.getValueAt(table.getSelectedRow(), 1));
-						aux1.setIdgenero((String) modeloTFactCli.getValueAt(table.getSelectedRow(), 6));
-						aux1.setCantidad((String) modeloTFactCli.getValueAt(table.getSelectedRow(), 3));
-						aux1.setPrecio((String) modeloTFactCli.getValueAt(table.getSelectedRow(), 4));
+						aux1.setId((String) modeloTFactCli.getValueAt(i, 7));
+						aux1.setAlbaran((String) modeloTFactCli.getValueAt(i, 0));
+						aux1.setFecha((String) modeloTFactCli.getValueAt(i, 1));
+						aux1.setIdgenero((String) modeloTFactCli.getValueAt(i, 6));
+						aux1.setCantidad((String) modeloTFactCli.getValueAt(i, 3));
+						aux1.setPrecio((String) modeloTFactCli.getValueAt(i, 4));
 						aux1.setIdfactura(id.toString());						
 						aux1.Insert();
 					}
@@ -606,18 +802,53 @@ public class FacturasClientes {
 	    lblTotal.setBounds(10, 78, 102, 14);
 	    pnl_importes.add(lblTotal);
 	    
-	    JButton btnNewButton = new JButton("");
-	    btnNewButton.setIcon(new ImageIcon(FacturasClientes.class.getResource("/Imagenes/Search-icon.png")));
-	    btnNewButton.setToolTipText("Buscar");
-	    btnNewButton.setBounds(502, 11, 80, 55);
-	    frmFactProv.getContentPane().add(btnNewButton);
+	    JButton btnBuscar = new JButton("");
+	    btnBuscar.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent arg0) {
+	    		buscaFactura();
+	    	}
+	    });
+	    btnBuscar.setIcon(new ImageIcon(FacturasClientes.class.getResource("/Imagenes/Search-icon.png")));
+	    btnBuscar.setToolTipText("Buscar");
+	    btnBuscar.setBounds(502, 11, 80, 55);
+	    frmFactProv.getContentPane().add(btnBuscar);
 	    
+	    btnBorrarDetalle = new JButton("");
+	    btnBorrarDetalle.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent arg0) {
+	    		
+	    		int result=JOptionPane.showConfirmDialog(frmFactProv, "¿Desea borrar el detalle de la factura?", "!Atención¡",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+	    		if (result==JOptionPane.OK_OPTION)
+	    		{
+	    			if (!((String) modeloTFactCli.getValueAt(table.getSelectedRow(),7)).equals(""))
+	    			{
+	    				if (table.getRowCount()!=2)
+	    				{
+			    			DetalleFacturasCliente aux= new DetalleFacturasCliente();
+			    			aux.setId((String) modeloTFactCli.getValueAt(table.getSelectedRow(),7));
+			    			aux.Delete();
+			    			CargaTablaFact(FacturaSeleccionada);
+	    				}
+	    				else
+	    				{
+	    					FacturasClientesC aux= new FacturasClientesC();
+	    					aux.setIdFactCli(FacturaSeleccionada);
+	    					aux.Delete();
+	    					setEstadoInicial();
+	    				}
+	    			}
+	    			else
+	    			{
+	    				JOptionPane.showMessageDialog(frmFactProv, "No se puede borrar la fila seleccionada");
+	    			}
+	    		}
+	    	}
+	    });
+	    btnBorrarDetalle.setIcon(new ImageIcon(FacturasClientes.class.getResource("/Imagenes/Editing-Delete-icon.png")));
+	    btnBorrarDetalle.setToolTipText("Borrar Detalle");
+	    btnBorrarDetalle.setBounds(966, 17, 80, 55);
+	    frmFactProv.getContentPane().add(btnBorrarDetalle);
 
-	    
-
-
-	    
-		
 	setEstadoInicial();	
 	}
 }

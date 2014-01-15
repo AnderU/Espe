@@ -1,4 +1,3 @@
-
 package Tablas;
 
 import java.util.Vector;
@@ -6,24 +5,25 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import Clases.FacturasProveedoresC;
+import Clases.FacturasClientesC;
 
 
 
 
-public class TablaFacturasProveedoresResumen extends AbstractTableModel {
 
-    private Vector<FacturasProveedoresC> conceptos;
+public class TablaFacturasClientesResumen extends AbstractTableModel {
+
+    private Vector<FacturasClientesC> conceptos;
     private Vector<String> nombresColumnas;
 
-    public TablaFacturasProveedoresResumen(Vector<FacturasProveedoresC> conceptos,Vector<String> nombresColumnas) {
+    public TablaFacturasClientesResumen(Vector<FacturasClientesC> conceptos,Vector<String> nombresColumnas) {
 
-    	this.conceptos = new Vector<FacturasProveedoresC>(conceptos);
+    	this.conceptos = new Vector<FacturasClientesC>(conceptos);
         this.nombresColumnas= new Vector<String> (nombresColumnas);
         fireTableStructureChanged();
     }
 
-    public void insertRow(FacturasProveedoresC rowData) {
+    public void insertRow(FacturasClientesC rowData) {
     	conceptos.addElement(rowData);
         fireTableRowsInserted(conceptos.size(),conceptos.size());
     }
@@ -44,47 +44,44 @@ public class TablaFacturasProveedoresResumen extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 6;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         Object value = "??";
-        FacturasProveedoresC conceptos = this.conceptos.get(rowIndex);
+        FacturasClientesC conceptos = this.conceptos.get(rowIndex);
         switch (columnIndex) {
 
             case 0:
                 value = conceptos.getFecha();
                 break;
             case 1:
-                value = conceptos.getProveedor();
+                value = conceptos.getCliente();
                 break;
             case 2:
                 value = conceptos.getnFactura();
                 break;
             case 3:
-                value = conceptos.getFechaPago();
+                value = conceptos.getFechaCobro();
             	break;
             case 4:
             	value = conceptos.getIva();
             	break;
             case 5:
-                value =conceptos.getImpuestos();
-                break;
-            case 6:
                 value =conceptos.getTotal();
                 break;
+            case 6:
+                value =conceptos.getIdFactCli();
+                break;  
             case 7:
-                value =conceptos.getIdFactProv();
-                break;  
-            case 8:
-                value =conceptos.getIdProveedor();
+                value =conceptos.getIdCliente();
                 break;
-            case 9:
-                value =conceptos.getIdFormaPago();
+            case 8:
+                value =conceptos.getIdFormaCobro();
                 break;  
-            case 10:
+            case 9:
                 value =conceptos.getObservaciones();
                 break;  
         }
@@ -96,7 +93,7 @@ public class TablaFacturasProveedoresResumen extends AbstractTableModel {
         
     
 
-    public FacturasProveedoresC getUserAt(int row) {
+    public FacturasClientesC getUserAt(int row) {
 
         return conceptos.get(row);
     }

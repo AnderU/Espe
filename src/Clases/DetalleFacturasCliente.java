@@ -114,7 +114,7 @@ public class DetalleFacturasCliente implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+formateaFecha(fecha)+"' , ";
+		String valores="'"+fecha+"' , ";
 		valores+=this.idgenero+" , ";
 		valores+=cantidad+" , ";
 		valores+=precio+" , ";
@@ -127,7 +127,7 @@ public class DetalleFacturasCliente implements BaseDatos{
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		
+		ConectorBD.bdMySQL.Delete("detallefacturasclientes", this.Id);
 	}
 
 }
