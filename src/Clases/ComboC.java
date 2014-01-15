@@ -23,4 +23,10 @@ public class ComboC {
 		public void setNombre(String nombre) {
 			this.nombre = nombre;
 		}
+		
+		public ComboC()
+		{
+			Id="0";
+			nombre="Especifique un elemento";
+		}
 }

@@ -54,12 +54,11 @@ public class TablaMovimientos extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
-            	SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-                value = formatoFecha.format(movimientos.getFecha());
+            	value = movimientos.getFecha();
                 break;
             case 1:
-            	SimpleDateFormat formatoFechaPC = new SimpleDateFormat("dd-MM-yyyy");
-                value = formatoFechaPC.format(movimientos.getFechaPC());
+            	
+                value = movimientos.getFechaPC();
                 break;
             case 2:
                 value = movimientos.getTipo();

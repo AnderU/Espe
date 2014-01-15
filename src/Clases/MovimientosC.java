@@ -5,8 +5,28 @@ import BaseDatos.ConectorBD;
 public class MovimientosC implements BaseDatos{
 
 	private String  IdMov, fecha, fechaPC, IdConcepto, IdGrupo, nFactura, observaciones;
-	private String Tipo, Grupo;
+	private String Tipo, Grupo, IVA, Impuestos;
 	
+
+	public String getIVA() {
+		return IVA;
+	}
+
+
+	public void setIVA(String iVA) {
+		IVA = iVA;
+	}
+
+
+	public String getImpuestos() {
+		return Impuestos;
+	}
+
+
+	public void setImpuestos(String impuestos) {
+		Impuestos = impuestos;
+	}
+
 
 	public String getIdGrupo() {
 		return IdGrupo;
@@ -58,8 +78,8 @@ public class MovimientosC implements BaseDatos{
 	public MovimientosC()
 	{
 		IdMov="0";
-		fecha="";
-		fechaPC="";
+		fecha="NULL";
+		fechaPC="NULL";
 		IdConcepto="";
 		importe=0;
 		IdGrupo="";
@@ -67,6 +87,8 @@ public class MovimientosC implements BaseDatos{
 		observaciones="";
 		Tipo="";
 		Grupo="";
+		IVA="";
+		Impuestos="";
 		
 	}
 
