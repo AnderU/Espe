@@ -180,6 +180,8 @@ public class MovimientosC implements BaseDatos{
 	public void setFechaPC(String fechaPC) {
 		this.fechaPC = fechaPC;
 	}
+	
+	
 	public double getImporte() {
 		return importe;
 	}
