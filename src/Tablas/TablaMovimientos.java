@@ -78,6 +78,12 @@ public class TablaMovimientos extends AbstractTableModel {
             case 7:
             	value=movimientos.getObservaciones();
             	break;
+            case 8:
+            	value=movimientos.getIdConcepto();
+            	break;
+            case 9:
+            	value=movimientos.getIdGrupo();
+            	break;
         }
 
         return value;

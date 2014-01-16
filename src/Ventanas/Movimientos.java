@@ -3,9 +3,11 @@ package Ventanas;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
@@ -26,6 +28,9 @@ import javax.swing.JLabel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextPane;
 import Tablas.TablaMovimientos;
@@ -62,22 +67,107 @@ public class Movimientos {
 	private JDateChooser dateChooser_fecha;
 	private JDateChooser dateChooser_fechaPC;
 	
-	/**
-	 * Launch the application.
-	 */
 
-	/**
-	 * Create the application.
-	 */
 	public Movimientos() {
 		initialize();
+	}
+	
+	public void cargaTabla()
+	{
+		int row=modeloMov.getRowCount();
+		for (int i=0; i<row; i++)
+			modeloMov.removeRow(0);
+		
+		
+		ResultSet rs=ConectorBD.bdMySQL.Select("movimientos", "*", "true"); 	
+        try {
+			while (rs.next())
+			{
+				MovimientosC fila= new MovimientosC();
+				fila.setIdMov(rs.getObject(1).toString());
+				fila.setFecha(rs.getObject(2).toString());
+				if (rs.getObject(3)!=null)
+				fila.setFechaPC(rs.getObject(3).toString());
+				fila.setIdConcepto(rs.getObject(4).toString());
+				fila.setImporte(Double.parseDouble(rs.getObject(5).toString()));
+				fila.setIdGrupo(rs.getObject(6).toString());
+				fila.setnFactura(rs.getObject(7).toString());
+				fila.setObservaciones(rs.getObject(8).toString());
+				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("conceptos", "Concepto", "Id="+rs.getObject(4).toString());
+				rs1.next();
+				fila.setTipo(rs1.getObject(1).toString());
+				rs1=ConectorBD.bdMySQL.SelectAux("gruposconcepto", "Grupos", "Id="+rs.getObject(6).toString());
+				rs1.next();
+				fila.setGrupo(rs1.getObject(1).toString());
+				modeloMov.insertRow(fila);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        rs=ConectorBD.bdMySQL.Select("facturasproveedores", "*", "true");
+        try {
+			while (rs.next())
+			{
+				MovimientosC fila= new MovimientosC();
+				fila.setIdMov(rs.getObject(1).toString());
+				fila.setFecha(rs.getObject(5).toString());
+				if (rs.getObject(6)!=null)
+				fila.setFechaPC(rs.getObject(6).toString());
+				fila.setIdConcepto(rs.getObject(3).toString());
+				fila.setImpuestos(rs.getObject(8).toString());
+				fila.setIVA(rs.getObject(9).toString());
+				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("detalleCompras", "SUM(Precio*Cantidad)", "IdFactura="+rs.getObject(1).toString());
+				rs1.next();
+				fila.setImporte(Double.parseDouble(rs1.getObject(1).toString())*(Double.parseDouble(fila.getImpuestos())/100+1)*(Double.parseDouble(fila.getIVA())/100+1));
+				fila.setIdGrupo("-1");
+				fila.setnFactura(rs.getObject(2).toString());
+				fila.setObservaciones(rs.getObject(7).toString());
+				rs1=ConectorBD.bdMySQL.SelectAux("proveedores", "Proveedor", "Id="+rs.getObject(3).toString());
+				rs1.next();
+				fila.setTipo(rs1.getObject(1).toString());
+				fila.setGrupo("Factura a Proveedor");
+				modeloMov.insertRow(fila);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        rs=ConectorBD.bdMySQL.Select("facturasclientes", "*", "true");
+        try {
+			while (rs.next())
+			{
+				MovimientosC fila= new MovimientosC();
+				fila.setIdMov(rs.getObject(1).toString());
+				fila.setFecha(rs.getObject(5).toString());
+				if (rs.getObject(6)!=null)
+				fila.setFechaPC(rs.getObject(6).toString());
+				fila.setIdConcepto(rs.getObject(4).toString());
+				fila.setIVA(rs.getObject(7).toString());
+				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("detallefacturasclientes", "SUM(Precio*Cantidad)", "IdFactura="+rs.getObject(1).toString());
+				rs1.next();
+				fila.setImporte(Double.parseDouble(rs1.getObject(1).toString())*(Double.parseDouble(fila.getIVA())/100+1));
+				fila.setIdGrupo("-2");
+				fila.setnFactura(rs.getObject(2).toString());
+				fila.setObservaciones(rs.getObject(8).toString());
+				rs1=ConectorBD.bdMySQL.SelectAux("clientes", "Cliente", "Id="+rs.getObject(4).toString());
+				rs1.next();
+				fila.setTipo(rs1.getObject(1).toString());
+				fila.setGrupo("Factura a Cliente");
+				modeloMov.insertRow(fila);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void setEstadoInicial()
 	{
 		
-		comboBox_concepto.setSelectedIndex(0);
-		comboBox_grupo.setSelectedIndex(0);
+
 		comboBox_grupo.setEnabled(false);
 		comboBox_concepto.setEnabled(false);
 		
@@ -105,6 +195,10 @@ public class Movimientos {
 		
 		table_mov.clearSelection();
 		table_mov.setEnabled(true);
+		
+		comboBox_concepto.setSelectedIndex(0);
+		comboBox_grupo.setSelectedIndex(0);
+		
 	}
 
 	
@@ -142,7 +236,7 @@ public class Movimientos {
 	public void setEstadoSeleccion()
 	{
 		
-		btnNuevo.setEnabled(false);
+		btnNuevo.setEnabled(true);
 		btnEditar.setEnabled(true);
 		btnBorrar.setEnabled(true);
 		btnAceptar.setVisible(false);
@@ -195,14 +289,18 @@ public class Movimientos {
 
 		dateChooser_fecha.setEnabled(true);
 		dateChooser_fechaPC.setEnabled(true);
-		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-aaaa");
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar miCalendario= new GregorianCalendar();
+		String fecha=(String)modeloMov.getValueAt(table_mov.getSelectedRow(), 0);
+		Date fechaD = null;
 		try {
-			miCalendario.setTime(formatoFecha.parse((String)modeloMov.getValueAt(table_mov.getSelectedRow(), 0)));
-		} catch (ParseException e) {
+			fechaD = formatoFecha.parse(fecha);
+		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+		miCalendario.setTime(fechaD);
+		
 		dateChooser_fecha.setDate(miCalendario.getTime());
 		if ((String)modeloMov.getValueAt(table_mov.getSelectedRow(), 1)=="NULL")
 			dateChooser_fechaPC.setCalendar(null);
@@ -216,6 +314,18 @@ public class Movimientos {
 			}
 			dateChooser_fechaPC.setDate(miCalendario.getTime());
 		}
+		
+		String idConcepto=(String) modeloMov.getValueAt(table_mov.getSelectedRow(), 8);
+		for (int i=0; i<comboBox_concepto.getItemCount(); i++)
+		{
+			
+			if (idConcepto.equals(comboBox_concepto.getItemAt(i).getId()))
+			{
+				comboBox_concepto.setSelectedIndex(i);
+			}
+		}	
+		
+		
 	}
 	
 	private void initialize() {
@@ -378,16 +488,18 @@ public class Movimientos {
 			btnEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) 
 				{
-					/*if ((Integer.parseInt((String) modeloMov.getValueAt(table_mov.getSelectedRow(), 6)))>0)
+					String cond1=((String) modeloMov.getValueAt(table_mov.getSelectedRow(), 9));
+					
+					
+					if ( !cond1.equals("-1") && !cond1.equals("-2"))
 					{
 						setEstadoEditar();
 					}
 					else
 						{
-						JOptionPane.showConfirmDialog(frmMovimientos, "Debido al tipo de movimiento, no es posible su edición.");
+						JOptionPane.showMessageDialog(frmMovimientos, "Debido al tipo de movimiento, no es posible su edición.");
 						setEstadoInicial();
-						}*/
-					setEstadoEditar();
+					}
 				}
 			});
 			
@@ -400,14 +512,27 @@ public class Movimientos {
 			btnBorrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) 
 				{
-					int result=JOptionPane.showConfirmDialog(frmMovimientos, "El movimiento seleccionado se borrará de la base de datos. ¿Estás segur@?", "¡Atención!",JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-					if (result==JOptionPane.OK_OPTION)
+				String cond1=((String) modeloMov.getValueAt(table_mov.getSelectedRow(), 9));
+					
+					
+					if ( !cond1.equals("-1") && !cond1.equals("-2"))
 					{
-						MovimientosC aux= new MovimientosC();
-						aux.setIdMov((String)modeloMov.getValueAt(table_mov.getSelectedRow(),6));
-						aux.Delete();
+						int result=JOptionPane.showConfirmDialog(frmMovimientos, "El movimiento seleccionado se borrará de la base de datos. ¿Estás segur@?", "¡Atención!",JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+						if (result==JOptionPane.OK_OPTION)
+						{
+							MovimientosC aux= new MovimientosC();
+							aux.setIdMov((String)modeloMov.getValueAt(table_mov.getSelectedRow(),6));
+							aux.Delete();
+							cargaTabla();
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(frmMovimientos, "Debido al tipo de movimiento, no es posible su eliminación.");
+						
 					}
 					setEstadoInicial();
+
 				}
 			});
 				
@@ -444,7 +569,9 @@ public class Movimientos {
 								aux.setFechaPC(formatoFecha.format(dateChooser_fechaPC.getCalendar().getTime()));
 													
 							aux.setIdConcepto(((ComboC)comboBox_concepto.getSelectedItem()).getId());
-							aux.setIdGrupo(((ComboC)comboBox_concepto.getSelectedItem()).getId());
+							aux.setTipo(((ComboC)comboBox_concepto.getSelectedItem()).getNombre());
+							aux.setIdGrupo(((ComboC)comboBox_grupo.getSelectedItem()).getId());
+							aux.setGrupo(((ComboC)comboBox_grupo.getSelectedItem()).getNombre());
 							//aux.setIdMov(idMov)
 							aux.setImporte(Double.parseDouble(textField_importeTotal.getText()));
 							aux.setnFactura("sin factura");
@@ -482,8 +609,9 @@ public class Movimientos {
 						
 					
 						aux.setIdConcepto(((ComboC)comboBox_concepto.getSelectedItem()).getId());
-						aux.setIdGrupo(((ComboC)comboBox_concepto.getSelectedItem()).getId());
-						aux.setIdMov((String)modeloMov.getValueAt(table_mov.getSelectedRow(),6));
+						aux.setTipo(((ComboC)comboBox_concepto.getSelectedItem()).getNombre());
+						aux.setIdGrupo(((ComboC)comboBox_grupo.getSelectedItem()).getId());
+						aux.setGrupo(((ComboC)comboBox_grupo.getSelectedItem()).getNombre());
 						aux.setImporte(Double.parseDouble(textField_importeTotal.getText()));
 						aux.setnFactura("sin factura");
 						aux.setObservaciones(textPane_observaciones.getText());
@@ -585,6 +713,39 @@ public class Movimientos {
  	    comboBox_concepto = new JComboBox<ComboC>(elementos1);
  	    comboBox_concepto.setBounds(10, 18, 230, 20);
  	    panel_concepto.add(comboBox_concepto);
+ 	   comboBox_concepto.addItemListener(new ItemListener() {
+ 	    	public void itemStateChanged(ItemEvent arg0) {
+ 	    		if (arg0.getStateChange() == ItemEvent.SELECTED) 
+ 	    		{
+ 	    			
+ 	    				String id=((ComboC)comboBox_concepto.getSelectedItem()).getId();
+ 	    				if (!id.equals("0"))
+ 	    				{
+	 	    				ResultSet rs=ConectorBD.bdMySQL.Select("conceptos", "IdGruposConceptos", "Id="+id);
+	 	    				String idGrupo = null;
+	 	    				try {
+								while (rs.next())
+								{
+									idGrupo=rs.getObject(1).toString();
+								}
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	 	    				int auxI=comboBox_grupo.getItemCount();
+	 	    				for (int i=0; i<auxI; i++)
+	 	    				{
+	 	    					String aux=((ComboC)comboBox_grupo.getItemAt(i)).getId();
+	 	    					if (idGrupo.equals(aux))
+	 	    					{
+	 	    						comboBox_grupo.setSelectedIndex(i);
+	 	    					}
+	 	    				}
+ 	    				}
+ 	    		}
+
+ 	    	}
+ 	    });
  	    comboBox_concepto.setEnabled(false); 	     	    
  	     	    
 //*************************************IMPORTE*************************************************

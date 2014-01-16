@@ -179,7 +179,7 @@ public class ConectorBD {
 				puerto=":"+aux.getPuerto();
 			}
 			Class.forName("com.mysql.jdbc.Driver");
-			JOptionPane.showMessageDialog(null,"jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName()+"   "+aux.getUser()+" "+aux.getPassword() );
+			//JOptionPane.showMessageDialog(null,"jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName()+"   "+aux.getUser()+" "+aux.getPassword() );
 			conexion = DriverManager.getConnection("jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName(),aux.getUser(),aux.getPassword());
 			
 			st= conexion.createStatement();

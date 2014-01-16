@@ -43,10 +43,13 @@ public class MovimientosC implements BaseDatos{
 	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+fecha+"' , ";
-		valores+="'"+this.fechaPC+"' , ";
+		if (!fechaPC.equals("NULL"))
+			valores+="'"+this.fechaPC+"' , ";
+		else
+			valores+=this.fechaPC+" , ";
 		valores+=this.IdConcepto+" , ";
 		valores+=this.importe+" ,";
-		valores+="'"+this.IdGrupo+"' , ";
+		valores+=this.IdGrupo+" , ";
 		valores+="'"+this.nFactura+"' , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("movimientos",valores);
@@ -58,10 +61,13 @@ public class MovimientosC implements BaseDatos{
 	public void Update() {
 		// TODO Auto-generated method stub
 		String valores="'"+fecha+"' , ";
-		valores+="'"+this.fechaPC+"' , ";
+		if (!fechaPC.equals("NULL"))
+			valores+="'"+this.fechaPC+"' , ";
+		else
+			valores+=this.fechaPC+" , ";
 		valores+=this.IdConcepto+" , ";
 		valores+=+this.importe+" ,";
-		valores+="'"+this.IdGrupo+"' , ";
+		valores+=this.IdGrupo+" , ";
 		valores+="'"+this.nFactura+"' , ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("movimientos", valores, this.IdMov);
