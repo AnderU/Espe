@@ -166,28 +166,49 @@ public class ConectorBD {
 				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			String puerto="";
 			if (!aux.getPuerto().equals(""))
 			{
 				puerto=":"+aux.getPuerto();
 			}
 			Class.forName("com.mysql.jdbc.Driver");
+			JOptionPane.showMessageDialog(null,"jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName()+"   "+aux.getUser()+" "+aux.getPassword() );
 			conexion = DriverManager.getConnection("jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName(),aux.getUser(),aux.getPassword());
+			
 			st= conexion.createStatement();
 			st1= conexion.createStatement();
 			st2= conexion.createStatement();
 			meta=conexion.getMetaData();
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Por favor configure la conexión a la base de datos, en el apartado configuración de la herramienta");
 		}
+		
+	}
+	
+	
+	public void Desconectar()
+	{
+		try {
+			st.close();
+			st1.close();
+			st2.close();
+			conexion.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		
 	}
 	

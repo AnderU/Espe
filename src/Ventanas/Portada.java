@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import java.awt.Component;
@@ -12,13 +14,14 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 import BaseDatos.*;
 import Clases.GeneroC;
-import java.awt.Window.Type;
-import javax.swing.ImageIcon;
 import java.awt.Insets;
+import javax.swing.ImageIcon;
 
 
 public class Portada {
@@ -26,7 +29,6 @@ public class Portada {
 	private JFrame frmPortada;
 	private JButton btnGenero;
 	private JButton btnConcepto;	
-	private int anchoP, nBotones;
 	private JButton btnProveedores;
 	private JButton btnClientes;
 	private JButton btnCompras;
@@ -84,13 +86,7 @@ public class Portada {
 		
 		ConectorBD.bdMySQL= new ConectorBD();
 		ConectorBD.bdMySQL.ConectarMysql("espedb");
-			
-
-				
-		//this.altoP=Toolkit.getDefaultToolkit().getScreenSize().height;
-		this.anchoP=Toolkit.getDefaultToolkit().getScreenSize().width;
-		this.nBotones=11;
-
+		
 		
 		frmPortada = new JFrame();
 		frmPortada.setIconImage(Toolkit.getDefaultToolkit().getImage(Portada.class.getResource("/Imagenes/Animals-Fish-icon.png")));
@@ -113,7 +109,7 @@ public class Portada {
 		frmPortada.getContentPane().add(btnGenero);
 		
 		btnConcepto = new JButton("");
-		btnConcepto.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Accounting-Bill-icon.png")));
+		btnConcepto.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Kitchen-List-ingredients-icon.png")));
 		btnConcepto.setToolTipText("Conceptos");
 		btnConcepto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,6 +139,7 @@ public class Portada {
 				vClientes= new Clientes();
 			}
 		});
+		
 		btnClientes.setBounds(280, 11, 80, 55);
 		frmPortada.getContentPane().add(btnClientes);
 		
@@ -182,7 +179,7 @@ public class Portada {
 		frmPortada.getContentPane().add(btnFacturasAClientes);
 		
 		btnConfiguracion = new JButton("");
-		btnConfiguracion.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Settings-icon.png")));
+		btnConfiguracion.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Sections-of-Website-Services-icon.png")));
 		btnConfiguracion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vConfiguracion=new Configuracion();
@@ -229,5 +226,6 @@ public class Portada {
 		lblTitulo3.setBounds(0, 400, 400, 200);
 		lblTitulo3.setLocation((frmPortada.getSize().width/2)-(lblTitulo3.getSize().width/2), lblTitulo1.getLocation().y+200);
 		frmPortada.getContentPane().add(lblTitulo3);
+
 	}
 }
