@@ -32,8 +32,8 @@ public class GeneroC implements BaseDatos{
 	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+genero.toUpperCase()+"'";
-		ConectorBD.bdMySQL.Insert("genero",valores);
-		return 0;
+		
+		return ConectorBD.bdMySQL.Insert("genero",valores);
 		
 	}
 	@Override

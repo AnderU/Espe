@@ -83,8 +83,8 @@ public class ConceptosC implements BaseDatos{
 		valores+="'"+this.patron.toUpperCase()+"' , ";
 		valores+=Integer.toString(this.IdTipo)+" , ";
 		valores+=Integer.toString(this.IdGrupo);
-		ConectorBD.bdMySQL.Insert("conceptos", valores);
-		return 0;
+	
+		return ConectorBD.bdMySQL.Insert("conceptos", valores);
 	}
 
 	@Override

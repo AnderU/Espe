@@ -175,7 +175,8 @@ public class Genero {
 				{
 					GeneroC aux= new GeneroC();
 					aux.setGenero(Genero.getText().toUpperCase());
-					aux.Insert();
+					int id=aux.Insert();
+					aux.setId(id);
 					listModel.addElement(aux);
 				}
 				setEstadoInicial();

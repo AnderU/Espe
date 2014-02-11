@@ -223,8 +223,10 @@ public class Conceptos {
 				a.setIdTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getId());
 				a.setGrupo(((GrupoConcepto)cmbGrupo.getSelectedItem()).getGrupo());
 				a.setTipo(((TipoConcepto)cmbTipo.getSelectedItem()).getTipo());
+				
+				int id=a.Insert();
+				a.setId(id);
 				model.insertRow(a);
-				a.Insert();
 				setEstadoInicial();
 				}
 				else
