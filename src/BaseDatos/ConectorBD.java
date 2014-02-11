@@ -91,7 +91,7 @@ public class ConectorBD {
 	{
 		
 		String estructura=this.GetEstructura(tabla);
-		valores.replaceAll("|||", ",");
+		valores=valores.replace("|||", ",");
 		int id=0;
 		ResultSet rs=null;
 		try {
