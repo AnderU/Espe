@@ -143,8 +143,8 @@ public class ProveedorC implements BaseDatos{
 		valores+="'"+this.banco+"' ,";
 		valores+="'"+this.observaciones+"' , ";
 		valores+=this.usaCajas;
-		ConectorBD.bdMySQL.Insert("proveedores",valores);
-		return 0;
+		
+		return ConectorBD.bdMySQL.Insert("proveedores",valores);
 	}
 	public String getUsaCajas() {
 		return usaCajas;

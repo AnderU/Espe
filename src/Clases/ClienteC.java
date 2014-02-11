@@ -131,8 +131,8 @@ public class ClienteC implements BaseDatos{
 		valores+="'"+this.cuentaCorriente+"' , ";
 		valores+="'"+this.banco+"' ,";
 		valores+="'"+this.observaciones+"'";
-		ConectorBD.bdMySQL.Insert("clientes",valores);
-		return 0;
+		
+		return ConectorBD.bdMySQL.Insert("clientes",valores);
 	}
 	@Override
 	public void Update() {

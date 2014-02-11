@@ -430,7 +430,8 @@ public class Proveedores {
 					aux.setIdProvincia(Integer.toString(comboBoxProvincia.getSelectedIndex()));
 				if (comboBoxPoblacion.getSelectedIndex()!=0)
 					aux.setIdPoblacion(Integer.toString(comboBoxPoblacion.getSelectedIndex()));
-				aux.Insert();
+				int id=aux.Insert();
+				aux.setId(id);
 				listModel.addElement(aux);
 			}		
 			setEstadoInicial();
