@@ -9,13 +9,13 @@ public class FacturasProveedoresC implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+nFactura+"' , ";
-		valores+=this.IdProveedor+" , ";
-		valores+=this.IdFormaPago+" , ";
-		valores+="'"+this.fecha+"' , ";
-		valores+=this.fechaPago+" , ";
-		valores+="'"+this.observaciones+"' , ";
-		valores+=this.impuestos+" , ";
+		String valores="'"+nFactura+"' ||| ";
+		valores+=this.IdProveedor+" ||| ";
+		valores+=this.IdFormaPago+" ||| ";
+		valores+="'"+this.fecha+"' ||| ";
+		valores+=this.fechaPago+" ||| ";
+		valores+="'"+this.observaciones+"' ||| ";
+		valores+=this.impuestos+" ||| ";
 		valores+=this.iva;
 		return ConectorBD.bdMySQL.Insert("facturasproveedores",valores);
 	}
@@ -39,13 +39,13 @@ public class FacturasProveedoresC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+nFactura+"' , ";
-		valores+=this.IdProveedor+" , ";
-		valores+=this.IdFormaPago+" , ";
-		valores+="'"+this.fecha+"' , ";
-		valores+=this.fechaPago+" , ";
+		String valores="'"+nFactura+"' ||| ";
+		valores+=this.IdProveedor+" ||| ";
+		valores+=this.IdFormaPago+" ||| ";
+		valores+="'"+this.fecha+"' ||| ";
+		valores+=this.fechaPago+" ||| ";
 		valores+="'"+this.observaciones+"'";
-		valores+=this.impuestos+" , ";
+		valores+=this.impuestos+" ||| ";
 		valores+=this.iva;
 		ConectorBD.bdMySQL.Update("facturasproveedores", valores, this.IdFactProv);
 		

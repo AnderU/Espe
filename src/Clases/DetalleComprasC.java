@@ -79,14 +79,14 @@ public class DetalleComprasC implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores=this.idGenero+" , ";
-		valores+=this.cantidad+" , ";
-		valores+=this.precio+" , ";
-		valores+=this.idcompra+" , ";
+		String valores=this.idGenero+" ||| ";
+		valores+=this.cantidad+" ||| ";
+		valores+=this.precio+" ||| ";
+		valores+=this.idcompra+" ||| ";
 		if (this.facturada)
-			valores+="1 , ";
+			valores+="1 ||| ";
 		else
-			valores+="0 , ";
+			valores+="0 ||| ";
 		valores+=this.idfactura;
 		ConectorBD.bdMySQL.Insert("detallecompras",valores);
 		return 0;
@@ -95,14 +95,14 @@ public class DetalleComprasC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores=this.idGenero+" , ";
-		valores+=this.cantidad+" , ";
-		valores+=this.precio+" , ";
-		valores+=this.idcompra+" , ";
+		String valores=this.idGenero+" ||| ";
+		valores+=this.cantidad+" ||| ";
+		valores+=this.precio+" ||| ";
+		valores+=this.idcompra+" ||| ";
 		if (this.facturada)
-			valores+="1 , ";
+			valores+="1 ||| ";
 		else
-			valores+="0 , ";
+			valores+="0 ||| ";
 		valores+=this.idfactura;
 		ConectorBD.bdMySQL.Update("detallecompras",valores, this.Id);
 	}

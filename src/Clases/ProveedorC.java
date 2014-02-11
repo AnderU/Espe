@@ -128,20 +128,20 @@ public class ProveedorC implements BaseDatos{
 		// TODO Auto-generated method stub
 
 		
-		String valores="'"+proveedor+"' , ";
-		valores+="'"+this.IdPoblacion+"' , ";
-		valores+="'"+this.direccion+"' , ";
-		valores+="'"+this.telefono1+"' , ";
-		valores+="'"+this.telefono2+"' , ";
-		valores+="'"+this.correo+"' ,";
-		valores+="'"+this.fax+"' , ";
-		valores+="'"+this.web+"' , ";
-		valores+="'"+this.cp+"' ,  ";
-		valores+="'"+this.IdProvincia+"' , ";
-		valores+="'"+this.nif+"' , ";
-		valores+="'"+this.cuentaCorriente+"' , ";
-		valores+="'"+this.banco+"' ,";
-		valores+="'"+this.observaciones+"' , ";
+		String valores="'"+proveedor+"' ||| ";
+		valores+="'"+this.IdPoblacion+"' ||| ";
+		valores+="'"+this.direccion+"' ||| ";
+		valores+="'"+this.telefono1+"' ||| ";
+		valores+="'"+this.telefono2+"' ||| ";
+		valores+="'"+this.correo+"' |||";
+		valores+="'"+this.fax+"' ||| ";
+		valores+="'"+this.web+"' ||| ";
+		valores+="'"+this.cp+"' |||  ";
+		valores+="'"+this.IdProvincia+"' ||| ";
+		valores+="'"+this.nif+"' ||| ";
+		valores+="'"+this.cuentaCorriente+"' ||| ";
+		valores+="'"+this.banco+"' |||";
+		valores+="'"+this.observaciones+"' ||| ";
 		valores+=this.usaCajas;
 		
 		return ConectorBD.bdMySQL.Insert("proveedores",valores);
@@ -158,20 +158,20 @@ public class ProveedorC implements BaseDatos{
 	public void Update() {
 		// TODO Auto-generated method stub
 		
-		String valores="'"+proveedor+"' , ";
-		valores+="'"+this.IdPoblacion+"' , ";
-		valores+="'"+this.direccion+"' , ";
-		valores+="'"+this.telefono1+"' , ";
-		valores+="'"+this.telefono2+"' , ";
-		valores+="'"+this.correo+"' ,";
-		valores+="'"+this.fax+"' , ";
-		valores+="'"+this.web+"' , ";
-		valores+="'"+this.cp+"' ,  ";
-		valores+="'"+this.IdProvincia+"' , ";
-		valores+="'"+this.nif+"' , ";
-		valores+="'"+this.cuentaCorriente+"' , ";
-		valores+="'"+this.banco+"' ,";
-		valores+="'"+this.observaciones+"' , ";
+		String valores="'"+proveedor+"' ||| ";
+		valores+="'"+this.IdPoblacion+"' ||| ";
+		valores+="'"+this.direccion+"' ||| ";
+		valores+="'"+this.telefono1+"' ||| ";
+		valores+="'"+this.telefono2+"' ||| ";
+		valores+="'"+this.correo+"' |||";
+		valores+="'"+this.fax+"' ||| ";
+		valores+="'"+this.web+"' ||| ";
+		valores+="'"+this.cp+"' |||  ";
+		valores+="'"+this.IdProvincia+"' ||| ";
+		valores+="'"+this.nif+"' ||| ";
+		valores+="'"+this.cuentaCorriente+"' ||| ";
+		valores+="'"+this.banco+"' |||";
+		valores+="'"+this.observaciones+"' ||| ";
 		valores+=this.usaCajas;
 		ConectorBD.bdMySQL.Update("proveedores", valores, Integer.toString(this.Id));
 	}

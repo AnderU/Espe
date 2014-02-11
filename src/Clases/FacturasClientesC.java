@@ -21,17 +21,17 @@ public class FacturasClientesC implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+nFactura+"' , ";
-		valores+=this.IdFormaCobro+" , ";
-		valores+=this.IdCliente+" , ";
-		valores+="'"+formateaFecha(fecha)+"' , ";
+		String valores="'"+nFactura+"' ||| ";
+		valores+=this.IdFormaCobro+" ||| ";
+		valores+=this.IdCliente+" ||| ";
+		valores+="'"+formateaFecha(fecha)+"' ||| ";
 		if (!this.fechaCobro.equals("NULL"))
 		{
-			valores+="'"+formateaFecha(this.fechaCobro)+"' , ";
+			valores+="'"+formateaFecha(this.fechaCobro)+"' ||| ";
 		}
 		else
-			valores+=this.fechaCobro+" , ";
-		valores+=this.iva+" , ";
+			valores+=this.fechaCobro+" ||| ";
+		valores+=this.iva+" ||| ";
 		valores+="'"+this.observaciones+"'";
 		
 		return ConectorBD.bdMySQL.Insert("facturasclientes",valores);
@@ -104,17 +104,17 @@ public class FacturasClientesC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+nFactura+"' , ";
-		valores+=this.IdFormaCobro+" , ";
-		valores+=this.IdCliente+" , ";
-		valores+="'"+formateaFecha(fecha)+"' , ";
+		String valores="'"+nFactura+"' ||| ";
+		valores+=this.IdFormaCobro+" ||| ";
+		valores+=this.IdCliente+" ||| ";
+		valores+="'"+formateaFecha(fecha)+"' ||| ";
 		if (!this.fechaCobro.equals("NULL"))
 		{
-			valores+="'"+formateaFecha(this.fechaCobro)+"' , ";
+			valores+="'"+formateaFecha(this.fechaCobro)+"' ||| ";
 		}
 		else
-			valores+=this.fechaCobro+" , ";
-		valores+=this.iva+" , ";
+			valores+=this.fechaCobro+" ||| ";
+		valores+=this.iva+" ||| ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("facturasclientes", valores, this.IdFactCli);
 		

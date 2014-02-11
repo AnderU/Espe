@@ -42,15 +42,15 @@ public class MovimientosC implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+fecha+"' , ";
+		String valores="'"+fecha+"' ||| ";
 		if (!fechaPC.equals("NULL"))
-			valores+="'"+this.fechaPC+"' , ";
+			valores+="'"+this.fechaPC+"' ||| ";
 		else
-			valores+=this.fechaPC+" , ";
-		valores+=this.IdConcepto+" , ";
-		valores+=this.importe+" ,";
-		valores+=this.IdGrupo+" , ";
-		valores+="'"+this.nFactura+"' , ";
+			valores+=this.fechaPC+" ||| ";
+		valores+=this.IdConcepto+" ||| ";
+		valores+=this.importe+" |||";
+		valores+=this.IdGrupo+" ||| ";
+		valores+="'"+this.nFactura+"' ||| ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Insert("movimientos",valores);
 		return 0;
@@ -60,15 +60,15 @@ public class MovimientosC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+fecha+"' , ";
+		String valores="'"+fecha+"' ||| ";
 		if (!fechaPC.equals("NULL"))
-			valores+="'"+this.fechaPC+"' , ";
+			valores+="'"+this.fechaPC+"' ||| ";
 		else
-			valores+=this.fechaPC+" , ";
-		valores+=this.IdConcepto+" , ";
-		valores+=+this.importe+" ,";
-		valores+=this.IdGrupo+" , ";
-		valores+="'"+this.nFactura+"' , ";
+			valores+=this.fechaPC+" ||| ";
+		valores+=this.IdConcepto+" ||| ";
+		valores+=+this.importe+" |||";
+		valores+=this.IdGrupo+" ||| ";
+		valores+="'"+this.nFactura+"' ||| ";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("movimientos", valores, this.IdMov);
 		

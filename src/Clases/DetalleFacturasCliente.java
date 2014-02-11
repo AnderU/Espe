@@ -101,11 +101,11 @@ public class DetalleFacturasCliente implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+formateaFecha(fecha)+"' , ";
-		valores+=this.idgenero+" , ";
-		valores+=cantidad+" , ";
-		valores+=precio+" , ";
-		valores+="'"+this.albaran+"' ,";
+		String valores="'"+formateaFecha(fecha)+"' ||| ";
+		valores+=this.idgenero+" ||| ";
+		valores+=cantidad+" ||| ";
+		valores+=precio+" ||| ";
+		valores+="'"+this.albaran+"' |||";
 		valores+=this.idfactura;
 		ConectorBD.bdMySQL.Insert("detallefacturasclientes",valores);
 		return 0;
@@ -114,11 +114,11 @@ public class DetalleFacturasCliente implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+fecha+"' , ";
-		valores+=this.idgenero+" , ";
-		valores+=cantidad+" , ";
-		valores+=precio+" , ";
-		valores+="'"+this.albaran+"' ,";
+		String valores="'"+fecha+"' ||| ";
+		valores+=this.idgenero+" ||| ";
+		valores+=cantidad+" ||| ";
+		valores+=precio+" ||| ";
+		valores+="'"+this.albaran+"' |||";
 		valores+=this.idfactura;
 		ConectorBD.bdMySQL.Update("detallefacturasclientes", valores, this.Id);
 

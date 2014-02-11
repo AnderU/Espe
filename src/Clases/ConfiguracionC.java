@@ -39,7 +39,7 @@ public class ConfiguracionC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+this.nombre+"' , ";
+		String valores="'"+this.nombre+"' ||| ";
 		valores+=this.valor;
 		ConectorBD.bdMySQL.Update("configuracion", valores, this.Id);
 	}

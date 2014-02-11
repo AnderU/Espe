@@ -117,19 +117,19 @@ public class ClienteC implements BaseDatos{
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
-		String valores="'"+this.cliente+"' , ";
-		valores+=this.IdPoblacion+" , ";
-		valores+="'"+this.direccion+"' , ";
-		valores+="'"+this.telefono1+"' , ";
-		valores+="'"+this.telefono2+"' , ";
-		valores+="'"+this.correo+"' ,";
-		valores+="'"+this.fax+"' , ";
-		valores+="'"+this.web+"' , ";
-		valores+="'"+this.cp+"' ,  ";
-		valores+=this.IdProvincia+" , ";
-		valores+="'"+this.nif+"' , ";
-		valores+="'"+this.cuentaCorriente+"' , ";
-		valores+="'"+this.banco+"' ,";
+		String valores="'"+this.cliente+"' ||| ";
+		valores+=this.IdPoblacion+" ||| ";
+		valores+="'"+this.direccion+"' ||| ";
+		valores+="'"+this.telefono1+"' ||| ";
+		valores+="'"+this.telefono2+"' ||| ";
+		valores+="'"+this.correo+"' |||";
+		valores+="'"+this.fax+"' ||| ";
+		valores+="'"+this.web+"' ||| ";
+		valores+="'"+this.cp+"' |||  ";
+		valores+=this.IdProvincia+" ||| ";
+		valores+="'"+this.nif+"' ||| ";
+		valores+="'"+this.cuentaCorriente+"' ||| ";
+		valores+="'"+this.banco+"' |||";
 		valores+="'"+this.observaciones+"'";
 		
 		return ConectorBD.bdMySQL.Insert("clientes",valores);
@@ -137,19 +137,19 @@ public class ClienteC implements BaseDatos{
 	@Override
 	public void Update() {
 		// TODO Auto-generated method stub
-		String valores="'"+this.cliente+"' , ";
-		valores+=this.IdPoblacion+" , ";
-		valores+="'"+this.direccion+"' , ";
-		valores+="'"+this.telefono1+"' , ";
-		valores+="'"+this.telefono2+"' , ";
-		valores+="'"+this.correo+"' ,";
-		valores+="'"+this.fax+"' , ";
-		valores+="'"+this.web+"' , ";
-		valores+="'"+this.cp+"' ,  ";
-		valores+=this.IdProvincia+" , ";
-		valores+="'"+this.nif+"' , ";
-		valores+="'"+this.cuentaCorriente+"' , ";
-		valores+="'"+this.banco+"' ,";
+		String valores="'"+this.cliente+"' ||| ";
+		valores+=this.IdPoblacion+" ||| ";
+		valores+="'"+this.direccion+"' ||| ";
+		valores+="'"+this.telefono1+"' ||| ";
+		valores+="'"+this.telefono2+"' ||| ";
+		valores+="'"+this.correo+"' |||";
+		valores+="'"+this.fax+"' ||| ";
+		valores+="'"+this.web+"' ||| ";
+		valores+="'"+this.cp+"' |||  ";
+		valores+=this.IdProvincia+" ||| ";
+		valores+="'"+this.nif+"' ||| ";
+		valores+="'"+this.cuentaCorriente+"' ||| ";
+		valores+="'"+this.banco+"' |||";
 		valores+="'"+this.observaciones+"'";
 		ConectorBD.bdMySQL.Update("clientes", valores, Integer.toString(this.Id));
 	}

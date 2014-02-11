@@ -65,10 +65,10 @@ public class ComprasC implements BaseDatos{
 		// TODO Auto-generated method stub
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String valores="'"+this.idproveedor+"' , ";
-		valores+="'"+df.format(this.fecha)+"' , ";
-		valores+="'"+this.observaciones+"' , ";
-		valores+=this.impuestos+" , ";
+		String valores="'"+this.idproveedor+"' ||| ";
+		valores+="'"+df.format(this.fecha)+"' ||| ";
+		valores+="'"+this.observaciones+"' ||| ";
+		valores+=this.impuestos+" ||| ";
 		valores+=this.iva;
 		int id=ConectorBD.bdMySQL.Insert("compras",valores);
 		return id;
@@ -78,10 +78,10 @@ public class ComprasC implements BaseDatos{
 		// TODO Auto-generated method stub
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String valores="'"+this.idproveedor+"' , ";
-		valores+="'"+df.format(this.fecha)+"' , ";
-		valores+="'"+this.observaciones+"' , ";
-		valores+=this.impuestos+" , ";
+		String valores="'"+this.idproveedor+"' ||| ";
+		valores+="'"+df.format(this.fecha)+"' ||| ";
+		valores+="'"+this.observaciones+"' ||| ";
+		valores+=this.impuestos+" ||| ";
 		valores+=this.iva;
 		ConectorBD.bdMySQL.Update("compras",valores,this.Id);
 		
