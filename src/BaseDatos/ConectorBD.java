@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import Clases.ConfiguracionConexion;
 
+
 public class ConectorBD {
 	
 	public  static ConectorBD bdMySQL;
@@ -90,6 +91,7 @@ public class ConectorBD {
 	{
 		
 		String estructura=this.GetEstructura(tabla);
+		valores.replaceAll("|||", ",");
 		int id=0;
 		ResultSet rs=null;
 		try {
@@ -109,8 +111,8 @@ public class ConectorBD {
 	{
 		
 		String estructura=this.GetEstructura(tabla);
-		String[] es1= estructura.split(",");
-		String[] es2= valores.split(",");
+		String[] es1= estructura.split("|||");
+		String[] es2= valores.split("|||");
 		estructura="";
 		for (int i=0; i<es1.length; i++)
 		{
@@ -179,13 +181,20 @@ public class ConectorBD {
 				puerto=":"+aux.getPuerto();
 			}
 			Class.forName("com.mysql.jdbc.Driver");
-			//JOptionPane.showMessageDialog(null,"jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName()+"   "+aux.getUser()+" "+aux.getPassword() );
+			
 			conexion = DriverManager.getConnection("jdbc:mysql://"+aux.getServer()+puerto+"/"+aux.getDbName(),aux.getUser(),aux.getPassword());
+			//conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/espedb","root","espe");
+			
 			
 			st= conexion.createStatement();
 			st1= conexion.createStatement();
 			st2= conexion.createStatement();
 			meta=conexion.getMetaData();
+			
+		}
+		catch(ClassNotFoundException e)
+		{
+			
 			
 		}
 		catch(Exception e)
