@@ -88,7 +88,7 @@ public class DetalleComprasC implements BaseDatos{
 		else
 			valores+="0 , ";
 		valores+=this.idfactura;
-		ConectorBD.bdMySQL.Insert("detalleCompras",valores);
+		ConectorBD.bdMySQL.Insert("detallecompras",valores);
 		return 0;
 	}
 
@@ -104,13 +104,13 @@ public class DetalleComprasC implements BaseDatos{
 		else
 			valores+="0 , ";
 		valores+=this.idfactura;
-		ConectorBD.bdMySQL.Update("detalleCompras",valores, this.Id);
+		ConectorBD.bdMySQL.Update("detallecompras",valores, this.Id);
 	}
 
 	@Override
 	public void Delete() {
 		// TODO Auto-generated method stub
-		ConectorBD.bdMySQL.Delete("detalleCompras", this.Id);
+		ConectorBD.bdMySQL.Delete("detallecompras", this.Id);
 	}
 
 	public String getIdfactura() {

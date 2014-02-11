@@ -726,9 +726,19 @@ public class FacturasProveedores extends JFrame{
 						FacturasProveedoresC aux= new FacturasProveedoresC();
 			
 						aux.setIdFormaPago(((FormaPago)comboBox_formaPago.getSelectedItem()).getId());
-						//aux.setFecha();
+						aux.setIdProveedor(Integer.toString(((ProveedorC)cmbProveedor.getSelectedItem()).getId()));
+						SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+						
+						aux.setFecha(formatoFecha.format(dateChooser_fecha.getCalendar().getTime()));
+						if(dateChooser_fechaPago.getCalendar()!=null) 
+							aux.setFechaPago(formatoFecha.format(dateChooser_fechaPago.getCalendar().getTime()));
 						aux.setnFactura(textField_nFactura.getText());
 						aux.setObservaciones(textPane_observaciones.getText());
+						aux.setIva(textField_Iva.getText());
+						aux.setImpuestos(textField_IP.getText());
+						
+						aux.Update();
+						
 						setEstadoInicial();
 					}
 					else

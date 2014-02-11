@@ -118,7 +118,7 @@ public class Movimientos {
 				fila.setIdConcepto(rs.getObject(3).toString());
 				fila.setImpuestos(rs.getObject(8).toString());
 				fila.setIVA(rs.getObject(9).toString());
-				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("detalleCompras", "SUM(Precio*Cantidad)", "IdFactura="+rs.getObject(1).toString());
+				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("detallecompras", "SUM(Precio*Cantidad)", "IdFactura="+rs.getObject(1).toString());
 				rs1.next();
 				fila.setImporte(Double.parseDouble(rs1.getObject(1).toString())*(Double.parseDouble(fila.getImpuestos())/100+1)*(Double.parseDouble(fila.getIVA())/100+1));
 				fila.setIdGrupo("-1");
@@ -392,7 +392,7 @@ public class Movimientos {
 						fila.setIdConcepto(rs.getObject(3).toString());
 						fila.setImpuestos(rs.getObject(8).toString());
 						fila.setIVA(rs.getObject(9).toString());
-						ResultSet rs1=ConectorBD.bdMySQL.SelectAux("detalleCompras", "SUM(Precio*Cantidad)", "IdFactura="+rs.getObject(1).toString());
+						ResultSet rs1=ConectorBD.bdMySQL.SelectAux("detallecompras", "SUM(Precio*Cantidad)", "IdFactura="+rs.getObject(1).toString());
 						rs1.next();
 						fila.setImporte(Double.parseDouble(rs1.getObject(1).toString())*(Double.parseDouble(fila.getImpuestos())/100+1)*(Double.parseDouble(fila.getIVA())/100+1));
 						fila.setIdGrupo("-1");

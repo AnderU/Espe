@@ -79,7 +79,7 @@ public class panelBusquedaFacProv extends JPanel {
  				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("proveedores", "Proveedor", "Id="+a.getIdProveedor());
  				rs1.next();
  				a.setProveedor(rs1.getObject(1).toString());
- 				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras", "SUM(Precio*cantidad)", "IdFactura="+a.getIdProveedor());
+ 				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras", "SUM(Precio*cantidad)", "IdFactura="+a.getIdFactProv());
  				rs1.next();
  				String subtotal=rs1.getObject(1).toString();
  				a.setTotal(Double.toString(Double.parseDouble(subtotal)*(1+Double.parseDouble(a.getIva())/100)*(1+Double.parseDouble(a.getImpuestos())/100)));

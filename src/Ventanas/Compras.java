@@ -276,7 +276,7 @@ public class Compras
 	 				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("proveedores","Proveedor","Id="+a.getIdproveedor());
 	 				rs1.next();
 	 				a.setProveedor(rs1.getObject(1).toString());
-	 				rs1=ConectorBD.bdMySQL.SelectAux("detalleCompras","SUM(Precio*Cantidad)","IdCompra="+a.getId()+"");
+	 				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras","SUM(Precio*Cantidad)","IdCompra="+a.getId()+"");
 	 				rs1.next();
 	 				double iva=Double.parseDouble(a.getIva());
 	 				double impuestos=Double.parseDouble(a.getImpuestos());
@@ -481,7 +481,7 @@ Compras()
  				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("proveedores","Proveedor","Id="+a.getIdproveedor());
  				rs1.next();
  				a.setProveedor(rs1.getObject(1).toString());
- 				rs1=ConectorBD.bdMySQL.SelectAux("detalleCompras","SUM(Precio*Cantidad)","IdCompra="+a.getId()+"");
+ 				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras","SUM(Precio*Cantidad)","IdCompra="+a.getId()+"");
  				double iva=Double.parseDouble(a.getIva());
  				double impuestos=Double.parseDouble(a.getImpuestos());
  				double importeSinIva=0.0;
@@ -511,7 +511,7 @@ Compras()
 	    		String impuestos=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 4);
 	    		String iva=(String) modeloListado.getValueAt(tListado.getSelectedRow(), 1);
 	    		String idProveedor= (String) modeloListado.getValueAt(tListado.getSelectedRow(), 5);
-	    		ResultSet rs=ConectorBD.bdMySQL.Select("detalleCompras","*","IdCompra="+id);
+	    		ResultSet rs=ConectorBD.bdMySQL.Select("detallecompras","*","IdCompra="+id);
 	    		try {
 					while (rs.next())
 					{
