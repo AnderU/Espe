@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,12 @@ import Clases.FacturasProveedoresC;
 import Clases.ProveedorC;
 import Tablas.TablaFacturasProveedoresResumen;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
 public class panelBusquedaFacProv extends JPanel {
@@ -43,6 +51,61 @@ public class panelBusquedaFacProv extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	
+	 public PdfPTable createTable1() throws DocumentException {
+	        PdfPTable table = new PdfPTable(7);
+	
+	        table.setWidthPercentage(288 / 2.8f);
+	        table.setWidths(new int[]{2, 2, 2, 2 , 2 ,2 , 2});
+	        //table.setWidths(new int[]{50,50,50,50,50,50,50});
+
+	        PdfPCell cell;
+	        //cabecera
+	        cell = new PdfPCell(new Phrase("Facturas de proveedores"));
+	        cell.setColspan(7);   
+	        table.addCell(cell);
+	        table.addCell("Fecha");
+	        table.addCell("Proveedores");
+	        table.addCell("Factura");
+	        table.addCell("Fecha Pago");
+	        table.addCell("Iva");
+	        table.addCell("Impuestos");
+	        table.addCell("Total");
+	        //datos
+	        int row=modeloFactProvRe.getRowCount();
+	        for (int i=0; i<row; i++)
+	        {
+		      for (int j=0; j<modeloFactProvRe.getColumnCount(); j++)
+	        	table.addCell(modeloFactProvRe.getValueAt(i, j).toString());
+		    	  
+	        }
+	        return table;
+	 }
+	 
+	public void Imprimir()
+	{
+		FileOutputStream archivo = null;
+		
+
+		try {
+
+			archivo = new FileOutputStream("c:\\Users\\alumno\\Desktop\\PescaderiaEspeApp\\hola.pdf");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	     Document documento = new Document();
+	      try {
+			PdfWriter.getInstance(documento, archivo);
+			documento.open();
+			PdfPTable table = createTable1();
+		    documento.add(table);
+		    documento.close();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void abreFactura()
 	{
 		if (table.getSelectedRow()!=-1)
@@ -300,6 +363,17 @@ public class panelBusquedaFacProv extends JPanel {
 		textPaneObservaciones = new JTextPane();
 		textPaneObservaciones.setBounds(10, 22, 384, 91);
 		panel_2.add(textPaneObservaciones);
+		
+		JButton button_1 = new JButton("");
+		button_1.setIcon(new ImageIcon(panelBusquedaFacProv.class.getResource("/Imagenes/Office-Stuff-Printer-icon.png")));
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Imprimir();
+			}
+		});
+		button_1.setToolTipText("Abrir");
+		button_1.setBounds(194, 5, 81, 57);
+		add(button_1);
 		
 		setEstadoInicial();
 	}

@@ -24,6 +24,17 @@ import java.awt.Insets;
 import javax.swing.ImageIcon;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+ 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 public class Portada {
 
 	private JFrame frmPortada;
@@ -75,6 +86,8 @@ public class Portada {
 	/**
 	 * Create the application.
 	 */
+
+	 
 	public Portada() {
 		initialize();
 	}
@@ -226,6 +239,7 @@ public class Portada {
 		lblTitulo3.setBounds(0, 400, 400, 200);
 		lblTitulo3.setLocation((frmPortada.getSize().width/2)-(lblTitulo3.getSize().width/2), lblTitulo1.getLocation().y+200);
 		frmPortada.getContentPane().add(lblTitulo3);
+		
 
 	}
 }
