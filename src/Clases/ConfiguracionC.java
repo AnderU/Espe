@@ -40,7 +40,8 @@ public class ConfiguracionC implements BaseDatos{
 	public void Update() {
 		// TODO Auto-generated method stub
 		String valores="'"+this.nombre+"' ||| ";
-		valores+=this.valor;
+		this.valor=this.valor.replace("\\", "\\\\");
+		valores+=" ' "+this.valor+" ' ";
 		ConectorBD.bdMySQL.Update("configuracion", valores, this.Id);
 	}
 

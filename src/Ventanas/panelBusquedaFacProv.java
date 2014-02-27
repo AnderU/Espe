@@ -1,13 +1,16 @@
 package Ventanas;
 
 
+import java.awt.Desktop;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -374,6 +377,7 @@ public class panelBusquedaFacProv extends JPanel {
 		button_1.setToolTipText("Abrir");
 		button_1.setBounds(194, 5, 81, 57);
 		add(button_1);
+		
 		
 		setEstadoInicial();
 	}

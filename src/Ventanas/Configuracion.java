@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -33,6 +34,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.JFormattedTextField;
 
 import Tablas.TablaConfiguracion;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class Configuracion {
@@ -249,6 +252,24 @@ public class Configuracion {
         model = new TablaConfiguracion(vectorTabla, columnNames);
 		Parametros.setLayout(null);
 		table = new JTable(model);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				int rowIndex = table.getSelectedRow();
+				int colIndex = table.getSelectedColumn();
+				if (model.getValueAt(rowIndex, 0).toString().equals("DIRECTORIO DE FICHEROS"))
+				{
+					JFileChooser chooser = new JFileChooser();
+					chooser.setDialogTitle("Selecciona Destino");
+					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                    	model.setValueAt(chooser.getSelectedFile().toString(),rowIndex,colIndex);
+                    	
+                    }
+				}
+			}
+		});
 		table.setBounds(10, 11, 609, 376);
 		Parametros.add(table);
 		

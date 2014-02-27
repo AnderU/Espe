@@ -111,8 +111,8 @@ public class ConectorBD {
 	{
 		
 		String estructura=this.GetEstructura(tabla);
-		String[] es1= estructura.split("|||");
-		String[] es2= valores.split("|||");
+		String[] es1= estructura.split(",");
+		String[] es2= valores.split("\\|\\|\\|");
 		estructura="";
 		for (int i=0; i<es1.length; i++)
 		{
