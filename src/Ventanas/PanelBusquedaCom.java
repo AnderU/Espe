@@ -223,6 +223,7 @@ public class PanelBusquedaCom extends JPanel {
 			cargaTabla(criterio);
 			}
 		});
+		
 		btnBuscar.setIcon(new ImageIcon(FacturasProveedores.class.getResource("/Imagenes/Search-icon.png")));
 		btnBuscar.setToolTipText("Buscar");
 		btnBuscar.setBounds(10, 5, 81, 57);

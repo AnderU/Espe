@@ -26,6 +26,7 @@ import Clases.ClienteC;
 import Clases.DetalleFacturasCliente;
 import Clases.FacturasClientesC;
 import Clases.FormaCobro;
+import Clases.FormaPago;
 import Clases.GeneroC;
 
 import javax.swing.ImageIcon;
@@ -55,6 +56,8 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class FacturasClientes {
 
@@ -89,6 +92,8 @@ public class FacturasClientes {
 	private JDialog busquedaFacturas;
 	private String FacturaSeleccionada;
 	private JButton btnBorrarDetalle;
+	private JTextField textField_ntalon;
+	private JLabel lblNTaln;
 	
 	/**
 	 * Launch the application.
@@ -100,7 +105,11 @@ public class FacturasClientes {
 	public FacturasClientes() {
 		initialize();
 	}
-	
+	public void muestraTalon(boolean a)
+	{
+		textField_ntalon.setVisible(a);
+		lblNTaln.setVisible(a);
+	}
 	public void CargaTablaFact(String idFactura)
 	{
 		
@@ -294,7 +303,8 @@ public class FacturasClientes {
 		textField_Total.setText("");
 		
 		table.clearSelection();
-
+		lblNTaln.setVisible(false);
+		textField_ntalon.setVisible(false);
 				
 	}
 	
@@ -553,6 +563,19 @@ public class FacturasClientes {
  		}
 
 		comboBox_formaCobro = new JComboBox<FormaCobro>(elementosf);
+		comboBox_formaCobro.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+ 	    		if (event.getStateChange() == ItemEvent.SELECTED) 
+ 	    		{
+ 	    			if (((FormaCobro)event.getItem()).getId().equals("1"))
+					{
+						muestraTalon(true);
+					}
+					else
+						muestraTalon(false);
+ 	    		}
+			}
+		});
 		comboBox_formaCobro.setEnabled(false);
 		comboBox_formaCobro.setBounds(1174, 230, 158, 20);
 		frmFactProv.getContentPane().add(comboBox_formaCobro);
@@ -560,7 +583,7 @@ public class FacturasClientes {
 //****************** OBSERVACIONES ************************************
 
 		panel_observaciones = new JPanel();
-		panel_observaciones.setBounds(1046, 352, 286, 206);
+		panel_observaciones.setBounds(1046, 363, 286, 206);
 		panel_observaciones.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmFactProv.getContentPane().add(panel_observaciones);
 		panel_observaciones.setLayout(null);
@@ -645,6 +668,7 @@ public class FacturasClientes {
 					aux.setObservaciones(textPane_observaciones.getText());
 					aux.setIva(textField_Iva.getText());
 					aux.setIdFactCli(FacturaSeleccionada);
+					aux.setnTalon(textField_ntalon.getText());
 					aux.Update();
 					for (int i=0; i<modeloTFactCli.getRowCount()-1; i++)
 					{
@@ -717,6 +741,7 @@ public class FacturasClientes {
 					//aux.setFormaCobro();
 					aux.setIdFormaCobro(((FormaCobro)comboBox_formaCobro.getSelectedItem()).getId());
 					aux.setIdCliente(Integer.toString(((ClienteC) cmbCliente.getSelectedItem()).getId()));
+					aux.setnTalon(textField_ntalon.getText());
 					aux.setObservaciones(textPane_observaciones.getText());
 					aux.setIva(textField_Iva.getText());
 					Integer id=aux.Insert();
@@ -743,20 +768,20 @@ public class FacturasClientes {
 		
 		dateChooser_fecha = new JDateChooser();
 		dateChooser_fecha.setDateFormatString("dd-MM-yyyy");
-		dateChooser_fecha.setBounds(1174, 271, 158, 20);
+		dateChooser_fecha.setBounds(1174, 296, 158, 20);
 		frmFactProv.getContentPane().add(dateChooser_fecha);
 		
 		dateChooser_fechaCobro = new JDateChooser();
 		dateChooser_fechaCobro.setDateFormatString("dd-MM-yyyy");
-		dateChooser_fechaCobro.setBounds(1172, 307, 160, 20);
+		dateChooser_fechaCobro.setBounds(1174, 332, 158, 20);
 		frmFactProv.getContentPane().add(dateChooser_fechaCobro);
 		
 		JLabel lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(1046, 274, 46, 14);
+		lblFecha.setBounds(1046, 299, 46, 14);
 		frmFactProv.getContentPane().add(lblFecha);
 		
 		JLabel lblFechaDeCobro = new JLabel("Fecha de Cobro");
-		lblFechaDeCobro.setBounds(1046, 310, 90, 14);
+		lblFechaDeCobro.setBounds(1046, 335, 90, 14);
 		frmFactProv.getContentPane().add(lblFechaDeCobro);
 		
 		
@@ -848,6 +873,15 @@ public class FacturasClientes {
 	    btnBorrarDetalle.setToolTipText("Borrar Detalle");
 	    btnBorrarDetalle.setBounds(966, 17, 80, 55);
 	    frmFactProv.getContentPane().add(btnBorrarDetalle);
+	    
+	    textField_ntalon = new JTextField();
+	    textField_ntalon.setBounds(1174, 261, 158, 20);
+	    frmFactProv.getContentPane().add(textField_ntalon);
+	    textField_ntalon.setColumns(10);
+	    
+	    lblNTaln = new JLabel("N\u00BA Tal\u00F3n");
+	    lblNTaln.setBounds(1046, 264, 90, 14);
+	    frmFactProv.getContentPane().add(lblNTaln);
 
 	setEstadoInicial();	
 	}

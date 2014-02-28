@@ -282,19 +282,19 @@ public class panelBusquedaFacCli extends JPanel {
 		add(button);
 		
 		JLabel lblNewLabel = new JLabel("Desde");
-		lblNewLabel.setBounds(10, 93, 30, 14);
+		lblNewLabel.setBounds(10, 93, 69, 14);
 		add(lblNewLabel);
 		
 		JLabel lblHasta = new JLabel("Hasta");
-		lblHasta.setBounds(232, 93, 28, 14);
+		lblHasta.setBounds(232, 93, 115, 14);
 		add(lblHasta);
 		
 		JLabel lblProveedor = new JLabel("Cliente");
-		lblProveedor.setBounds(607, 93, 50, 14);
+		lblProveedor.setBounds(607, 93, 122, 14);
 		add(lblProveedor);
 		
 		JLabel lblNmeroFactura = new JLabel("N\u00FAmero Factura");
-		lblNmeroFactura.setBounds(433, 93, 77, 14);
+		lblNmeroFactura.setBounds(433, 93, 150, 14);
 		add(lblNmeroFactura);
 		
 		JPanel panel = new JPanel();

@@ -8,8 +8,16 @@ import BaseDatos.ConectorBD;
 
 public class FacturasClientesC implements BaseDatos{
 
-	private String IdFactCli, nFactura, IdCliente, formaCobro, observaciones, fecha, fechaCobro,IdFormaCobro, iva, cliente , total;
+	private String IdFactCli, nFactura, IdCliente, formaCobro, observaciones, fecha, fechaCobro,IdFormaCobro, iva, cliente , total, nTalon;
 	
+	public String getnTalon() {
+		return nTalon;
+	}
+
+	public void setnTalon(String nTalon) {
+		this.nTalon = nTalon;
+	}
+
 	public String formateaFecha(String fecha)
 	{
 		String ano=fecha.substring(6, 10);
@@ -32,7 +40,8 @@ public class FacturasClientesC implements BaseDatos{
 		else
 			valores+=this.fechaCobro+" ||| ";
 		valores+=this.iva+" ||| ";
-		valores+="'"+this.observaciones+"'";
+		valores+="'"+this.observaciones+"' ||| ";
+		valores+="'"+this.nTalon+"'";
 		
 		return ConectorBD.bdMySQL.Insert("facturasclientes",valores);
 	}
@@ -115,7 +124,8 @@ public class FacturasClientesC implements BaseDatos{
 		else
 			valores+=this.fechaCobro+" ||| ";
 		valores+=this.iva+" ||| ";
-		valores+="'"+this.observaciones+"'";
+		valores+="'"+this.observaciones+"' ||| ";
+		valores+="'"+this.nTalon+"'";
 		ConectorBD.bdMySQL.Update("facturasclientes", valores, this.IdFactCli);
 		
 	}
