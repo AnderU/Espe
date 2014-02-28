@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -19,6 +20,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -31,7 +33,12 @@ import Clases.ComprasC;
 import Clases.DetalleComprasC;
 import Clases.GeneroC;
 import Clases.ProveedorC;
+import Ventanas.PanelBusquedaCom;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
@@ -63,9 +70,12 @@ public class Compras
 	private JTextField textField_Iva;
 	private TablaDetalleCompra modeloTDetalle;
 	private com.toedter.calendar.JCalendar calendar1;
-	private  JTextPane txtPObservaciones;
+	private JTextPane txtPObservaciones;
 	private TablaListadoCompras modeloListado;
 	private JButton btnBorrarDetalle;
+	private JDialog busquedaCompras;
+	private String CompraSeleccionada;
+	private JDateChooser dateChooser_fecha;
 	
 	public static Date fecha;
 
@@ -203,6 +213,66 @@ public class Compras
 
 
 	}
+	
+	
+	public void buscaCompras()
+	{
+		PanelBusquedaCom miPanelBusqueda= new PanelBusquedaCom();
+
+		Window win = SwingUtilities.getWindowAncestor(this.frmCompras);
+		busquedaCompras = new JDialog(win, "Búsqueda Compras",
+	      ModalityType.APPLICATION_MODAL);
+		  
+		busquedaCompras.getContentPane().add(miPanelBusqueda);
+		busquedaCompras.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		busquedaCompras.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		busquedaCompras.setResizable(false);
+		busquedaCompras.setIconImage(Toolkit.getDefaultToolkit().getImage(Compras.class.getResource("/Imagenes/Animals-Fish-icon.png")));
+		busquedaCompras.setLocationRelativeTo(null);
+		busquedaCompras.setVisible(true);
+		
+		if (miPanelBusqueda.getTable().getSelectedRow()!=-1 && miPanelBusqueda.getVerPulsado())
+		{
+			String id=(String) miPanelBusqueda.getModeloComp().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 6);
+			CompraSeleccionada=id;
+			String iva=(String) miPanelBusqueda.getModeloComp().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 4);
+			String nFactura=(String) miPanelBusqueda.getModeloComp().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 2);
+			//textField_nFactura.setText(nFactura);
+			txtPObservaciones.setText((String) miPanelBusqueda.getModeloComp().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 9));
+			String IdProveedor=(String) miPanelBusqueda.getModeloComp().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 7);
+			for (int i=0; i<cmbProveedor.getItemCount(); i++)
+			{
+				
+				String idAux=Integer.toString(((ProveedorC)(cmbProveedor.getItemAt(i))).getId());
+				if (idAux.equals(IdProveedor))
+				{
+					cmbProveedor.setSelectedIndex(i);
+				}
+			}	
+			
+			
+			String fecha=(String) miPanelBusqueda.getModeloComp().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 0);
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar miCalendario=new GregorianCalendar();
+			try {
+				miCalendario.setTime(df.parse(fecha));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (java.text.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			dateChooser_fecha.setCalendar(miCalendario.getInstance());
+			
+			textField_Iva.setText(iva);
+			
+			RecargaListado();
+			setEstadoSeleccion();
+			
+		}
+	}
+	
     public void setUpSportColumn(JTable table,  TableColumn columnaGenero) {
      	   
     	GeneroC aux1= new GeneroC(); 
@@ -301,21 +371,22 @@ Compras()
 	frmCompras.setIconImage(Toolkit.getDefaultToolkit().getImage(Compras.class.getResource("/Imagenes/Animals-Fish-icon.png")));
     frmCompras.setTitle("Compras");
     frmCompras.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    frmCompras.getContentPane().setLayout(null);
     
     btnNuevo = new JButton("");
+    btnNuevo.setBounds(395, 11, 80, 55);
     btnNuevo.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent arg0) {
     		setEstadoNuevo();
     	}
     });
+    frmCompras.getContentPane().setLayout(null);
     btnNuevo.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Add-icon.png")));
     btnNuevo.setToolTipText("Nuevo");
     btnNuevo.setEnabled(true);
-    btnNuevo.setBounds(395, 11, 80, 55);
     frmCompras.getContentPane().add(btnNuevo);
     
     btnEditar = new JButton("");
+    btnEditar.setBounds(485, 11, 80, 55);
     btnEditar.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		setEstadoEditar();
@@ -324,10 +395,10 @@ Compras()
     btnEditar.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Pencil-icon.png")));
     btnEditar.setToolTipText("Editar");
     btnEditar.setEnabled(false);
-    btnEditar.setBounds(485, 11, 80, 55);
     frmCompras.getContentPane().add(btnEditar);
     
     btnBorrar = new JButton("");
+    btnBorrar.setBounds(575, 11, 80, 55);
     btnBorrar.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		int result=JOptionPane.showConfirmDialog(frmCompras, "¿Está seguro de que desea borrar este elemento?", "¡Atención!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
@@ -344,10 +415,21 @@ Compras()
     btnBorrar.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Trash-icon.png")));
     btnBorrar.setToolTipText("Borrar");
     btnBorrar.setEnabled(false);
-    btnBorrar.setBounds(575, 11, 80, 55);
     frmCompras.getContentPane().add(btnBorrar);
     
+    JButton btnBuscar = new JButton("");
+    btnBuscar.setBounds(846, 11, 80, 55);
+    btnBuscar.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent arg0) {
+    		buscaCompras();
+    	}
+    });
+    btnBuscar.setIcon(new ImageIcon(FacturasClientes.class.getResource("/Imagenes/Search-icon.png")));
+    btnBuscar.setToolTipText("Buscar");
+    frmCompras.getContentPane().add(btnBuscar);
+    
     btnAceptar = new JButton("");
+    btnAceptar.setBounds(665, 11, 80, 55);
     btnAceptar.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		if (cmbProveedor.getSelectedIndex()!=0 &&
@@ -385,10 +467,10 @@ Compras()
     btnAceptar.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Accept-icon.png")));
     btnAceptar.setVisible(false);
     btnAceptar.setToolTipText("Aceptar");
-    btnAceptar.setBounds(665, 11, 80, 55);
     frmCompras.getContentPane().add(btnAceptar);
     
     btnCancelar = new JButton("");
+    btnCancelar.setBounds(755, 11, 80, 55);
     btnCancelar.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		
@@ -398,10 +480,10 @@ Compras()
     btnCancelar.setVisible(false);
     btnCancelar.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Delete-icon.png")));
     btnCancelar.setToolTipText("Cancelar");
-    btnCancelar.setBounds(755, 11, 80, 55);
     frmCompras.getContentPane().add(btnCancelar);
     
     btnAceptar_edit = new JButton("");
+    btnAceptar_edit.setBounds(665, 11, 80, 55);
     btnAceptar_edit.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Accept-icon.png")));
     btnAceptar_edit.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
@@ -443,10 +525,10 @@ Compras()
     });
     btnAceptar_edit.setVisible(false);
     btnAceptar_edit.setToolTipText("Aceptar");
-    btnAceptar_edit.setBounds(665, 11, 80, 55);
     frmCompras.getContentPane().add(btnAceptar_edit);
     
     btnCancelar_edit = new JButton("");
+    btnCancelar_edit.setBounds(755, 11, 80, 55);
     btnCancelar_edit.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Delete-icon.png")));
     btnCancelar_edit.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
@@ -455,7 +537,6 @@ Compras()
     });
     btnCancelar_edit.setVisible(false);
     btnCancelar_edit.setToolTipText("Cancelar");
-    btnCancelar_edit.setBounds(755, 11, 80, 55);
     frmCompras.getContentPane().add(btnCancelar_edit);
     
     JScrollPane sPListado = new JScrollPane();
@@ -557,8 +638,8 @@ Compras()
     sPListado.setViewportView(tListado);
     //----------------------------------------
     Desglose = new JPanel();
-    Desglose.setBorder(new LineBorder(new Color(0, 0, 0)));
     Desglose.setBounds(395, 77, 957, 618);
+    Desglose.setBorder(new LineBorder(new Color(0, 0, 0)));
     frmCompras.getContentPane().add(Desglose);
     Desglose.setLayout(null);
     // combobox proveedores
@@ -798,6 +879,7 @@ Compras()
     //----------------------------
     
     calendar1 = new com.toedter.calendar.JCalendar();
+    calendar1.setBounds(10, 11, 375, 213);
     calendar1.addPropertyChangeListener(new PropertyChangeListener() {
 
 		@Override
@@ -807,10 +889,10 @@ Compras()
 			RecargaListado();
 		}
     });
-    calendar1.setBounds(10, 11, 375, 213);
     frmCompras.getContentPane().add(calendar1);
     
     btnBorrarDetalle = new JButton("");
+    btnBorrarDetalle.setBounds(1272, 11, 80, 55);
     btnBorrarDetalle.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent arg0) {
     		
@@ -839,7 +921,6 @@ Compras()
     });
     btnBorrarDetalle.setIcon(new ImageIcon(Compras.class.getResource("/Imagenes/Trash-icon.png")));
     btnBorrarDetalle.setToolTipText("Borrar Detalle");
-    btnBorrarDetalle.setBounds(1272, 11, 80, 55);
     frmCompras.getContentPane().add(btnBorrarDetalle);
 
  
