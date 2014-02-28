@@ -642,7 +642,7 @@ public class Proveedores {
 //****************** LISTA ************************************	
 	listModel = new DefaultListModel<ProveedorC>();
 			
-	ResultSet rs1=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
+	ResultSet rs1=ConectorBD.bdMySQL.Select("proveedores", "*", "true ORDER BY Proveedor");
 	try {
 		while (rs1.next())
 		{
