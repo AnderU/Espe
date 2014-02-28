@@ -51,6 +51,7 @@ public class panelBusquedaFacProv extends JPanel {
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnSinIva;
 	private boolean verPulsado;
+	private JTextField textField_nTalon;
 	/**
 	 * Create the panel.
 	 */
@@ -251,7 +252,8 @@ public class panelBusquedaFacProv extends JPanel {
 				criterio+=" AND Iva=0.0";
 			else
 				criterio+=" AND Iva<>0.0";
-			
+			if (!textField_nTalon.getText().equals(""))
+				criterio+=" AND nTalon LIKE '%"+textField_nTalon.getText()+"%'";
 			cargaTabla(criterio);
 			}
 		});
@@ -378,6 +380,16 @@ public class panelBusquedaFacProv extends JPanel {
 		button_1.setBounds(194, 5, 81, 57);
 		add(button_1);
 		
+		JLabel lbltalon = new JLabel("N\u00FAmero Tal\u00F3n");
+		lbltalon.setBounds(943, 93, 77, 14);
+		add(lbltalon);
+		
+		textField_nTalon = new JTextField();
+		textField_nTalon.setText("");
+		textField_nTalon.setColumns(10);
+		textField_nTalon.setBounds(943, 118, 164, 20);
+		add(textField_nTalon);
+		
 		
 		setEstadoInicial();
 	}
@@ -390,5 +402,4 @@ public class panelBusquedaFacProv extends JPanel {
 	public void setVerPulsado(boolean verPulsado) {
 		this.verPulsado = verPulsado;
 	}
-
 }
