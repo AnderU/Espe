@@ -52,6 +52,7 @@ public class panelBusquedaFacProv extends JPanel {
 	private JRadioButton rdbtnSinIva;
 	private boolean verPulsado;
 	private JTextField textField_nTalon;
+	private JRadioButton rdbtnTodos;
 	/**
 	 * Create the panel.
 	 */
@@ -61,8 +62,7 @@ public class panelBusquedaFacProv extends JPanel {
 	
 	        table.setWidthPercentage(288 / 2.8f);
 	        table.setWidths(new int[]{2, 2, 2, 2 , 2 ,2 , 2});
-	        //table.setWidths(new int[]{50,50,50,50,50,50,50});
-
+	        
 	        PdfPCell cell;
 	        //cabecera
 	        cell = new PdfPCell(new Phrase("Facturas de proveedores"));
@@ -169,7 +169,6 @@ public class panelBusquedaFacProv extends JPanel {
 		textField_nFactura.setText("");
 		textPaneObservaciones.setText("");
 		cmbProv.setSelectedIndex(0);
-		rdbtnNewRadioButton.setSelected(true);
 		rdbtnSinIva.setSelected(false);
 		dateChooser_Desde.setCalendar(null);
 		
@@ -218,11 +217,11 @@ public class panelBusquedaFacProv extends JPanel {
  		}
  		
  		cmbProv = new JComboBox<ProveedorC>(elementos1);
-		cmbProv.setBounds(714, 118, 219, 20);
+		cmbProv.setBounds(607, 118, 219, 20);
 		add(cmbProv);
 		
 		textField_nFactura = new JTextField();
-		textField_nFactura.setBounds(520, 118, 164, 20);
+		textField_nFactura.setBounds(433, 118, 164, 20);
 		add(textField_nFactura);
 		textField_nFactura.setColumns(10);
 		
@@ -245,13 +244,17 @@ public class panelBusquedaFacProv extends JPanel {
 			if (!textField_nFactura.equals(""))
 				criterio+=" AND nFactProv LIKE '%"+textField_nFactura.getText()+"%'";
 			if(!textPaneObservaciones.getText().equals(""))
-				criterio+=" AND nFactProv LIKE '%"+textPaneObservaciones.getText()+"%'";
+				criterio+=" AND Observaciones LIKE '%"+textPaneObservaciones.getText()+"%'";
 			if (cmbProv.getSelectedIndex()!=0)
 				criterio+=" AND IdProveedor="+((ProveedorC)cmbProv.getSelectedItem()).getId();
 			if (rdbtnSinIva.isSelected())
 				criterio+=" AND Iva=0.0";
 			else
-				criterio+=" AND Iva<>0.0";
+			{
+				if (rdbtnNewRadioButton.isSelected())
+					criterio+=" AND Iva<>0.0";
+			}
+				
 			if (!textField_nTalon.getText().equals(""))
 				criterio+=" AND nTalon LIKE '%"+textField_nTalon.getText()+"%'";
 			cargaTabla(criterio);
@@ -282,11 +285,11 @@ public class panelBusquedaFacProv extends JPanel {
 		add(lblHasta);
 		
 		JLabel lblProveedor = new JLabel("Proveedor");
-		lblProveedor.setBounds(711, 93, 50, 14);
+		lblProveedor.setBounds(607, 93, 50, 14);
 		add(lblProveedor);
 		
 		JLabel lblNmeroFactura = new JLabel("N\u00FAmero Factura");
-		lblNmeroFactura.setBounds(520, 93, 77, 14);
+		lblNmeroFactura.setBounds(433, 93, 77, 14);
 		add(lblNmeroFactura);
 		
 		JPanel panel = new JPanel();
@@ -341,7 +344,7 @@ public class panelBusquedaFacProv extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.textHighlight);
 		panel_1.setBorder(new TitledBorder(null, "IVA", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(433, 162, 77, 124);
+		panel_1.setBounds(433, 162, 164, 124);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -349,7 +352,6 @@ public class panelBusquedaFacProv extends JPanel {
 		rdbtnNewRadioButton.setBackground(SystemColor.textHighlight);
 		rdbtnNewRadioButton.setBounds(6, 29, 54, 23);
 		panel_1.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setSelected(true);
 		buttonGroup.add(rdbtnNewRadioButton);
 		
 		rdbtnSinIva = new JRadioButton("Sin");
@@ -358,10 +360,17 @@ public class panelBusquedaFacProv extends JPanel {
 		panel_1.add(rdbtnSinIva);
 		buttonGroup.add(rdbtnSinIva);
 		
+		rdbtnTodos = new JRadioButton("Todos");
+		buttonGroup.add(rdbtnTodos);
+		rdbtnTodos.setSelected(true);
+		rdbtnTodos.setBackground(SystemColor.textHighlight);
+		rdbtnTodos.setBounds(62, 29, 82, 23);
+		panel_1.add(rdbtnTodos);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBackground(SystemColor.textHighlight);
-		panel_2.setBounds(520, 162, 413, 124);
+		panel_2.setBounds(607, 162, 413, 124);
 		add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -381,13 +390,13 @@ public class panelBusquedaFacProv extends JPanel {
 		add(button_1);
 		
 		JLabel lbltalon = new JLabel("N\u00FAmero Tal\u00F3n");
-		lbltalon.setBounds(943, 93, 77, 14);
+		lbltalon.setBounds(836, 93, 77, 14);
 		add(lbltalon);
 		
 		textField_nTalon = new JTextField();
 		textField_nTalon.setText("");
 		textField_nTalon.setColumns(10);
-		textField_nTalon.setBounds(943, 118, 164, 20);
+		textField_nTalon.setBounds(836, 118, 184, 20);
 		add(textField_nTalon);
 		
 		

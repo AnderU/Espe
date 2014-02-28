@@ -51,6 +51,7 @@ public class panelBusquedaFacCli extends JPanel {
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnSinIva;
 	private boolean verPulsado;
+	private JRadioButton rdbtnTodos;
 	/**
 	 * Create the panel.
 	 */
@@ -174,7 +175,6 @@ public class panelBusquedaFacCli extends JPanel {
 		textField_nFactura.setText("");
 		textPaneObservaciones.setText("");
 		cmbProv.setSelectedIndex(0);
-		rdbtnNewRadioButton.setSelected(true);
 		rdbtnSinIva.setSelected(false);
 		dateChooser_Desde.setCalendar(null);
 		
@@ -223,11 +223,11 @@ public class panelBusquedaFacCli extends JPanel {
  		}
  		
  		cmbProv = new JComboBox<ClienteC>(elementos1);
-		cmbProv.setBounds(714, 118, 219, 20);
+		cmbProv.setBounds(607, 118, 219, 20);
 		add(cmbProv);
 		
 		textField_nFactura = new JTextField();
-		textField_nFactura.setBounds(520, 118, 164, 20);
+		textField_nFactura.setBounds(433, 118, 164, 20);
 		add(textField_nFactura);
 		textField_nFactura.setColumns(10);
 		
@@ -250,13 +250,17 @@ public class panelBusquedaFacCli extends JPanel {
 			if (!textField_nFactura.equals(""))
 				criterio+=" AND nFactura LIKE '%"+textField_nFactura.getText()+"%'";
 			if(!textPaneObservaciones.getText().equals(""))
-				criterio+=" AND nFactura LIKE '%"+textPaneObservaciones.getText()+"%'";
+				criterio+=" AND Observaciones LIKE '%"+textPaneObservaciones.getText()+"%'";
 			if (cmbProv.getSelectedIndex()!=0)
 				criterio+=" AND IdCliente="+((ClienteC)cmbProv.getSelectedItem()).getId();
 			if (rdbtnSinIva.isSelected())
 				criterio+=" AND Iva=0.0";
 			else
-				criterio+=" AND Iva<>0.0";
+			{
+				if (rdbtnNewRadioButton.isSelected())
+					criterio+=" AND Iva<>0.0";
+			}
+				
 			
 			cargaTabla(criterio);
 			}
@@ -286,11 +290,11 @@ public class panelBusquedaFacCli extends JPanel {
 		add(lblHasta);
 		
 		JLabel lblProveedor = new JLabel("Cliente");
-		lblProveedor.setBounds(711, 93, 50, 14);
+		lblProveedor.setBounds(607, 93, 50, 14);
 		add(lblProveedor);
 		
 		JLabel lblNmeroFactura = new JLabel("N\u00FAmero Factura");
-		lblNmeroFactura.setBounds(520, 93, 77, 14);
+		lblNmeroFactura.setBounds(433, 93, 77, 14);
 		add(lblNmeroFactura);
 		
 		JPanel panel = new JPanel();
@@ -345,7 +349,7 @@ public class panelBusquedaFacCli extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.textHighlight);
 		panel_1.setBorder(new TitledBorder(null, "IVA", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(433, 162, 77, 124);
+		panel_1.setBounds(433, 162, 164, 124);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -353,7 +357,6 @@ public class panelBusquedaFacCli extends JPanel {
 		rdbtnNewRadioButton.setBackground(SystemColor.textHighlight);
 		rdbtnNewRadioButton.setBounds(6, 29, 54, 23);
 		panel_1.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setSelected(true);
 		buttonGroup.add(rdbtnNewRadioButton);
 		
 		rdbtnSinIva = new JRadioButton("Sin");
@@ -362,10 +365,17 @@ public class panelBusquedaFacCli extends JPanel {
 		panel_1.add(rdbtnSinIva);
 		buttonGroup.add(rdbtnSinIva);
 		
+		rdbtnTodos = new JRadioButton("Todos");
+		buttonGroup.add(rdbtnTodos);
+		rdbtnTodos.setSelected(true);
+		rdbtnTodos.setBackground(SystemColor.textHighlight);
+		rdbtnTodos.setBounds(62, 29, 82, 23);
+		panel_1.add(rdbtnTodos);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBackground(SystemColor.textHighlight);
-		panel_2.setBounds(520, 162, 413, 124);
+		panel_2.setBounds(607, 162, 413, 124);
 		add(panel_2);
 		panel_2.setLayout(null);
 		

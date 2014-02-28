@@ -51,22 +51,22 @@ public class TablaListadoComprasResumen extends AbstractTableModel {
         switch (columnIndex) {
 
             case 0:
-                value = conceptos.getProveedor();
+            	value = conceptos.getFecha();
                 break;
             case 1:
-                value = conceptos.getIva();
+            	value = conceptos.getProveedor();
                 break;
             case 2:
-                value = conceptos.getImporte();
+            	value = conceptos.getImporte();
                 break;
             case 3:
-            	value = conceptos.getFecha();
+            	value = conceptos.getIva();
             	break;
             case 4:
             	value = conceptos.getImpuestos();
             	break;
             case 5:
-            	value = 100;
+            	value = (1+(Double.parseDouble(conceptos.getIva())/100))*(1+(Double.parseDouble(conceptos.getImpuestos())/100))*Double.parseDouble(conceptos.getImporte());
             	break;
             case 6:
             	value = conceptos.getIdproveedor();

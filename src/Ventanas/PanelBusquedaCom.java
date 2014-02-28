@@ -32,7 +32,6 @@ public class PanelBusquedaCom extends JPanel {
 	
 	private JDateChooser dateChooser_Desde;
 	private JDateChooser dateChooser_Hasta;
-	private JTextField textField_nFactura;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textField_ImporteD;
 	private JTextField textField_ImporteH;
@@ -47,12 +46,13 @@ public class PanelBusquedaCom extends JPanel {
 	private JRadioButton rdbtnSinIva;
 	private boolean verPulsado;
 	private JComboBox<GeneroC> comboBoxGenero;
+	private JRadioButton rdbtnTodos;
+	private JButton btnBuscar;
+	private JButton button;
 	/**
 	 * Create the panel.
 	 */
-	
 
-	
 	public void abreFactura()
 	{
 		if (table.getSelectedRow()!=-1)
@@ -108,10 +108,8 @@ public class PanelBusquedaCom extends JPanel {
 		table.clearSelection();
 		textField_ImporteD.setText("");
 		textField_ImporteH.setText("");
-		textField_nFactura.setText("");
 		textPaneObservaciones.setText("");
 		cmbProv.setSelectedIndex(0);
-		rdbtnNewRadioButton.setSelected(true);
 		rdbtnSinIva.setSelected(false);
 		dateChooser_Desde.setCalendar(null);
 		
@@ -139,7 +137,7 @@ public class PanelBusquedaCom extends JPanel {
 		}
 		comboBoxGenero = new JComboBox<GeneroC>(elementos1);
 		comboBoxGenero.setSelectedIndex(0);
-		comboBoxGenero.setBounds(943, 118, 219, 20);
+		comboBoxGenero.setBounds(711, 118, 285, 20);
 		add(comboBoxGenero);
 
 
@@ -186,15 +184,10 @@ public class PanelBusquedaCom extends JPanel {
  		}
  		
  		cmbProv = new JComboBox<ProveedorC>(elementos11);
-		cmbProv.setBounds(714, 118, 219, 20);
+		cmbProv.setBounds(433, 118, 268, 20);
 		add(cmbProv);
 		
-		textField_nFactura = new JTextField();
-		textField_nFactura.setBounds(520, 118, 164, 20);
-		add(textField_nFactura);
-		textField_nFactura.setColumns(10);
-		
-		JButton btnBuscar = new JButton("");
+		btnBuscar = new JButton("");
 		btnBuscar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -210,16 +203,22 @@ public class PanelBusquedaCom extends JPanel {
 				{
 					criterio+=" AND Fecha<='"+formatoFecha.format(dateChooser_Hasta.getCalendar().getTime())+"'";
 				}
-			if (!textField_nFactura.equals(""))
-				criterio+=" AND nFactura LIKE '%"+textField_nFactura.getText()+"%'";
+		
 			if(!textPaneObservaciones.getText().equals(""))
-				criterio+=" AND nFactura LIKE '%"+textPaneObservaciones.getText()+"%'";
+				criterio+=" AND Observaciones LIKE '%"+textPaneObservaciones.getText()+"%'";
 			if (cmbProv.getSelectedIndex()!=0)
 				criterio+=" AND IdProveedor="+((ProveedorC)cmbProv.getSelectedItem()).getId();
 			if (rdbtnSinIva.isSelected())
 				criterio+=" AND Iva=0.0";
 			else
-				criterio+=" AND Iva<>0.0";
+			{
+				if (rdbtnNewRadioButton.isSelected())
+					criterio+=" AND Iva<>0.0";
+			}
+			if (comboBoxGenero.getSelectedIndex()!=0)
+			{
+				criterio+=" AND Id IN (SELECT IdCompra FROM detallecompras WHERE IdGenero="+((GeneroC)comboBoxGenero.getSelectedItem()).getId()+")";
+			}
 			
 			cargaTabla(criterio);
 			}
@@ -229,7 +228,7 @@ public class PanelBusquedaCom extends JPanel {
 		btnBuscar.setBounds(10, 5, 81, 57);
 		add(btnBuscar);
 		
-		JButton button = new JButton("");
+		button = new JButton("");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					abreFactura();
@@ -241,20 +240,16 @@ public class PanelBusquedaCom extends JPanel {
 		add(button);
 		
 		JLabel lblNewLabel = new JLabel("Desde");
-		lblNewLabel.setBounds(10, 93, 30, 14);
+		lblNewLabel.setBounds(10, 93, 81, 14);
 		add(lblNewLabel);
 		
 		JLabel lblHasta = new JLabel("Hasta");
-		lblHasta.setBounds(232, 93, 28, 14);
+		lblHasta.setBounds(232, 93, 70, 14);
 		add(lblHasta);
 		
 		JLabel lblProveedor = new JLabel("Proveedor");
-		lblProveedor.setBounds(711, 93, 50, 14);
+		lblProveedor.setBounds(433, 93, 156, 14);
 		add(lblProveedor);
-		
-		JLabel lblNmeroFactura = new JLabel("N\u00FAmero Factura");
-		lblNmeroFactura.setBounds(520, 93, 77, 14);
-		add(lblNmeroFactura);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.textHighlight);
@@ -308,7 +303,7 @@ public class PanelBusquedaCom extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.textHighlight);
 		panel_1.setBorder(new TitledBorder(null, "IVA", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(433, 162, 77, 124);
+		panel_1.setBounds(433, 162, 133, 124);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -316,7 +311,6 @@ public class PanelBusquedaCom extends JPanel {
 		rdbtnNewRadioButton.setBackground(SystemColor.textHighlight);
 		rdbtnNewRadioButton.setBounds(6, 29, 54, 23);
 		panel_1.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setSelected(true);
 		buttonGroup.add(rdbtnNewRadioButton);
 		
 		rdbtnSinIva = new JRadioButton("Sin");
@@ -325,21 +319,28 @@ public class PanelBusquedaCom extends JPanel {
 		panel_1.add(rdbtnSinIva);
 		buttonGroup.add(rdbtnSinIva);
 		
+		rdbtnTodos = new JRadioButton("Todos");
+		rdbtnTodos.setSelected(true);
+		buttonGroup.add(rdbtnTodos);
+		rdbtnTodos.setBackground(SystemColor.textHighlight);
+		rdbtnTodos.setBounds(62, 29, 65, 23);
+		panel_1.add(rdbtnTodos);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Observaciones", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBackground(SystemColor.textHighlight);
-		panel_2.setBounds(520, 162, 413, 124);
+		panel_2.setBounds(576, 162, 420, 124);
 		add(panel_2);
 		panel_2.setLayout(null);
 		
 		textPaneObservaciones = new JTextPane();
-		textPaneObservaciones.setBounds(10, 22, 384, 91);
+		textPaneObservaciones.setBounds(10, 22, 400, 91);
 		panel_2.add(textPaneObservaciones);
 		
 
 		
 		JLabel lblGnero = new JLabel("G\u00E9nero");
-		lblGnero.setBounds(943, 93, 50, 14);
+		lblGnero.setBounds(711, 93, 163, 14);
 		add(lblGnero);
 		
 		setEstadoInicial();
