@@ -47,5 +47,9 @@ public class GeneroC implements BaseDatos{
 		// TODO Auto-generated method stub
 		ConectorBD.bdMySQL.Delete("genero", Integer.toString(this.Id));
 	}
+	public String toString()
+	{
+		return this.getGenero();
+	}
 
 }

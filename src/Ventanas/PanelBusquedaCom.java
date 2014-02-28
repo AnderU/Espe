@@ -18,6 +18,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import BaseDatos.ConectorBD;
+import Clases.GeneroC;
 import Clases.ProveedorC;
 import Clases.ComprasC;
 import Clases.FacturasClientesC;
@@ -45,9 +46,13 @@ public class PanelBusquedaCom extends JPanel {
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnSinIva;
 	private boolean verPulsado;
+	private JComboBox<GeneroC> comboBoxGenero;
 	/**
 	 * Create the panel.
 	 */
+	
+
+	
 	public void abreFactura()
 	{
 		if (table.getSelectedRow()!=-1)
@@ -113,6 +118,32 @@ public class PanelBusquedaCom extends JPanel {
 	}
 	public PanelBusquedaCom() {
 		
+		//cmb Genero
+		GeneroC aux1= new GeneroC(); 
+		ResultSet rs=ConectorBD.bdMySQL.Select("genero", "*", "true");
+		Vector<GeneroC> elementos1= new Vector<GeneroC>(); 
+		elementos1.addElement(aux1);
+		try {
+			while (rs.next())
+			{
+				GeneroC a=new GeneroC();
+				
+				a.setId(Integer.parseInt(rs.getObject(1).toString()));
+				a.setGenero(rs.getObject(2).toString());
+				elementos1.addElement(a);
+				
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBoxGenero = new JComboBox<GeneroC>(elementos1);
+		comboBoxGenero.setSelectedIndex(0);
+		comboBoxGenero.setBounds(943, 118, 219, 20);
+		add(comboBoxGenero);
+
+
+		
 		setVerPulsado(false);
 		setBackground(SystemColor.textHighlight);
 		
@@ -135,18 +166,18 @@ public class PanelBusquedaCom extends JPanel {
 		add(dateChooser_Hasta);
 		// cmb Porveedor
 		
-		ProveedorC aux1= new ProveedorC(); 
- 		ResultSet rs=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
- 		Vector<ProveedorC> elementos1= new Vector<ProveedorC>(); 
- 		elementos1.addElement(aux1);
+		ProveedorC aux11= new ProveedorC(); 
+ 		ResultSet rs1=ConectorBD.bdMySQL.Select("proveedores", "*", "true");
+ 		Vector<ProveedorC> elementos11= new Vector<ProveedorC>(); 
+ 		elementos11.addElement(aux11);
  		try {
- 			while (rs.next())
+ 			while (rs1.next())
  			{
  				ProveedorC a=new ProveedorC();
  				
- 				a.setId(Integer.parseInt(rs.getObject(1).toString()));
- 				a.setProveedor(rs.getObject(2).toString());
- 				elementos1.addElement(a);
+ 				a.setId(Integer.parseInt(rs1.getObject(1).toString()));
+ 				a.setProveedor(rs1.getObject(2).toString());
+ 				elementos11.addElement(a);
  				
  			}
  		} catch (SQLException e1) {
@@ -154,7 +185,7 @@ public class PanelBusquedaCom extends JPanel {
  			e1.printStackTrace();
  		}
  		
- 		cmbProv = new JComboBox<ProveedorC>(elementos1);
+ 		cmbProv = new JComboBox<ProveedorC>(elementos11);
 		cmbProv.setBounds(714, 118, 219, 20);
 		add(cmbProv);
 		
@@ -305,6 +336,12 @@ public class PanelBusquedaCom extends JPanel {
 		textPaneObservaciones.setBounds(10, 22, 384, 91);
 		panel_2.add(textPaneObservaciones);
 		
+
+		
+		JLabel lblGnero = new JLabel("G\u00E9nero");
+		lblGnero.setBounds(943, 93, 50, 14);
+		add(lblGnero);
+		
 		setEstadoInicial();
 	}
 	public JTable getTable() {
@@ -316,5 +353,4 @@ public class PanelBusquedaCom extends JPanel {
 	public void setVerPulsado(boolean verPulsado) {
 		this.verPulsado = verPulsado;
 	}
-
 }
