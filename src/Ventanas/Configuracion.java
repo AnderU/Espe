@@ -268,6 +268,16 @@ public class Configuracion {
                     	
                     }
 				}
+				if (model.getValueAt(rowIndex, 0).toString().equals("DIRECTORIO DE EXCEL"))
+				{
+					JFileChooser chooser = new JFileChooser();
+					chooser.setDialogTitle("Selecciona Destino");
+					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                    	model.setValueAt(chooser.getSelectedFile().toString(),rowIndex,colIndex);
+                    	
+                    }
+				}
 			}
 		});
 		table.setBounds(10, 11, 609, 376);

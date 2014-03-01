@@ -60,12 +60,14 @@ public class Portada {
 	private Balances vBalances;
 	private Configuracion vConfiguracion;
 	private Compras vCompras;
+	private CotejarTalones vTalones;
 	
 
 	
 // genero
 	
 	private GeneroC migenero;
+	private JButton btnCotejoTalones;
 	
 	/**
 	 * Launch the application.
@@ -177,7 +179,7 @@ public class Portada {
 			}
 		});
 		btnFacturasDeProveedores.setToolTipText("Facturas de Proveedores");
-		btnFacturasDeProveedores.setBounds(460, 11, 80, 55);
+		btnFacturasDeProveedores.setBounds(550, 11, 80, 55);
 		frmPortada.getContentPane().add(btnFacturasDeProveedores);
 		
 		btnFacturasAClientes = new JButton("");
@@ -188,7 +190,7 @@ public class Portada {
 			}
 		});
 		btnFacturasAClientes.setToolTipText("Facturas a Clientes");
-		btnFacturasAClientes.setBounds(550, 11, 80, 55);
+		btnFacturasAClientes.setBounds(640, 11, 80, 55);
 		frmPortada.getContentPane().add(btnFacturasAClientes);
 		
 		btnConfiguracion = new JButton("");
@@ -199,7 +201,7 @@ public class Portada {
 			}
 		});
 		btnConfiguracion.setToolTipText("Configuracion");
-		btnConfiguracion.setBounds(730, 11, 80, 55);
+		btnConfiguracion.setBounds(820, 11, 80, 55);
 		frmPortada.getContentPane().add(btnConfiguracion);
 		
 		btnMovimientos = new JButton("");
@@ -210,7 +212,7 @@ public class Portada {
 			}
 		});
 		btnMovimientos.setToolTipText("Movimientos");
-		btnMovimientos.setBounds(640, 11, 80, 55);
+		btnMovimientos.setBounds(730, 11, 80, 55);
 		frmPortada.getContentPane().add(btnMovimientos);
 		
 		JLabel lblTitulo1 = new JLabel("PESCADER\u00CDA");
@@ -239,6 +241,17 @@ public class Portada {
 		lblTitulo3.setBounds(0, 400, 400, 200);
 		lblTitulo3.setLocation((frmPortada.getSize().width/2)-(lblTitulo3.getSize().width/2), lblTitulo1.getLocation().y+200);
 		frmPortada.getContentPane().add(lblTitulo3);
+		
+		btnCotejoTalones = new JButton("");
+		btnCotejoTalones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				vTalones=new CotejarTalones();
+			}
+		});
+		btnCotejoTalones.setToolTipText("Cotejo Talones");
+		btnCotejoTalones.setMargin(new Insets(0, 14, 4, 14));
+		btnCotejoTalones.setBounds(460, 11, 80, 55);
+		frmPortada.getContentPane().add(btnCotejoTalones);
 		
 
 	}
