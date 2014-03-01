@@ -44,7 +44,7 @@ public class TablaFacturasClientesResumen extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 6;
     }
 
     @Override

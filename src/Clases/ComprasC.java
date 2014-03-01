@@ -8,7 +8,14 @@ import BaseDatos.ConectorBD;
 
 public class ComprasC implements BaseDatos{
 
-	private String Id, idproveedor , observaciones, impuestos , iva , proveedor , importe;
+	private String Id, idproveedor , observaciones, impuestos , iva , proveedor , importe, total;
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
 	private Date fecha;
 	
 	public ComprasC()
@@ -20,6 +27,7 @@ public class ComprasC implements BaseDatos{
 		iva="";
 		proveedor="";
 		importe="";
+		total="";
 		fecha=null;
 		
 	}

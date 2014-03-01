@@ -156,8 +156,24 @@ public class panelBusquedaFacCli extends JPanel {
  				rs1.next();
  				String subtotal=rs1.getObject(1).toString();
  				a.setTotal(Double.toString(Double.parseDouble(subtotal)*(1+Double.parseDouble(a.getIva())/100)));
- 				modeloFactProvRe.insertRow(a);
+ 				int i=0;
+ 				if (!textField_ImporteD.getText().equals(""))
+ 				{
  				
+ 					Double aux=Double.parseDouble(textField_ImporteD.getText());
+ 					if (Double.parseDouble(a.getTotal())<aux)
+ 						i++;
+ 				}
+ 				if (!textField_ImporteH.getText().equals(""))	
+ 				{
+ 	 				
+ 					Double aux=Double.parseDouble(textField_ImporteH.getText());
+ 					if (Double.parseDouble(a.getTotal())>aux)
+ 						i++;
+ 				}
+ 				if (i==0)
+ 					modeloFactProvRe.insertRow(a);
+				
  			}
  		} catch (SQLException e1) {
  			// TODO Auto-generated catch block
@@ -335,7 +351,6 @@ public class panelBusquedaFacCli extends JPanel {
 		columnNames.add("Factura");
 		columnNames.add("Fecha Pago");
 		columnNames.add("Iva");
-		columnNames.add("Impuestos");
 		columnNames.add("Total");
 		
 		Vector<FacturasClientesC> vectorTabla= new Vector<FacturasClientesC>();

@@ -91,8 +91,26 @@ public class PanelBusquedaCom extends JPanel {
  				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras", "SUM(Precio*Cantidad)", "IdCompra="+a.getId());
  				rs1.next();
  				String subtotal=rs1.getObject(1).toString();
- 				a.setImporte(Double.toString(Double.parseDouble(subtotal)*(1+Double.parseDouble(a.getIva())/100)));
- 				modeloComp.insertRow(a);
+ 				a.setImporte(Double.toString(Double.parseDouble(subtotal)));
+
+ 				a.setTotal(Double.toString(Double.parseDouble(subtotal)*((Double.parseDouble(a.getIva())/100)+1)*((Double.parseDouble(a.getImpuestos())/100)+1)));
+ 				int i=0;
+ 				if (!textField_ImporteD.getText().equals(""))
+ 				{
+ 				
+ 					Double aux=Double.parseDouble(textField_ImporteD.getText());
+ 					if (Double.parseDouble(a.getTotal())<aux)
+ 						i++;
+ 				}
+ 				if (!textField_ImporteH.getText().equals(""))	
+ 				{
+ 	 				
+ 					Double aux=Double.parseDouble(textField_ImporteH.getText());
+ 					if (Double.parseDouble(a.getTotal())>aux)
+ 						i++;
+ 				}
+ 				if (i==0)
+ 					modeloComp.insertRow(a);
  				
  			}
  		} catch (SQLException e1) {
@@ -219,7 +237,7 @@ public class PanelBusquedaCom extends JPanel {
 			{
 				criterio+=" AND Id IN (SELECT IdCompra FROM detallecompras WHERE IdGenero="+((GeneroC)comboBoxGenero.getSelectedItem()).getId()+")";
 			}
-			
+			criterio+=" order by IdProveedor";
 			cargaTabla(criterio);
 			}
 		});

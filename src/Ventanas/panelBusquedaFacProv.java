@@ -150,7 +150,23 @@ public class panelBusquedaFacProv extends JPanel {
  				rs1.next();
  				String subtotal=rs1.getObject(1).toString();
  				a.setTotal(Double.toString(Double.parseDouble(subtotal)*(1+Double.parseDouble(a.getIva())/100)*(1+Double.parseDouble(a.getImpuestos())/100)));
- 				modeloFactProvRe.insertRow(a);
+ 				int i=0;
+ 				if (!textField_ImporteD.getText().equals(""))
+ 				{
+ 				
+ 					Double aux=Double.parseDouble(textField_ImporteD.getText());
+ 					if (Double.parseDouble(a.getTotal())<aux)
+ 						i++;
+ 				}
+ 				if (!textField_ImporteH.getText().equals(""))	
+ 				{
+ 	 				
+ 					Double aux=Double.parseDouble(textField_ImporteH.getText());
+ 					if (Double.parseDouble(a.getTotal())>aux)
+ 						i++;
+ 				}
+ 				if (i==0)
+ 					modeloFactProvRe.insertRow(a);
  				
  			}
  		} catch (SQLException e1) {
@@ -257,6 +273,8 @@ public class panelBusquedaFacProv extends JPanel {
 				
 			if (!textField_nTalon.getText().equals(""))
 				criterio+=" AND nTalon LIKE '%"+textField_nTalon.getText()+"%'";
+		
+			
 			cargaTabla(criterio);
 			}
 		});
