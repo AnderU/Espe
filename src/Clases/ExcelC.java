@@ -26,8 +26,5 @@ public class ExcelC {
 	public void setImporte(String importe) {
 		this.importe = importe;
 	} 
-	public void toStringa()
-	{
-		System.out.println(fecha+concepto+importe);
-	}
+
 }

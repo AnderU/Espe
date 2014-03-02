@@ -168,7 +168,6 @@ public class CotejarTalones {
 		                   }
 	                   }
 	                }
-	                fila.toStringa();
 	                model.insertRow(fila);
 	            }
 			}
