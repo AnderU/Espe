@@ -201,7 +201,7 @@ public class Portada {
 			}
 		});
 		btnConfiguracion.setToolTipText("Configuracion");
-		btnConfiguracion.setBounds(820, 11, 80, 55);
+		btnConfiguracion.setBounds(910, 11, 80, 55);
 		frmPortada.getContentPane().add(btnConfiguracion);
 		
 		btnMovimientos = new JButton("");
@@ -243,6 +243,7 @@ public class Portada {
 		frmPortada.getContentPane().add(lblTitulo3);
 		
 		btnCotejoTalones = new JButton("");
+		btnCotejoTalones.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Payment-Methods-Card-in-use-icon.png")));
 		btnCotejoTalones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				vTalones=new CotejarTalones();
@@ -252,6 +253,12 @@ public class Portada {
 		btnCotejoTalones.setMargin(new Insets(0, 14, 4, 14));
 		btnCotejoTalones.setBounds(460, 11, 80, 55);
 		frmPortada.getContentPane().add(btnCotejoTalones);
+		
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/Management-Statistics-icon.png")));
+		button.setToolTipText("Configuracion");
+		button.setBounds(820, 11, 80, 55);
+		frmPortada.getContentPane().add(button);
 		
 
 	}

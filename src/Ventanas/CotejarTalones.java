@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -28,7 +30,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Tablas.TablaConceptos;
+import Tablas.TablaDetalleCompra;
+import Tablas.TablaExcel;
+
 import BaseDatos.ConectorBD;
+import Clases.ConceptosC;
+import Clases.DetalleComprasC;
+import Clases.ExcelC;
 
 
 
@@ -37,11 +46,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class CotejarTalones {
 
 	private JFrame frame;
 	private String ficheroExcel;
+	private JTable table;
+	private JScrollPane scrollPane;
+	private TablaExcel model;
+	private JButton button;
 	/**
 	 * Create the application.
 	 */
@@ -61,10 +76,25 @@ public class CotejarTalones {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.getContentPane().setLayout(null);
 		
-		JButton button = new JButton("");
+		
+		Vector <String> columnNames = new  Vector <String>(); 
+		
+		columnNames.add("Fecha");
+		columnNames.add("Concepto");
+		columnNames.add("Importe");
+		columnNames.add("Importe");
+		Vector<ExcelC> vectorTabla= new Vector<ExcelC>();
+
+        
+        model = new TablaExcel(vectorTabla, columnNames);
+
+
+        
+		button = new JButton("");
 		button.setIcon(new ImageIcon(CotejarTalones.class.getResource("/Imagenes/MS-Office-Excel-icon.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				JFileChooser chooser = new JFileChooser();
 				chooser.setDialogTitle("Selecciona Destino");
 				
@@ -105,30 +135,41 @@ public class CotejarTalones {
 					e.printStackTrace();
 				}
 				Iterator<Row> rows = sheet.rowIterator(); 
-	            while( rows.hasNext() ) {   
+				int i=0;
+	            while( rows.hasNext() ) 
+	            {   
+	            	ExcelC fila= new ExcelC();
 	                XSSFRow row = (XSSFRow) rows.next();
-	                System.out.println("\n");
 	                Iterator<Cell> cells = row.cellIterator();
-	                while( cells.hasNext() ) {
-	                     
+	                while( cells.hasNext() )
+	                {
+	                	SimpleDateFormat a= new SimpleDateFormat("yyyy-MM-dd");
+	               
 	                    XSSFCell cell = (XSSFCell) cells.next();
-	                    if(XSSFCell.CELL_TYPE_NUMERIC==cell.getCellType())
-	                    System.out.print( cell.getNumericCellValue()+"     " );
-	                    else
-	                    if(XSSFCell.CELL_TYPE_STRING==cell.getCellType())
-	                        System.out.print( cell.getStringCellValue()+"     " );
-	                    else
-	                        if(XSSFCell.CELL_TYPE_BOOLEAN==cell.getCellType())
-	                        System.out.print( cell.getBooleanCellValue()+"     " );
-	                        else
-	                            if(XSSFCell.CELL_TYPE_BLANK==cell.getCellType())
-	                                System.out.print( "BLANK     " );
-	                                else
-	                            System.out.print("Unknown cell type");
-	                   
+	                   if (i==2)
+	                   {
+	                	   fila.setImporte(Double.toString(cell.getNumericCellValue()));
+	                	   i=0;
+	                   }
+	                   else
+	                   {
+		                   if (i==1)
+		                   {
+		                	   fila.setConcepto(cell.getStringCellValue());
+		                	   i++;
+		                   }
+		                   else
+		                   {
+			                   if (i==0)
+			                   {
+			                	   fila.setFecha(a.format(cell.getDateCellValue()));
+			                	   i++;
+			                   }
+		                   }
+	                   }
 	                }
-	                 
-	                 
+	                fila.toStringa();
+	                model.insertRow(fila);
 	            }
 			}
 		});
@@ -136,8 +177,14 @@ public class CotejarTalones {
 		button.setMargin(new Insets(0, 14, 4, 14));
 		button.setBounds(10, 11, 80, 55);
 		frame.getContentPane().add(button);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 77, 1340, 623);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable(model);
+		scrollPane.setViewportView(table);
 		frame.setVisible(true);
 		frame.setTitle("Cotejar Talones");
 	}
-
 }

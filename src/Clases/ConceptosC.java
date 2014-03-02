@@ -75,12 +75,19 @@ public class ConceptosC implements BaseDatos{
 	public String toString() {
 		return Grupo;
 	}
-
+	public ConceptosC()
+	{
+		patron="";
+		concepto="";
+	}
 	@Override
 	public int Insert() {
 		// TODO Auto-generated method stub
 		String valores="'"+this.concepto.toUpperCase()+"' ||| ";
-		valores+="'"+this.patron.toUpperCase()+"' ||| ";
+		if (!this.patron.equals(""))
+			valores+="'"+this.patron.toUpperCase()+"' ||| ";
+		else
+			valores+="'' ||| ";
 		valores+=Integer.toString(this.IdTipo)+" ||| ";
 		valores+=Integer.toString(this.IdGrupo);
 	

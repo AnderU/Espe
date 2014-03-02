@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import BaseDatos.ConectorBD;
+import Clases.ConceptosC;
 import Clases.Poblacion;
 import Clases.ProveedorC;
 import Clases.Provincia;
@@ -433,6 +434,12 @@ public class Proveedores {
 				int id=aux.Insert();
 				aux.setId(id);
 				listModel.addElement(aux);
+				ConceptosC conceptoProv= new ConceptosC();
+				conceptoProv.setConcepto(aux.getProveedor());
+				conceptoProv.setIdGrupo(3);
+				conceptoProv.setIdTipo(1);
+				conceptoProv.Insert();
+				
 			}		
 			setEstadoInicial();
 			

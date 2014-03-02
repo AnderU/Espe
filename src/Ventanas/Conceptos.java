@@ -61,8 +61,7 @@ public class Conceptos {
 	private JLabel lblGrupo;
 	private JLabel lblTipo;
 	private JLabel lblPatron;
-	//private DefaultComboBoxModel<TipoConcepto> cmbModel;
-	//private DefaultComboBoxModel<GrupoConcepto> cmbModel1;
+
 	
 	/**
 	 * Launch the application.
