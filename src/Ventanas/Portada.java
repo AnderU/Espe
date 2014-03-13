@@ -172,7 +172,7 @@ public class Portada {
 		
 		btnFacturasDeProveedores = new JButton("");
 		btnFacturasDeProveedores.setMargin(new Insets(0, 14, 4, 14));
-		btnFacturasDeProveedores.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/fp.png")));
+		btnFacturasDeProveedores.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/FactProv.png")));
 		btnFacturasDeProveedores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vFacturasProveedores=new FacturasProveedores();
@@ -183,7 +183,7 @@ public class Portada {
 		frmPortada.getContentPane().add(btnFacturasDeProveedores);
 		
 		btnFacturasAClientes = new JButton("");
-		btnFacturasAClientes.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/fc.png")));
+		btnFacturasAClientes.setIcon(new ImageIcon(Portada.class.getResource("/Imagenes/FactCli.png")));
 		btnFacturasAClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vFacturasClientes = new FacturasClientes();

@@ -76,7 +76,7 @@ public class Compras
 	private JDialog busquedaCompras;
 	private String CompraSeleccionada;
 	private JDateChooser dateChooser_fecha;
-	
+	private DecimalFormat decif = new DecimalFormat("0.00");
 	public static Date fecha;
 
 
@@ -265,7 +265,7 @@ public class Compras
 			}
 			dateChooser_fecha.setCalendar(miCalendario.getInstance());
 			
-			textField_Iva.setText(iva);
+			textField_Iva.setText(decif.format(iva));
 			
 			RecargaListado();
 			setEstadoSeleccion();
@@ -304,20 +304,33 @@ public class Compras
    {
 	    if (!textField_IP.getText().equals(""))
 	    {
-	    	DecimalFormat df = new DecimalFormat("0.00##");
-	    	Double importe=(Double.parseDouble(textField_IP.getText())/100)*Double.parseDouble(textField_IPescado.getText());
-	    	textField_IPIP.setText(df.format(importe));
+	    	//Double importe=(Double.parseDouble(textField_IP.getText().replace(',', '.'))/100)*Double.parseDouble(textField_IPescado.getText().replace(',', '.'));
+	    	//textField_IPIP.setText(decif.format(importe));
 	    	
-	    	double importeP=Double.parseDouble(textField_IPescado.getText())+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
+	    	//double importeP=Double.parseDouble(textField_IPescado.getText().replace(',', '.'))+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
 
 	    	
-	    	textField_Subtotal.setText(Double.toString(importeP));	 
+	    	//textField_Subtotal.setText(Double.toString(importeP));	 
 	    	
-	    	importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP);
-	    	textField_IvaI.setText(df.format(importe));	
+	    	//importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP);
+	    	//textField_IvaI.setText(decif.format(importe));	
 	    	
-	    	textField_Total.setText(Double.toString(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
+	    	//textField_Total.setText(Double.toString(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
 
+	    	
+	    	Double importe=(Double.parseDouble(textField_IP.getText().replace(',', '.'))/100)*Double.parseDouble(textField_IPescado.getText().replace(',', '.'));
+	    	
+	    	textField_IPIP.setText(decif.format(importe));
+	    	
+	    	double importeP=Double.parseDouble(textField_IPescado.getText().replace(',', '.'))+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
+
+	    	
+	    	textField_Subtotal.setText(decif.format(importeP));	 
+	    	
+	    	importe=(Double.parseDouble(textField_Iva.getText().replace(',', '.'))/100)*(importeP);
+	    	textField_IvaI.setText(decif.format(importe));	
+	    	importe=Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'));
+	    	textField_Total.setText(decif.format(importe));
 	    	
 	    }
 	   
@@ -337,7 +350,7 @@ public class Compras
 		ResultSet rs=ConectorBD.bdMySQL.Select("compras","*","Fecha ='"+df.format(fecha)+"'");
 			try {
 	 			while (rs.next())
-	 			{
+	 			/*{
 	 				ComprasC a=new ComprasC();
 	 				a.setId(rs.getObject(1).toString());
 	 				a.setIdproveedor(rs.getObject(2).toString());
@@ -352,6 +365,24 @@ public class Compras
 	 				double impuestos=Double.parseDouble(a.getImpuestos());
 	 				double importeSinIva=Double.parseDouble(rs1.getObject(1).toString());
 	 				a.setImporte(Double.toString(importeSinIva*(1+impuestos/100)*(1+iva/100)));
+	 				modeloListado.insertRow(a);	 				
+	 			}*/
+	 			
+	 			{
+	 				ComprasC a=new ComprasC();
+	 				a.setId(rs.getObject(1).toString());
+	 				a.setIdproveedor(rs.getObject(2).toString());
+	 				a.setIva(decif.format(Double.parseDouble(rs.getObject(6).toString())));
+	 				a.setImpuestos(rs.getObject(5).toString());
+	 				ResultSet rs1=ConectorBD.bdMySQL.SelectAux("proveedores","Proveedor","Id="+a.getIdproveedor());
+	 				rs1.next();
+	 				a.setProveedor(rs1.getObject(1).toString());
+	 				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras","SUM(Precio*Cantidad)","IdCompra="+a.getId()+"");
+	 				rs1.next();
+	 				double iva=Double.parseDouble(a.getIva().replace(',', '.'));
+	 				double impuestos=Double.parseDouble(a.getImpuestos());
+	 				double importeSinIva=Double.parseDouble(rs1.getObject(1).toString());
+	 				a.setImporte(decif.format(importeSinIva*(1+impuestos/100)*(1+iva/100)));
 	 				modeloListado.insertRow(a);	 				
 	 			}
 	 		} catch (SQLException e1) {
@@ -612,7 +643,7 @@ Compras()
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	    		textField_IP.setText(impuestos);
+	    		textField_IP.setText(decif.format(Double.parseDouble(impuestos.toString())));
 	    		textField_Iva.setText(iva);
 	    		
 	    		for (int i=0; i<cmbProveedor.getComponentCount(); i++)
@@ -752,8 +783,8 @@ Compras()
 
 			}
 			
-			textField.setText(op1.toString());
-			textField_IPescado.setText(op3.toString());
+			textField.setText(decif.format(Double.parseDouble(op1.toString())));
+			textField_IPescado.setText(decif.format(Double.parseDouble(op3.toString())));
 			Recalcula();
 		}	
 			
@@ -770,7 +801,7 @@ Compras()
     
     txtPObservaciones = new JTextPane();
     txtPObservaciones.setMaximumSize(new Dimension(527, 196));
-    txtPObservaciones.setBounds(10, 23, 527, 196);
+    txtPObservaciones.setBounds(10, 23, 527, 168);
     Observaciones.add(txtPObservaciones);
     
     JPanel Importes = new JPanel();
