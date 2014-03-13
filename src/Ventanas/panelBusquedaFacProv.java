@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
@@ -53,6 +54,9 @@ public class panelBusquedaFacProv extends JPanel {
 	private boolean verPulsado;
 	private JTextField textField_nTalon;
 	private JRadioButton rdbtnTodos;
+	
+	private DecimalFormat decif = new DecimalFormat("0.00");
+	
 	/**
 	 * Create the panel.
 	 */
@@ -149,7 +153,7 @@ public class panelBusquedaFacProv extends JPanel {
  				rs1=ConectorBD.bdMySQL.SelectAux("detallecompras", "SUM(Precio*cantidad)", "IdFactura="+a.getIdFactProv());
  				rs1.next();
  				String subtotal=rs1.getObject(1).toString();
- 				a.setTotal(Double.toString(Double.parseDouble(subtotal)*(1+Double.parseDouble(a.getIva())/100)*(1+Double.parseDouble(a.getImpuestos())/100)));
+ 				a.setTotal(decif.format(Double.parseDouble(subtotal)*(1+Double.parseDouble(a.getIva().replace(',', '.'))/100)*(1+Double.parseDouble(a.getImpuestos().replace(',', '.'))/100)));
  				int i=0;
  				if (!textField_ImporteD.getText().equals(""))
  				{
