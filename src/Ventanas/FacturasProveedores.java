@@ -100,6 +100,7 @@ public class FacturasProveedores extends JFrame{
 	private JDateChooser dateChooser_talon;
 	private JLabel label;
 	
+	private DecimalFormat decif = new DecimalFormat("0.00");
 	/**
 	 * Launch the application.
 	 */
@@ -169,8 +170,8 @@ public class FacturasProveedores extends JFrame{
 
 			String observaciones=(String) miPanelBusqueda.getModeloFactProvRe().getValueAt(miPanelBusqueda.getTable().getSelectedRow(), 2);
 			textPane_observaciones.setText(observaciones);
-			textField_IP.setText(IP);
-			textField_Iva.setText(iva);
+			textField_IP.setText(decif.format(Double.parseDouble((String)IP)));
+			textField_Iva.setText(decif.format(Double.parseDouble((String)iva)));
 			Recalcula();
 			setEstadoSeleccion();
 			
@@ -409,21 +410,21 @@ public class FacturasProveedores extends JFrame{
 	{
 	    if (!textField_IP.getText().equals(""))
 	    {
-	    	DecimalFormat df = new DecimalFormat("0.00##");
-	    	Double importe=(Double.parseDouble(textField_IP.getText())/100)*Double.parseDouble(textField_IPescado.getText());
-	    	textField_IPIP.setText(df.format(importe));
 	    	
-	    	double importeP=Double.parseDouble(textField_IPescado.getText())+Double.parseDouble(textField_IPIP.getText().replace(',', '.'));
+	    	double importe=(Double.parseDouble(textField_IP.getText().replace(',', '.'))/100)*Double.parseDouble(textField_IPescado.getText().replace(',', '.'));
+	    	textField_IPIP.setText(decif.format(importe));
+	    	
+	    	double importeP=(Double.parseDouble(textField_IPescado.getText().replace(',', '.'))+Double.parseDouble(textField_IPIP.getText().replace(',', '.')));
 
 	    	
-	    	textField_Subtotal.setText(Double.toString(importeP));	 
+	    	textField_Subtotal.setText(decif.format(importeP));	 
 	    	if (!textField_Iva.getText().equals(""))
-	    		importe=(Double.parseDouble(textField_Iva.getText())/100)*(importeP);
+	    		importe=(Double.parseDouble(textField_Iva.getText().replace(',', '.'))/100)*(importeP);
 	    	else
 	    		importe=0.0;
-	    	textField_IvaI.setText(df.format(importe));	
+	    	textField_IvaI.setText(decif.format(importe));	
 	    	
-	    	textField_Total.setText(Double.toString(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
+	    	textField_Total.setText(decif.format(Double.parseDouble(textField_IvaI.getText().replace(',', '.'))+Double.parseDouble(textField_Subtotal.getText().replace(',','.'))));
 
 	    	
 	    }
@@ -496,7 +497,7 @@ public class FacturasProveedores extends JFrame{
 							btnAceptar.setEnabled(true);
 							
 						textField_Iva.setText(iva);
-						textField_IPescado.setText(total.toString());
+						textField_IPescado.setText(decif.format(Double.parseDouble(total.toString())));
 						Recalcula();
 					}
 			      });
